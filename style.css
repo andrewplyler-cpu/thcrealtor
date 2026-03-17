@@ -821,13 +821,21 @@ textarea.form-control {
   transition: max-height 0.4s var(--ease-out), padding 0.3s var(--ease-out);
 }
 .faq-item.open .faq-answer {
-  max-height: 500px;
+  max-height: 800px;
   padding-top: var(--space-4);
 }
 .faq-answer p {
   font-size: var(--text-sm);
   color: var(--color-text-muted);
   line-height: 1.7;
+}
+.faq-answer ul {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  line-height: 1.7;
+}
+.faq-answer li {
+  margin-bottom: var(--space-2);
 }
 
 /* ===================================================================
