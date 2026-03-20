@@ -1,0 +1,120 @@
+:root{
+  --bg:#0c0c0f;
+  --panel:rgba(255,255,255,.03);
+  --panel2:rgba(255,255,255,.05);
+  --stroke:rgba(255,255,255,.12);
+  --text:rgba(255,255,255,.9);
+  --muted:rgba(255,255,255,.65);
+  --accent:#9be7ff;
+}
+
+body{
+  background: radial-gradient(1200px 600px at 10% 0%, rgba(155,231,255,.35), transparent 65%),
+              linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,0));
+  color: var(--text);
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  padding-bottom: 48px;
+}
+
+main.blog-layout{
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 28px 16px;
+}
+
+.hero{
+  padding: 10px 0 18px 0;
+}
+
+.hero-title{
+  margin: 0;
+  font-size: clamp(28px, 3.2vw, 44px);
+  letter-spacing: -0.01em;
+}
+
+.hero-intro{
+  margin: 10px 0 0;
+  max-width: 66ch;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.grid{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+.card{
+  border-radius: 16px;
+  border: 1px solid var(--stroke);
+  background: linear-gradient(180deg, var(--panel2), var(--panel));
+  padding: 16px;
+  box-shadow: 0 18px 60px rgba(0,0,0,.35);
+  transition: transform .12s ease, border-color .12s ease;
+}
+
+.card:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.22); }
+
+.card-meta{
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.card-title{
+  margin: 6px 0;
+  font-size: 18px;
+}
+
+.card-title a{
+  color: var(--text);
+  text-decoration: none;
+}
+
+.card-title a:hover{ color: var(--accent); }
+
+.card-preview{
+  margin: 10px 0 0;
+  color: var(--muted);
+  line-height: 1.7;
+  font-size: 15px;
+}
+
+.prose{
+  max-width: 74ch;
+  color: var(--text);
+  line-height: 1.75;
+}
+
+.prose h2{ margin-top: 24px; margin-bottom: 8px; font-size: 18px; }
+
+.prose ul{ margin: 10px 0 0 18px; color: var(--muted); }
+
+.cta{
+  margin-top: 28px;
+  padding: 18px;
+  border-radius: 16px;
+  border: 1px dashed var(--stroke);
+}
+
+.pills{ display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+
+.pill{
+  border-radius: 999px;
+  border: 1px solid var(--stroke);
+  padding: 8px 12px;
+  color: var(--text);
+  text-decoration: none;
+  background: rgba(255,255,255,.02);
+}
+
+.pill:hover{ border-color: rgba(255,255,255,.24); }
+
+.footer{
+  margin-top: 28px;
+  color: var(--muted);
+  font-size: 13px;
+}
