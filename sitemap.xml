@@ -1,45 +1,43 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<?xml version='1.0' encoding='UTF-8'?>
+<urlset xmlns='https://www.sitemaps.org/schemas/sitemap/0.9'>
   <url>
     <loc>https://plyler.realtor/</loc>
-    <lastmod>2026-03-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
+    <lastmod>2026-03-20</lastmod>
   </url>
   <url>
     <loc>https://plyler.realtor/about.html</loc>
-    <lastmod>2026-03-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-03-20</lastmod>
   </url>
   <url>
     <loc>https://plyler.realtor/areas.html</loc>
-    <lastmod>2026-03-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <lastmod>2026-03-20</lastmod>
   </url>
   <url>
     <loc>https://plyler.realtor/services.html</loc>
-    <lastmod>2026-03-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-03-20</lastmod>
   </url>
   <url>
     <loc>https://plyler.realtor/faq.html</loc>
-    <lastmod>2026-03-17</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <lastmod>2026-03-20</lastmod>
   </url>
   <url>
     <loc>https://plyler.realtor/blog.html</loc>
-    <lastmod>2026-03-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <lastmod>2026-03-20</lastmod>
   </url>
   <url>
     <loc>https://plyler.realtor/contact.html</loc>
-    <lastmod>2026-03-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-03-20</lastmod>
+  </url>
+  <url>
+    <loc>https://plyler.realtor/blog/2026-03-20-practical-high-country-real-estate-living-in-the-high-country/</loc>
+    <lastmod>2026-03-20</lastmod>
+  </url>
+  <url>
+    <loc>https://plyler.realtor/blog/2026-03-19-blowing-rock-banner-elk-and-boone-a-practical-snapshot/</loc>
+    <lastmod>2026-03-19</lastmod>
+  </url>
+  <url>
+    <loc>https://plyler.realtor/blog/2026-03-19-buying-a-mountain-home-in-spring/</loc>
+    <lastmod>2026-03-19</lastmod>
   </url>
 </urlset>
