@@ -331,7 +331,7 @@ def write_sitemap(posts):
   for u in urls:
     lines.append("  <url>")
     lines.append(f"    <loc>{u['loc']}</loc>")
-    lines.append(f"    <lastmod>{u['lastmod']}</lastmod}")
+    {u['lastmod']}</lastmod}")
     lines.append("  </url>")
   lines.append("</urlset>")
   with open(SITEMAP, "w", encoding="utf-8") as f:
