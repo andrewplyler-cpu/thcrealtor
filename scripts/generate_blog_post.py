@@ -7,7 +7,7 @@ from zoneinfo import ZoneInfo
 
 BASE_URL = "https://plyler.realtor"
 POSTS_JSON = "blog/posts/posts.json"
-BLOG_ROOT = "blog.html"
+BLOG_HTML_ROOT = "blog.html"
 BLOG_INDEX = "blog/index.html"
 BLOG_CSS = "blog/blog.css"
 
@@ -36,298 +36,165 @@ def save_posts(posts):
 
 
 def write_blog_css():
-    ensure_dir("blog")
     css = """
-:root{
-  --bg:#0c0c0f;
-  --panel:rgba(255,255,255,.03);
-  --panel2:rgba(255,255,255,.05);
-  --stroke:rgba(255,255,255,.12);
-  --text:rgba(255,255,255,.9);
-  --muted:rgba(255,255,255,.65);
-  --accent:#9be7ff;
-}
-
-body{
-  background: radial-gradient(1200px 600px at 10% 0%, rgba(155,231,255,.35), transparent 65%),
-              linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,0));
-  color: var(--text);
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-  padding-bottom: 48px;
-}
-
-main.blog-layout{
-  max-width: 980px;
-  margin: 0 auto;
-  padding: 28px 16px;
-}
-
-.hero{
-  padding: 10px 0 18px 0;
-}
-
-.hero-title{
-  margin: 0;
-  font-size: clamp(28px, 3.2vw, 44px);
-  letter-spacing: -0.01em;
-}
-
-.hero-intro{
-  margin: 10px 0 0;
-  max-width: 66ch;
-  color: var(--muted);
-  font-size: 16px;
-  line-height: 1.6;
-}
-
-.grid{
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 14px;
-}
-
-.card{
-  border-radius: 16px;
-  border: 1px solid var(--stroke);
-  background: linear-gradient(180deg, var(--panel2), var(--panel));
-  padding: 16px;
-  box-shadow: 0 18px 60px rgba(0,0,0,.35);
-  transition: transform .12s ease, border-color .12s ease;
-}
-
-.card:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.22); }
-
-.card-meta{
-  font-size: 12px;
-  color: var(--muted);
-  letter-spacing: .08em;
-  text-transform: uppercase;
-}
-
-.card-title{
-  margin: 6px 0;
-  font-size: 18px;
-}
-
-.card-title a{
-  color: var(--text);
-  text-decoration: none;
-}
-
-.card-title a:hover{ color: var(--accent); }
-
-.card-preview{
-  margin: 10px 0 0;
-  color: var(--muted);
-  line-height: 1.7;
-  font-size: 15px;
-}
-
-.prose{
-  max-width: 74ch;
-  color: var(--text);
-  line-height: 1.75;
-}
-
-.prose h2{ margin-top: 24px; margin-bottom: 8px; font-size: 18px; }
-
-.prose ul{ margin: 10px 0 0 18px; color: var(--muted); }
-
-.cta{
-  margin-top: 28px;
-  padding: 18px;
-  border-radius: 16px;
-  border: 1px dashed var(--stroke);
-}
-
-.pills{ display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
-
-.pill{
-  border-radius: 999px;
-  border: 1px solid var(--stroke);
-  padding: 8px 12px;
-  color: var(--text);
-  text-decoration: none;
-  background: rgba(255,255,255,.02);
-}
-
-.pill:hover{ border-color: rgba(255,255,255,.24); }
-
-.footer{
-  margin-top: 28px;
-  color: var(--muted);
-  font-size: 13px;
-}
-""".strip()
-
+    :root{--bg:#070A0F;--panel:#0F1625;--panel2:#0B1020;--text:#E5EAF5;--muted:#B6C3DE;--accent:#7CFFB2;--accent2:#43C6AC;--border:rgba(150,169,207,.18);--shadow:rgba(0,0,0,.35);}
+    body{margin:0;background:radial-gradient(900px 400px at 15% 25%,rgba(124,255,178,.08),transparent),radial-gradient(900px 500px at 90% 10%,rgba(67,198,172,.06),transparent),linear-gradient(180deg,var(--bg),#04060A);color:var(--text);min-height:100vh;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;}
+    a{color:var(--accent);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .container{max-width:980px;margin:0 auto;padding:20px;}
+    .hero{padding:20px 0 8px;border-bottom:1px solid var(--border);}
+    .hero-title{margin:0;font-size:46px;letter-spacing:.02em;}
+    .hero-intro{margin:10px 0 0;color:var(--muted);font-size:18px;line-height:1.4;max-width:760px;}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px;margin-top:20px;}
+    .card{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--border);border-radius:16px;box-shadow:0 18px 45px var(--shadow);padding:18px;}
+    .card-meta{color:var(--muted);font-size:14px;display:flex;gap:8px;align-items:center;margin-bottom:10px}
+    .pill{display:inline-flex;align-items:center;padding:5px 10px;border-radius:999px;border:1px solid var(--border);background:rgba(255,255,255,.04);color:var(--muted);font-weight:600;font-size:12px;}
+    .dot{width:6px;height:6px;border-radius:99px;background:var(--accent);display:inline-block;margin-right:8px;box-shadow:0 0 0 4px rgba(124,255,178,.12)}
+    .card-title{margin:0;font-size:20px;line-height:1.2}
+    .card-preview{color:var(--muted);margin:10px 0 0;line-height:1.45}
+    .footer{margin-top:26px;padding-top:16px;border-top:1px solid var(--border);color:var(--muted);font-size:13px}
+    @media (prefers-color-scheme: light){
+      :root{--bg:#F7F9FF;--panel:#FFFFFF;--panel2:#F7F8FE;--text:#16213D;--muted:#66799C;--border:rgba(10,20,40,.15);--shadow:rgba(8,15,30,.10);}
+      .card{background:linear-gradient(180deg,var(--panel),var(--panel2));}
+      .dot{box-shadow:0 0 0 4px rgba(67,198,172,.08)}
+    }
+    """.strip()
+    ensure_dir(os.path.dirname(BLOG_CSS))
     with open(BLOG_CSS, "w", encoding="utf-8") as f:
         f.write(css)
 
 
-def make_post_html(post):
-    canonical = f"{BASE_URL}/blog/{post['slug']}/"
-    title = post['title']
-    category = post.get('category', 'Update')
-    date = post['date']
-    body = post['body']
+def make_post_html(title, category, dt_et):
+    date_str = dt_et.strftime("%B %d, %Y")
+    body = f"""
+    <!doctype html>
+    <html lang="en">
+      <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>{title} | Andrew Plyler</title>
+        <meta name="description" content="{title}. High Country real estate context for Boone, Blowing Rock, Banner Elk, Ashe, Watauga, and Avery Counties." />
+        <link rel="canonical" href="{BASE_URL}/blog/{dt_et.date()}-{slugify(title)}/" />
+        <link rel="stylesheet" href="/base.css" />
+        <link rel="stylesheet" href="/style.css" />
+        <link rel="stylesheet" href="/blog/blog.css" />
+      </head>
+      <body>
+        <div class="container">
+          <div style="margin-bottom:18px"><a href="/">Home</a> · <a href="/blog">Blog</a></div>
 
-    return f"""<!doctype html>
-<html lang=\"en\">
-  <head>
-    <meta charset=\"utf-8\" />
-    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />
-    <title>{title} | Andrew Plyler</title>
-    <meta name=\"description\" content=\"{post.get('preview','')}\" />
-    <link rel=\"canonical\" href=\"{canonical}\" />
-    <link rel=\"stylesheet\" href=\"/base.css\" />
-    <link rel=\"stylesheet\" href=\"/style.css\" />
-    <link rel=\"stylesheet\" href=\"/blog/blog.css\" />
-  </head>
-  <body>
-    <main class=\"blog-layout\">
-      <header class=\"hero\">
-        <h1 class=\"hero-title\">{title}</h1>
-        <p class=\"card-meta\">{category} · {date}</p>
-      </header>
+          <h1 style="margin:0;font-size:44px">{title}</h1>
+          <p style="margin:8px 0 18px;color:var(--muted)"><span class="pill"><span class="dot"></span>{category}</span> · {date_str}</p>
 
-      <div class=\"prose\">{body}</div>
+          <p style="color:var(--muted);line-height:1.55">This is a quick High Country perspective that cuts through fluff and focuses on what matters up here: lifestyle fit, smart timing, and practical choices.</p>
 
-      <section class=\"cta\">
-        <h2>Ready to talk strategy</h2>
-        <p>If you want the cleanest plan for buying or selling in Boone, Blowing Rock, Banner Elk, Ashe County, Watauga County, or Avery County… reach out.</p>
-        <p class=\"pills\">
-          <a class=\"pill\" href=\"/contact\">Contact</a>
-          <a class=\"pill\" href=\"/services\">Services</a>
-          <a class=\"pill\" href=\"/areas\">Areas</a>
-          <a class=\"pill\" href=\"/blog\">Blog</a>
-        </p>
-      </section>
+          <h2 style="margin:28px 0 10px">What to focus on</h2>
+          <ul style="color:var(--muted);line-height:1.6">
+            <li>Think like a local: access, seasons, maintenance.</li>
+            <li>Use clean offers and realistic expectations… not wishful thinking.</li>
+            <li>Pick the right area for your lifestyle and your future plans.</li>
+          </ul>
 
-      <footer class=\"footer\">© 2026 Andrew Plyler, REALTOR®/Broker. Equal Housing Opportunity.</footer>
-    </main>
-  </body>
-</html>
-"""
+          <section style="margin-top:24px;padding:18px;border:1px solid var(--border);border-radius:16px;background:rgba(255,255,255,.03)">
+            <h2 style="margin:0">Need a quick plan</h2>
+            <p style="color:var(--muted);margin:10px 0 0">If you want help navigating Boone, Blowing Rock, Banner Elk, or anywhere in Watauga, Ashe, or Avery Counties… reach out and I’ll make it simple.</p>
+            <p style="margin:10px 0 0"><a href="/contact">Contact Andrew</a> · <a href="/services">Services</a> · <a href="/areas">Areas</a></p>
+          </section>
+
+          <div class="footer">© 2026 Andrew Plyler, REALTOR®/Broker.</div>
+        </div>
+      </body>
+    </html>
+    """.strip()
+    return body
 
 
-def make_blog_html(posts):
+def make_blog_index(posts):
     cards = []
-    for post in posts:
-        cards.append(
-            f"""
-      <article class=\"card\">
-        <div class=\"card-meta\">{post.get('category', 'Update')} · {post['date']}</div>
-        <h2 class=\"card-title\"><a href=\"/blog/{post['slug']}/\">{post['title']}</a></h2>
-        <p class=\"card-preview\">{post.get('preview', '')}</p>
-      </article>
-      """
-        )
+    for p in posts:
+        cards.append(f"""
+      <article class="card">
+        <div class="card-meta"><span class="pill"><span class="dot"></span>{p['category']}</span> · {p['date']}</div>
+        <h2 class="card-title"><a href="{p['url']}">{p['title']}</a></h2>
+        <p class="card-preview">{p['description']}</p>
+      </article>""")
 
     cards_html = "\n".join(cards)
 
-    return f"""<!doctype html>
-<html lang=\"en\">
-  <head>
-    <meta charset=\"utf-8\" />
-    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />
-    <title>Blog & Insights | Andrew Plyler</title>
-    <meta name=\"description\" content=\"High Country real estate blog: Boone, Blowing Rock, Banner Elk, Ashe, Watauga, and Avery Counties.\" />
-    <link rel=\"canonical\" href=\"{BASE_URL}/blog\" />
-    <link rel=\"stylesheet\" href=\"/base.css\" />
-    <link rel=\"stylesheet\" href=\"/style.css\" />
-    <link rel=\"stylesheet\" href=\"/blog/blog.css\" />
-  </head>
-  <body>
-    <main class=\"blog-layout\">
-      <header class=\"hero\">
-        <h1 class=\"hero-title\">Blog & Insights</h1>
-        <p class=\"hero-intro\">Market updates, buying guides, and honest takes on life and real estate in the NC High Country… posted automatically twice per week.</p>
-      </header>
-      <div class=\"grid\">{cards_html}</div>
-    </main>
-  </body>
-</html>
-"""
+    html = f"""
+    <!doctype html>
+    <html lang="en">
+      <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Blog & Insights | Andrew Plyler</title>
+        <meta name="description" content="High Country real estate blog: Boone, Blowing Rock, Banner Elk, Ashe, Watauga, and Avery Counties." />
+        <link rel="canonical" href="{BASE_URL}/blog" />
+        <link rel="stylesheet" href="/base.css" />
+        <link rel="stylesheet" href="/style.css" />
+        <link rel="stylesheet" href="/blog/blog.css" />
+      </head>
+      <body>
+        <div class="container">
+          <div style="margin-bottom:18px"><a href="/">Home</a></div>
+          <header class="hero">
+            <h1 class="hero-title">Blog & Insights</h1>
+            <p class="hero-intro">Market updates, buying guides, and honest takes on life and real estate in the NC High Country… new post twice per week.</p>
+          </header>
+
+          <div class="grid">
+            {cards_html}
+          </div>
+
+          <div class="footer">© 2026 Andrew Plyler, REALTOR®/Broker.</div>
+        </div>
+      </body>
+    </html>
+    """.strip()
+    return html
 
 
 def main():
-    write_blog_css()
-
-    now = datetime.now(ZoneInfo("America/New_York"))
-    today = now.date().isoformat()
-
-    category, title, preview, bullets = random.choice([
-        (
-            "Market Update",
-            "Is 2026 a Good Year to Buy a Mountain Home?",
-            "A practical look at inventory, pricing, and what actually matters to buyers and sellers in the High Country.",
-            [
-                "Inventory and pricing change fast here… the cleanest offers win the fastest.",
-                "Good due diligence matters: access, drainage, heating, and realistic maintenance.",
-                "Your plan should match your lifestyle and budget… not trends and headlines.",
-            ],
-        ),
-        (
-            "Lifestyle",
-            "What Buyers Ask About Watauga County",
-            "The questions I hear on repeat… and how to answer them with a local strategy.",
-            [
-                "Driveway, access, and winter maintenance are not optional topics.",
-                "People buy lifestyle first… real estate is how they lock it in.",
-                "If you like it here, plan to protect your time with good systems and good contacts.",
-            ],
-        ),
-        (
-            "Investor Guide",
-            "Short-Term Rental Regulations in Watauga County",
-            "Permits, occupancy taxes, zoning, and the basics you should understand before you close.",
-            [
-                "Not every property is a good rental… and not every good rental fits your goals.",
-                "Know the rules before you plan on cash flow.",
-                "A boring plan beats a hopeful one.",
-            ],
-        ),
-        (
-            "Seasonal",
-            "Buying a Mountain Home in Spring",
-            "Spring is when markets wake up fast… and you want your offer ready before you step into the first house.",
-            [
-                "Get financing clean and clear early.",
-                "Know your must-haves and deal-breakers.",
-                "Move quickly… but never sloppily.",
-            ],
-        ),
-    ])
-
-    slug = f"{today}-{slugify(title)}"
-    bullets_html = "<ul>" + "".join(f"<li>{b}</li>" for b in bullets) + "</ul>"
-    body = f"<div class='prose'><h2>Quick take</h2>{bullets_html}</div>"
+    dt_et = datetime.now(ZoneInfo("America/New_York"))
 
     posts = load_posts()
+
+    topics = [
+        ("Lifestyle", "Blowing Rock, Banner Elk, and Boone – a Practical Snapshot", "High Country context for Boone, Blowing Rock, Banner Elk, Ashe, Watauga, and Avery Counties."),
+        ("Seasonal", "Buying a Mountain Home in Spring", "Spring buyers show up fast… be ready before the first showing."),
+        ("Market", "High Country Market Notes", "A short take on what actually moves the needle up here."),
+    ]
+
+    category, title, description = random.choice(topics)
+    slug = f"{dt_et.date()}-{slugify(title)}"
+
+    # Only create a new post folder when we actually have new content for today
     if not any(p.get("slug") == slug for p in posts):
+        post_dir = os.path.join("blog", slug)
+        ensure_dir(post_dir)
+        with open(os.path.join(post_dir, "index.html"), "w", encoding="utf-8") as f:
+            f.write(make_post_html(title, category, dt_et))
+
         posts.append({
-            "date": today,
+            "date": dt_et.date().isoformat(),
             "slug": slug,
+            "url": f"{BASE_URL}/blog/{slug}/",
             "title": title,
             "category": category,
-            "preview": preview,
-            "body": body,
+            "description": description,
         })
 
     posts.sort(key=lambda p: p["date"], reverse=True)
     save_posts(posts)
 
-    blog_html = make_blog_html(posts[:50])
-    ensure_dir("blog")
-    with open(BLOG_ROOT, "w", encoding="utf-8") as f:
-        f.write(blog_html)
-    with open(BLOG_INDEX, "w", encoding="utf-8") as f:
-        f.write(blog_html)
+    write_blog_css()
 
-    latest = posts[0]
-    ensure_dir(os.path.join("blog", latest["slug"]))
-    with open(os.path.join("blog", latest["slug"], "index.html"), "w", encoding="utf-8") as f:
-        f.write(make_post_html(latest))
+    html = make_blog_index(posts)
+    ensure_dir(os.path.dirname(BLOG_INDEX))
+    with open(BLOG_INDEX, "w", encoding="utf-8") as f:
+        f.write(html)
+    with open(BLOG_HTML_ROOT, "w", encoding="utf-8") as f:
+        f.write(html)
 
 
 if __name__ == "__main__":
