@@ -1,43 +1,82 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<urlset xmlns='https://www.sitemaps.org/schemas/sitemap/0.9'>
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- Core Pages -->
   <url>
-    <loc>https://plyler.realtor/</loc>
+    <loc>https://thcrealtor.netlify.app/</loc>
     <lastmod>2026-03-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://plyler.realtor/about.html</loc>
+    <loc>https://thcrealtor.netlify.app/about</loc>
     <lastmod>2026-03-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://plyler.realtor/areas.html</loc>
+    <loc>https://thcrealtor.netlify.app/services</loc>
     <lastmod>2026-03-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://plyler.realtor/services.html</loc>
+    <loc>https://thcrealtor.netlify.app/areas</loc>
     <lastmod>2026-03-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://plyler.realtor/faq.html</loc>
+    <loc>https://thcrealtor.netlify.app/faq</loc>
     <lastmod>2026-03-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://plyler.realtor/blog.html</loc>
+    <loc>https://thcrealtor.netlify.app/student-housing</loc>
     <lastmod>2026-03-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://plyler.realtor/contact.html</loc>
+    <loc>https://thcrealtor.netlify.app/contact</loc>
     <lastmod>2026-03-20</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
   </url>
+
+  <!-- Blog Index -->
   <url>
-    <loc>https://plyler.realtor/blog/2026-03-20-practical-high-country-real-estate-living-in-the-high-country/</loc>
+    <loc>https://thcrealtor.netlify.app/blog</loc>
     <lastmod>2026-03-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Blog Posts -->
+  <url>
+    <loc>https://thcrealtor.netlify.app/blog/2026-03-20-moving-to-boone-nc-high-country-relocation-guide</loc>
+    <lastmod>2026-03-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://plyler.realtor/blog/2026-03-19-blowing-rock-banner-elk-and-boone-a-practical-snapshot/</loc>
-    <lastmod>2026-03-19</lastmod>
+    <loc>https://thcrealtor.netlify.app/blog/2026-03-01-is-2026-good-year-buy-mountain-home</loc>
+    <lastmod>2026-03-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://plyler.realtor/blog/2026-03-19-buying-a-mountain-home-in-spring/</loc>
-    <lastmod>2026-03-19</lastmod>
+    <loc>https://thcrealtor.netlify.app/blog/2026-02-15-str-regulations-watauga-county</loc>
+    <lastmod>2026-02-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
+  <url>
+    <loc>https://thcrealtor.netlify.app/blog/2026-01-20-complete-guide-buying-land-nc-high-country</loc>
+    <lastmod>2026-01-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
 </urlset>
