@@ -2,7 +2,8 @@ name: Auto Blog
 
 on:
   schedule:
-    - cron: "0 11 * * 1,4"  # Mon and Thu at 11:00 UTC = 7:00am ET
+    - cron: "0 13 * * 1"   # Monday    8 AM ET (13:00 UTC)
+    - cron: "0 13 * * 4"   # Thursday  8 AM ET (13:00 UTC)
   workflow_dispatch: {}
 
 permissions:
@@ -21,9 +22,11 @@ jobs:
           python-version: "3.11"
 
       - name: Install dependencies
-        run: pip install requests beautifulsoup4
+        run: pip install anthropic
 
       - name: Generate blog post
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: python scripts/generate_blog_post.py
 
       - name: Commit and push changes
@@ -35,5 +38,5 @@ jobs:
             echo "No changes to commit."
             exit 0
           fi
-          git commit -m "Auto blog post update"
+          git commit -m "Auto blog post – $(date +'%Y-%m-%d')"
           git push
