@@ -1,246 +1,589 @@
-import os
-import re
-import json
-import random
-from datetime import datetime
-from zoneinfo import ZoneInfo
-
-BASE_URL = "https://plyler.realtor"
-POSTS_JSON = "blog/posts/posts.json"
-BLOG_HTML = "blog.html"
-BLOG_DIR_INDEX = "blog/index.html"
-BLOG_CSS = "blog/blog.css"
-
-
-def ensure_dir(path: str) -> None:
-    if not path:
-        return
-    os.makedirs(path, exist_ok=True)
-
-
-def slugify(text: str) -> str:
-    text = re.sub(r"[^\w\s-]", "", text.lower())
-    text = re.sub(r"[\s_-]+", "-", text).strip("-")
-    return text
-
-
-def load_posts() -> list:
-    try:
-        with open(POSTS_JSON, "r", encoding="utf-8") as f:
-            return json.load(f)
-    except Exception:
-        return []
-
-
-def normalize_posts(posts: list) -> list:
-    normalized = []
-    for p in posts:
-        title = p.get("title", "NC High Country real estate notes")
-        category = p.get("category", "Market")
-        date = p.get("date", datetime.now(ZoneInfo("America/New_York")).date().isoformat())
-        slug = p.get("slug")
-        if not slug:
-            slug = slugify(f"{date}-{title}")
-        url = p.get("url")
-        if not url:
-            url = f"{BASE_URL}/blog/{slug}/"
-        desc = p.get("description", "High Country real estate context for Boone, Blowing Rock, Banner Elk, and the surrounding communities.")
-        normalized.append({
-            "title": title,
-            "category": category,
-            "date": date,
-            "slug": slug,
-            "url": url,
-            "description": desc,
-        })
-    normalized.sort(key=lambda x: x["date"], reverse=True)
-    return normalized
-
-
-def save_posts(posts: list) -> None:
-    ensure_dir(os.path.dirname(POSTS_JSON))
-    with open(POSTS_JSON, "w", encoding="utf-8") as f:
-        json.dump(posts, f, indent=2)
-
-
-def make_blog_css() -> str:
-    return """
-:root{--bg0:#0f120f;--text0:#f6f7f2;--card:#fcfcf8;--muted:#aeb3a5;--shadow: 0 10px 30px rgba(0,0,0,0.12)}
-html{background:var(--bg0)}
-body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--text0)}
-a{color:inherit}
-
-.hero{display:flex;gap:24px;padding:44px 18px 30px;border-radius:24px;background:var(--bg0)}
-.hero h1{margin:0;font-size:40px;line-height:0.9;font-weight:800}
-.hero .sub{margin:0;margin-top:6px;opacity:.92;max-width:34ch}
-.grid{padding:18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
-.card{background:var(--card);color:#151714;border-radius:22px;box-shadow:var(--shadow);padding:18px;text-decoration:none}
-.card:hover{transform:translateY(-1px);transition:transform .15s ease}
-.card .meta{font-size:12px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin:0 0 8px 0}
-.card .title{margin:0;font-size:18px;line-height:1.1;font-weight:700}
-.card .desc{margin:10px 0 0 0;color:#41463a;font-size:14px}
-
-.post{padding:18px}
-.post h1{margin:18px 0 6px 0;font-size:28px;line-height:1.05}
-.post .meta{margin:0;color:var(--muted)}
-.post p{line-height:1.55;max-width:70ch}
-.post footer{margin-top:30px;opacity:.75;font-size:12px}
+#!/usr/bin/env python3
+"""
+Auto Blog Post Generator for plyler.realtor / THCRealtor
+Runs via GitHub Actions every Monday and Thursday.
+Styles match the live site exactly — links base.css + style.css, same as all other pages.
 """
 
+import os, json, re, anthropic
+from datetime import date
+from pathlib import Path
 
-def make_blog_index(posts: list) -> str:
-    cards = []
-    for p in posts[:50]:
-        cards.append(
-            f"""
-            <a class='card' href='{p['url']}'>
-              <p class='meta'>{p['category']} · {p['date']}</p>
-              <h2 class='title'>{p['title']}</h2>
-              <p class='desc'>{p['description']}</p>
-            </a>
-            """
-        )
-    cards_html = "\n".join(cards)
-    return f"""
-<!doctype html>
-<html lang='en'>
-  <head>
-    <meta charset='utf-8'/>
-    <meta name='viewport' content='width=device-width, initial-scale=1'/>
-    <title>Blog & Insights | Andrew Plyler</title>
-    <meta name='description' content='High Country real estate blog: Boone, Blowing Rock, Banner Elk, and the NC High Country.' />
-    <link rel='canonical' href='{BASE_URL}/blog.html' />
-    <link rel='stylesheet' href='/base.css' />
-    <link rel='stylesheet' href='/style.css' />
-    <link rel='stylesheet' href='/blog/blog.css' />
-  </head>
-  <body>
-    <main>
-      <section class='hero'>
-        <h1>Blog & Insights</h1>
-        <p class='sub'>Market updates, buying guides, and honest takes on life and real estate in the NC High Country… new post twice per week.</p>
-      </section>
-      <section class='grid'>
-        {cards_html}
-      </section>
-    </main>
-  </body>
-</html>
+# ── Configuration ──────────────────────────────────────────────────────────────
+SITE_NAME        = "The High Country Realtor"
+SITE_URL         = "https://thcrealtor.netlify.app"
+AUTHOR_NAME      = "Andrew Plyler, REALTOR\u00ae"
+AUTHOR_TITLE     = "Broker \u00b7 Blue Ridge Realty & Investments \u00b7 Boone, NC"
+AUTHOR_PHONE     = "(770) 639-1233"
+AUTHOR_PHONE_RAW = "+17706391233"
+AUTHOR_EMAIL     = "aplyler@brri.net"
+AUTHOR_BRAND_URL = "https://plyler.realtor"
+
+BLOG_DIR   = Path("blog")
+BLOG_INDEX = Path("blog.html")
+
+# ── Topic rotation ─────────────────────────────────────────────────────────────
+TOPIC_CATEGORIES = [
+    "High Country real estate market update (Boone, Blowing Rock, Banner Elk, West Jefferson)",
+    "Appalachian State University student housing and investment opportunities near App State",
+    "Buying land or mountain property in the High Country of NC",
+    "Seasonal living in the Blue Ridge Mountains \u2013 current season, weather, what\u2019s happening now",
+    "Upcoming events or festivals in Boone/High Country NC and their real estate appeal",
+    "Relocation guide: moving to Boone NC or the High Country",
+    "Second home and vacation property investment in the High Country",
+    "Why families, retirees, and remote workers are choosing the High Country",
+    "New construction, mountain cabins, and unique property types in Watauga/Ashe/Avery counties",
+    "Holiday season in the High Country and its effect on the real estate market",
+]
+
+def get_topic():
+    week = date.today().isocalendar()[1]
+    dow  = date.today().weekday()
+    return TOPIC_CATEGORIES[(week * 2 + (0 if dow == 0 else 1)) % len(TOPIC_CATEGORIES)]
+
+def get_season():
+    m = date.today().month
+    if m in (12,1,2): return "winter"
+    if m in (3,4,5):  return "spring"
+    if m in (6,7,8):  return "summer"
+    return "fall"
+
+def get_holidays():
+    today = date.today()
+    all_h = {
+        (1,1):"New Year\u2019s Day",(2,14):"Valentine\u2019s Day",(3,17):"St. Patrick\u2019s Day",
+        (5,26):"Memorial Day weekend",(7,4):"Fourth of July",(9,1):"Labor Day weekend",
+        (10,31):"Halloween",(11,27):"Thanksgiving",(12,25):"Christmas",(12,31):"New Year\u2019s Eve"
+    }
+    upcoming = []
+    for (m,d),name in all_h.items():
+        try:
+            h = date(today.year, m, d)
+        except ValueError:
+            continue
+        delta = (h - today).days
+        if 0 <= delta <= 45:
+            upcoming.append(f"{name} ({delta} days away)")
+    return ", ".join(upcoming) if upcoming else "no major holidays in the next 45 days"
+
+# ── Shared HTML fragments (identical to index.html) ───────────────────────────
+
+SITE_LOGO_SVG = """<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M20 4L4 28h10l6-10 6 10h10L20 4z" fill="currentColor" opacity="0.15"/>
+        <path d="M20 8L8 26h7l5-8.5 5 8.5h7L20 8z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+        <path d="M14 26l3 6h6l3-6" stroke="currentColor" stroke-width="1.5" fill="none"/>
+        <circle cx="20" cy="18" r="1.5" fill="currentColor" opacity="0.4"/>
+      </svg>"""
+
+def shared_head(title, description, canonical, keywords="", og_type="article", pub_date=""):
+    og_article = f'\n  <meta property="article:published_time" content="{pub_date}">' if pub_date else ""
+    kw_tag = f'\n  <meta name="keywords" content="{keywords}">' if keywords else ""
+    return f"""  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{title}</title>
+  <meta name="description" content="{description}">{kw_tag}
+  <meta name="author" content="{AUTHOR_NAME}">
+  <meta name="robots" content="index, follow">
+  <meta property="og:type" content="{og_type}">
+  <meta property="og:title" content="{title}">
+  <meta property="og:description" content="{description}">
+  <meta property="og:url" content="{canonical}">
+  <meta property="og:site_name" content="{SITE_NAME}">{og_article}
+  <link rel="canonical" href="{canonical}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/base.css">
+  <link rel="stylesheet" href="/style.css">"""
+
+def shared_header(active_page="blog"):
+    pages = [
+        ("index.html","Home"), ("about.html","About"), ("areas.html","Areas"),
+        ("services.html","Services"), ("blog.html","Blog"), ("contact.html","Contact"),
+    ]
+    links = ""
+    for href, label in pages:
+        page_id = href.replace(".html","")
+        aria    = ' aria-current="page"' if page_id == active_page else ""
+        links  += f'      <a href="/{href}"{aria}>{label}</a>\n'
+
+    return f"""<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header" role="banner">
+  <div class="header-inner">
+    <a href="/index.html" class="site-logo" aria-label="Andrew Plyler \u2014 Home">
+      {SITE_LOGO_SVG}
+      <span class="logo-text">
+        <span class="logo-name">Andrew Plyler</span>
+        <span class="logo-tag">The High Country Realtor</span>
+      </span>
+    </a>
+    <nav class="main-nav" aria-label="Primary">
+{links}      <a href="tel:{AUTHOR_PHONE_RAW}" class="nav-cta">Book a Call</a>
+    </nav>
+    <button class="theme-toggle" aria-label="Toggle dark mode" type="button">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+    </button>
+    <button class="mobile-menu-btn" aria-label="Open menu" aria-expanded="false" type="button">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</header>"""
+
+def shared_footer():
+    return f"""<footer class="site-footer" role="contentinfo">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="/index.html" class="site-logo" aria-label="Andrew Plyler \u2014 Home" style="text-decoration:none;">
+        <svg viewBox="0 0 40 40" width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M20 4L4 28h10l6-10 6 10h10L20 4z" fill="currentColor" opacity="0.15"/>
+          <path d="M20 8L8 26h7l5-8.5 5 8.5h7L20 8z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+          <path d="M14 26l3 6h6l3-6" stroke="currentColor" stroke-width="1.5" fill="none"/>
+        </svg>
+        <span class="logo-text">
+          <span class="logo-name">Andrew Plyler</span>
+          <span class="logo-tag">The High Country Realtor</span>
+        </span>
+      </a>
+      <p>Born in Boone and rooted in the NC High Country. Helping buyers and sellers navigate mountain real estate with local knowledge and honest advice.</p>
+      <div class="footer-social">
+        <a href="https://www.instagram.com/thcrealtor" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg></a>
+        <a href="https://www.facebook.com/THCRealtor" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+        <a href="https://x.com/THCRealtor" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+        <a href="https://www.linkedin.com/in/andrewplyler" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+      </div>
+    </div>
+    <div>
+      <h4 class="footer-heading">Quick Links</h4>
+      <ul class="footer-links" role="list">
+        <li><a href="/about.html">About Andrew</a></li>
+        <li><a href="/areas.html">Areas Served</a></li>
+        <li><a href="/services.html">Services</a></li>
+        <li><a href="/blog.html">Blog</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="footer-heading">Communities</h4>
+      <ul class="footer-links" role="list">
+        <li><a href="/areas.html">Boone</a></li>
+        <li><a href="/areas.html">Blowing Rock</a></li>
+        <li><a href="/areas.html">Banner Elk</a></li>
+        <li><a href="/areas.html">Valle Crucis</a></li>
+        <li><a href="/areas.html">Beech Mountain</a></li>
+        <li><a href="/areas.html">West Jefferson</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="footer-heading">Contact</h4>
+      <ul class="footer-links" role="list">
+        <li><a href="tel:+17706391233">(770) 639-1233</a></li>
+        <li><a href="tel:+18282638711">(828) 263-8711</a></li>
+        <li><a href="mailto:{AUTHOR_EMAIL}">{AUTHOR_EMAIL}</a></li>
+        <li>1129-1 Main St.<br>Blowing Rock, NC 28605</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; {date.today().year} Andrew Plyler, REALTOR&reg;/Broker. Blue Ridge Realty &amp; Investments. All rights reserved. Equal Housing Opportunity.</p>
+  </div>
+</footer>"""
+
+SHARED_JS = """
+// Dark/light mode toggle
+(function() {
+  const toggle = document.querySelector('.theme-toggle');
+  const html   = document.documentElement;
+  const saved  = localStorage.getItem('theme');
+  if (saved) html.setAttribute('data-theme', saved);
+  if (toggle) {
+    toggle.addEventListener('click', function() {
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    });
+  }
+})();
+
+// Mobile menu
+(function() {
+  const btn = document.querySelector('.mobile-menu-btn');
+  const nav = document.querySelector('.main-nav');
+  if (btn && nav) {
+    btn.addEventListener('click', function() {
+      const open = nav.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open);
+    });
+  }
+})();
+
+// Scroll-aware header
+(function() {
+  const header = document.querySelector('.site-header');
+  if (!header) return;
+  window.addEventListener('scroll', function() {
+    header.classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
+})();
 """
 
+# ── Post-page-specific CSS (only what isn't already in style.css) ──────────────
+POST_CSS = """
+  /* Post hero — uses .page-hero pattern from style.css */
+  .post-hero {
+    padding: clamp(4rem, 10vw, 6rem) var(--space-4) clamp(2rem, 5vw, 3rem);
+    background: var(--color-surface-offset);
+    border-bottom: 1px solid var(--color-divider);
+  }
+  .post-hero .container-narrow { max-width: 800px; }
+  .post-hero h1 {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: var(--space-5);
+    color: var(--color-text);
+  }
+  .post-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+  .post-meta-dot { opacity: 0.4; }
 
-def make_post_html(title: str, category: str, dt_et: datetime) -> str:
-    return f"""
-<!doctype html>
-<html lang='en'>
-  <head>
-    <meta charset='utf-8'/>
-    <meta name='viewport' content='width=device-width, initial-scale=1'/>
-    <title>{title} | Andrew Plyler</title>
-    <meta name='description' content='{title}. High Country real estate insights for Boone, Blowing Rock, and Banner Elk.' />
-    <link rel='canonical' href='{BASE_URL}/blog/{dt_et.date()}-{slugify(title)}/' />
-    <link rel='stylesheet' href='/base.css' />
-    <link rel='stylesheet' href='/style.css' />
-    <link rel='stylesheet' href='/blog/blog.css' />
-  </head>
-  <body>
-    <main class='post'>
-      <a href='/blog/'>&larr; Back to blog</a>
-      <h1>{title}</h1>
-      <p class='meta'>{category} · {dt_et.strftime('%B %d, %Y')}</p>
-      <p>Buying or selling here means balancing timing, weather, access, and how much you want to manage day-to-day. If you want a plan that fits the High Country, reach out and we’ll keep it simple.</p>
-      <p><a href='/contact.html'>Contact</a> · <a href='/services.html'>Services</a> · <a href='/areas.html'>Areas</a></p>
-      <footer>© 2026 Andrew Plyler, REALTOR®/Broker.</footer>
-    </main>
-  </body>
-</html>
+  /* Post body */
+  .post-layout {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: clamp(var(--space-12), 6vw, var(--space-20)) var(--space-4);
+  }
+  .post-body { font-size: var(--text-base); line-height: 1.8; color: var(--color-text); }
+  .post-body h2 {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: var(--color-text);
+    margin: clamp(var(--space-8), 4vw, var(--space-12)) 0 var(--space-4);
+    line-height: 1.3;
+  }
+  .post-body p   { margin-bottom: var(--space-6); max-width: 72ch; }
+  .post-body ul, .post-body ol { margin: 0 0 var(--space-6) var(--space-8); }
+  .post-body li  { margin-bottom: var(--space-2); font-size: var(--text-base); }
+  .post-body strong { font-weight: 600; color: var(--color-text); }
+  .post-body em     { font-style: italic; color: var(--color-accent); }
+
+  /* Author card */
+  .author-card {
+    display: flex;
+    gap: var(--space-6);
+    align-items: flex-start;
+    background: var(--color-surface);
+    border: 1px solid oklch(from var(--color-text) l c h / 0.08);
+    border-radius: var(--radius-lg);
+    padding: var(--space-8);
+    margin-top: clamp(var(--space-12), 6vw, var(--space-16));
+  }
+  @media (max-width: 600px) { .author-card { flex-direction: column; } }
+  .author-avatar {
+    width: 72px; height: 72px;
+    border-radius: var(--radius-full);
+    background: var(--color-primary);
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    color: var(--color-text-inverse);
+    font-weight: 600;
+  }
+  .author-info h3 {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: var(--space-1);
+  }
+  .author-info p {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    margin-bottom: var(--space-5);
+    max-width: 52ch;
+  }
+  .author-cta { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: var(--space-10);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+  .back-link:hover { color: var(--color-primary-hover); }
+
+  /* Blog index page */
+  .blog-index-hero {
+    padding: clamp(var(--space-16), 10vw, var(--space-24)) var(--space-4) clamp(var(--space-8), 5vw, var(--space-12));
+    background: var(--color-surface-offset);
+    border-bottom: 1px solid var(--color-divider);
+  }
 """
 
+# ── AI content generation ──────────────────────────────────────────────────────
+def generate_post():
+    today_str = date.today().strftime("%B %d, %Y")
+    prompt = f"""You are writing a blog post for Andrew Plyler, REALTOR\u00ae at Blue Ridge Realty & Investments in Boone, NC.
+Andrew is a native of Boone with 40+ years of local knowledge, an App State grad, specializing in High Country real estate.
 
-def write_sitemap(posts: list) -> None:
-    urls = [
-        {"loc": f"{BASE_URL}/", "lastmod": datetime.now(ZoneInfo("UTC")).date().isoformat()},
-        {"loc": f"{BASE_URL}/about.html", "lastmod": datetime.now(ZoneInfo("UTC")).date().isoformat()},
-        {"loc": f"{BASE_URL}/areas.html", "lastmod": datetime.now(ZoneInfo("UTC")).date().isoformat()},
-        {"loc": f"{BASE_URL}/services.html", "lastmod": datetime.now(ZoneInfo("UTC")).date().isoformat()},
-        {"loc": f"{BASE_URL}/faq.html", "lastmod": datetime.now(ZoneInfo("UTC")).date().isoformat()},
-        {"loc": f"{BASE_URL}/blog.html", "lastmod": datetime.now(ZoneInfo("UTC")).date().isoformat()},
-        {"loc": f"{BASE_URL}/contact.html", "lastmod": datetime.now(ZoneInfo("UTC")).date().isoformat()},
-    ]
-    for p in posts:
-        urls.append({"loc": p["url"], "lastmod": p["date"]})
-    with open("sitemap.xml", "w", encoding="utf-8") as f:
-        f.write("<?xml version='1.0' encoding='UTF-8'?>\n")
-        f.write("<urlset xmlns='https://www.sitemaps.org/schemas/sitemap/0.9'>\n")
-        for u in urls:
-            f.write("  <url>\n")
-            f.write(f"    <loc>{u['loc']}</loc>\n")
-            f.write(f"    <lastmod>{u['lastmod']}</lastmod>\n")
-            f.write("  </url>\n")
-        f.write("</urlset>\n")
+TODAY: {today_str} | SEASON: {get_season()} | UPCOMING: {get_holidays()}
+TOPIC: {get_topic()}
 
+Write a complete, high-quality blog post optimized for Google SEO and AI search engines (ChatGPT, Perplexity, Claude).
+Naturally include keywords: "Boone NC real estate", "High Country REALTOR", "buy a home in Boone NC", "Appalachian State housing", "mountain property NC".
 
-def main() -> None:
-    posts = normalize_posts(load_posts())
-    dt_et = datetime.now(ZoneInfo("America/New_York"))
+REQUIREMENTS:
+- 700\u20131,000 words of body content
+- Tone: mix of warm local expert AND professional market insight (vary by topic)
+- 3\u20135 H2 subheadings
+- At least one specific local detail (street, neighborhood, landmark, event)
+- End with a soft CTA to contact Andrew Plyler
+- Do NOT fabricate MLS statistics \u2014 use descriptive language for market conditions
+- Do NOT use the word "nestled"
 
-    topics = [
-        ("Market", "High Country Market Pulse"),
-        ("Seasonal", "Buying a Mountain Home"),
-        ("Lifestyle", "Living in the High Country"),
-        ("Investing", "Second Home Strategy"),
-    ]
-    category, theme = random.choice(topics)
+OUTPUT: respond ONLY with a JSON object (no markdown fences):
+{{
+  "title": "SEO title (60 chars max)",
+  "meta_description": "155-char meta description with primary keyword",
+  "slug": "url-friendly-slug",
+  "focus_keyword": "primary SEO keyword phrase",
+  "secondary_keywords": ["kw1","kw2","kw3"],
+  "excerpt": "2-sentence plain-text excerpt for blog index card",
+  "body_html": "full post body using only h2/p/ul/li/strong/em tags"
+}}"""
 
-    titles = [
-        f"High Country Notes: {theme}",
-        f"Boone, Blowing Rock, Banner Elk: {theme}",
-        f"Practical High Country Real Estate: {theme}",
-    ]
-    title = random.choice(titles)
+    client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+    msg    = client.messages.create(
+        model="claude-sonnet-4-20250514", max_tokens=2000,
+        messages=[{"role":"user","content":prompt}]
+    )
+    raw = msg.content[0].text.strip()
+    raw = re.sub(r'```json\s*','',raw)
+    raw = re.sub(r'```\s*','',raw)
+    raw = re.sub(r'\s*```$','',raw)
+    return json.loads(raw)
 
-    # Avoid slug collisions from same day reruns
-    slug_base = f"{dt_et.date()}-{slugify(title)}"
-    slug = slug_base
-    i = 2
-    while os.path.exists(os.path.join("blog", slug)):
-        slug = f"{slug_base}-{i}"
-        i += 1
+# ── HTML builders ──────────────────────────────────────────────────────────────
+def build_post_html(post, pub_date, slug):
+    iso  = date.today().isoformat()
+    kws  = ", ".join(post.get("secondary_keywords", []))
+    canonical = f"{SITE_URL}/blog/{slug}/"
 
-    post_url = f"{BASE_URL}/blog/{slug}/"
-    description = "High Country real estate context for Boone, Blowing Rock, and Banner Elk."
+    schema = json.dumps({
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": post["title"],
+        "description": post["meta_description"],
+        "author": {"@type":"Person","name":AUTHOR_NAME,"url":AUTHOR_BRAND_URL},
+        "publisher": {"@type":"Organization","name":SITE_NAME,"url":SITE_URL},
+        "datePublished": iso,
+        "dateModified": iso,
+        "mainEntityOfPage": canonical,
+        "keywords": post["focus_keyword"] + ", " + kws
+    }, indent=2)
 
-    posts.insert(0, {
-        "date": dt_et.date().isoformat(),
-        "slug": slug,
-        "url": post_url,
-        "title": title,
-        "category": category,
-        "description": description,
-    })
-    posts = normalize_posts(posts)
+    head = shared_head(
+        title       = f"{post['title']} | {SITE_NAME}",
+        description = post['meta_description'],
+        canonical   = canonical,
+        keywords    = f"{post['focus_keyword']}, {kws}",
+        og_type     = "article",
+        pub_date    = iso,
+    )
 
-    save_posts(posts)
+    return f"""<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+{head}
+  <script type="application/ld+json">
+{schema}
+  </script>
+  <style>{POST_CSS}</style>
+</head>
+<body>
 
-    ensure_dir(os.path.dirname(BLOG_CSS))
-    with open(BLOG_CSS, "w", encoding="utf-8") as f:
-        f.write(make_blog_css())
+{shared_header("blog")}
 
-    html_index = make_blog_index(posts)
+<main id="main">
 
-    with open(BLOG_HTML, "w", encoding="utf-8") as f:
-        f.write(html_index)
+  <div class="post-hero">
+    <div class="container-narrow">
+      <p class="section-label">High Country Real Estate</p>
+      <h1>{post['title']}</h1>
+      <div class="post-meta">
+        <span>{AUTHOR_NAME}</span>
+        <span class="post-meta-dot">&middot;</span>
+        <span>{pub_date}</span>
+        <span class="post-meta-dot">&middot;</span>
+        <span>Boone, NC</span>
+      </div>
+    </div>
+  </div>
 
-    ensure_dir(os.path.dirname(BLOG_DIR_INDEX))
-    with open(BLOG_DIR_INDEX, "w", encoding="utf-8") as f:
-        f.write(html_index)
+  <div class="post-layout">
+    <article class="post-body" itemscope itemtype="https://schema.org/BlogPosting">
+      <meta itemprop="headline"      content="{post['title']}">
+      <meta itemprop="datePublished" content="{iso}">
+      <meta itemprop="author"        content="{AUTHOR_NAME}">
+      {post['body_html']}
+    </article>
 
-    ensure_dir(os.path.dirname(os.path.join("blog", slug, "index.html")))
-    with open(os.path.join("blog", slug, "index.html"), "w", encoding="utf-8") as f:
-        f.write(make_post_html(title, category, dt_et))
+    <div class="author-card">
+      <div class="author-avatar">AP</div>
+      <div class="author-info">
+        <h3>{AUTHOR_NAME}</h3>
+        <p>{AUTHOR_TITLE}<br>Born &amp; raised in Boone &middot; App State alum &middot; 40+ years High Country expertise</p>
+        <div class="author-cta">
+          <a href="/contact.html" class="btn btn-primary">Get in Touch</a>
+          <a href="tel:{AUTHOR_PHONE_RAW}" class="btn btn-outline">{AUTHOR_PHONE}</a>
+        </div>
+      </div>
+    </div>
 
-    write_sitemap(posts)
+    <a href="/blog.html" class="back-link">&larr; Back to all posts</a>
+  </div>
 
+  <section class="cta-banner">
+    <h2>Ready to Find Your Mountain Home?</h2>
+    <p>Whether you&rsquo;re buying, selling, or just exploring &mdash; let&rsquo;s talk. No pressure, just honest mountain real estate advice.</p>
+    <a href="/contact.html" class="btn btn-accent">Let&rsquo;s Get Started</a>
+  </section>
+
+</main>
+
+{shared_footer()}
+
+<script>{SHARED_JS}</script>
+</body>
+</html>"""
+
+def build_index_html(posts_meta):
+    cards = ""
+    for p in sorted(posts_meta, key=lambda x: x["date"], reverse=True):
+        cards += f"""      <a href="/blog/{p['slug']}/" class="blog-card fade-in">
+        <div class="blog-card-body">
+          <span class="blog-card-date">{p['date']}</span>
+          <h2 class="blog-card-title">{p['title']}</h2>
+          <p class="blog-card-excerpt">{p['excerpt']}</p>
+          <span class="blog-card-link">Read more &rarr;</span>
+        </div>
+      </a>\n"""
+
+    if not cards.strip():
+        cards = '<p style="text-align:center;color:var(--color-text-muted);padding:var(--space-16) 0;font-style:italic;grid-column:1/-1;">Posts coming soon. Check back Monday!</p>'
+
+    head = shared_head(
+        title       = f"Blog | {SITE_NAME}",
+        description = f"Local insights on Boone NC real estate, mountain living, App State housing, events, and more from Andrew Plyler, REALTOR\u00ae.",
+        canonical   = f"{SITE_URL}/blog.html",
+        og_type     = "website",
+    )
+
+    return f"""<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+{head}
+  <script type="application/ld+json">
+  {{
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "The High Country Realtor Blog",
+    "url": "{SITE_URL}/blog.html",
+    "description": "Real estate insights, mountain living tips, and High Country NC market updates from Andrew Plyler, REALTOR\u00ae",
+    "author": {{
+      "@type": "Person",
+      "name": "{AUTHOR_NAME}",
+      "url": "{AUTHOR_BRAND_URL}"
+    }}
+  }}
+  </script>
+  <style>{POST_CSS}</style>
+</head>
+<body>
+
+{shared_header("blog")}
+
+<main id="main">
+
+  <div class="blog-index-hero">
+    <div class="container">
+      <p class="section-label">From the Blog</p>
+      <h1 class="section-title">Mountain market insights &amp; local knowledge.</h1>
+      <p class="section-desc">Real estate tips, seasonal guides, and High Country living from a Boone native.</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid-3">
+{cards}
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-banner">
+    <h2>Ready to Find Your Mountain Home?</h2>
+    <p>Whether you&rsquo;re buying, selling, or just exploring &mdash; let&rsquo;s talk. No pressure, just honest mountain real estate advice.</p>
+    <a href="/contact.html" class="btn btn-accent">Let&rsquo;s Get Started</a>
+  </section>
+
+</main>
+
+{shared_footer()}
+
+<script>{SHARED_JS}</script>
+</body>
+</html>"""
+
+# ── Utilities ──────────────────────────────────────────────────────────────────
+def collect_existing_meta():
+    meta_list = []
+    if not BLOG_DIR.exists(): return meta_list
+    for d in BLOG_DIR.iterdir():
+        if not d.is_dir(): continue
+        mf = d / "meta.json"
+        if mf.exists():
+            try: meta_list.append(json.loads(mf.read_text()))
+            except: pass
+    return meta_list
+
+def main():
+    print("\U0001f3d4  Generating High Country blog post...")
+    post     = generate_post()
+    today    = date.today()
+    pub_date = today.strftime("%B %d, %Y")
+    slug     = re.sub(r'[^a-z0-9-]', '-', post["slug"].lower())
+    slug     = re.sub(r'-+', '-', slug).strip('-')
+    slug     = f"{today.isoformat()}-{slug}"
+
+    post_dir = BLOG_DIR / slug
+    post_dir.mkdir(parents=True, exist_ok=True)
+    (post_dir / "index.html").write_text(build_post_html(post, pub_date, slug), encoding="utf-8")
+    print(f"  \u2713 Post \u2192 blog/{slug}/index.html")
+
+    (post_dir / "meta.json").write_text(json.dumps(
+        {"title":post["title"],"slug":slug,"date":pub_date,"excerpt":post["excerpt"]}, indent=2
+    ), encoding="utf-8")
+
+    all_meta = collect_existing_meta()
+    BLOG_INDEX.write_text(build_index_html(all_meta), encoding="utf-8")
+    print(f"  \u2713 Index \u2192 blog.html ({len(all_meta)} posts total)")
+    print("\u2705 Done!")
 
 if __name__ == "__main__":
     main()
