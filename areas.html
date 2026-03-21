@@ -29,7 +29,7 @@
 <meta property="og:title" content="NC High Country Communities — Boone, Blowing Rock, Banner Elk & More">
 <meta property="og:description" content="Each mountain town has its own character. Explore what makes Boone, Blowing Rock, Banner Elk, Beech Mountain, West Jefferson, and Valle Crucis unique.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://plyler.realtor/areas.html">
+<meta property="og:url" content="https://plyler.realtor/areas">
 <meta property="og:image" content="https://plyler.realtor/assets/og-areas.jpg">
 <meta property="og:locale" content="en_US">
 
@@ -55,7 +55,7 @@
   "@type": "BreadcrumbList",
   "itemListElement": [
     {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://plyler.realtor/"},
-    {"@type": "ListItem", "position": 2, "name": "Communities", "item": "https://plyler.realtor/areas.html"}
+    {"@type": "ListItem", "position": 2, "name": "Communities", "item": "https://plyler.realtor/areas"}
   ]
 }
 </script>
@@ -70,7 +70,7 @@
     "@type": "SpeakableSpecification",
     "cssSelector": [".area-detail p"]
   },
-  "url": "https://plyler.realtor/areas.html"
+  "url": "https://plyler.realtor/areas"
 }
 </script>
 
@@ -119,6 +119,77 @@
   .area-detail.reverse .area-detail-img { order: 0; }
 }
 </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "NC High Country Communities",
+    "description": "Mountain communities served by Andrew Plyler, REALTOR® in the NC High Country",
+    "url": "https://plyler.realtor/areas",
+    "itemListElement": [
+      {
+        "@type": "ListItem", "position": 1,
+        "item": {
+          "@type": "City",
+          "name": "Boone, NC",
+          "description": "Home to Appalachian State University, Boone is the High Country's largest town at 3,333 feet elevation. Known for college-town energy, diverse real estate, and year-round mountain living.",
+          "geo": {"@type": "GeoCoordinates", "latitude": 36.2168, "longitude": -81.6746},
+          "containedInPlace": {"@type": "State", "name": "North Carolina"}
+        }
+      },
+      {
+        "@type": "ListItem", "position": 2,
+        "item": {
+          "@type": "City",
+          "name": "Blowing Rock, NC",
+          "description": "An upscale mountain village at 3,500 feet with charming Main Street, luxury second homes, and iconic Blue Ridge views. Home to Tweetsie Railroad and The Blowing Rock attraction.",
+          "geo": {"@type": "GeoCoordinates", "latitude": 36.1318, "longitude": -81.6779},
+          "containedInPlace": {"@type": "State", "name": "North Carolina"}
+        }
+      },
+      {
+        "@type": "ListItem", "position": 3,
+        "item": {
+          "@type": "City",
+          "name": "Banner Elk, NC",
+          "description": "Ski country at 3,739 feet, adjacent to Sugar Mountain and Beech Mountain resorts. One of the Southeast's strongest short-term rental markets with year-round tourism.",
+          "geo": {"@type": "GeoCoordinates", "latitude": 36.1596, "longitude": -81.8707},
+          "containedInPlace": {"@type": "State", "name": "North Carolina"}
+        }
+      },
+      {
+        "@type": "ListItem", "position": 4,
+        "item": {
+          "@type": "City",
+          "name": "Beech Mountain, NC",
+          "description": "The highest incorporated town east of the Mississippi at 5,506 feet. Home to Beech Mountain Resort for skiing and mountain biking. Strong short-term rental investment market.",
+          "geo": {"@type": "GeoCoordinates", "latitude": 36.1918, "longitude": -81.9029},
+          "containedInPlace": {"@type": "State", "name": "North Carolina"}
+        }
+      },
+      {
+        "@type": "ListItem", "position": 5,
+        "item": {
+          "@type": "City",
+          "name": "West Jefferson, NC",
+          "description": "The artsy gem of the High Country in Ashe County at 2,900 feet. Known for murals, galleries, Ashe County Cheese, and the New River. Best value for mountain acreage in the region.",
+          "geo": {"@type": "GeoCoordinates", "latitude": 36.4026, "longitude": -81.4879},
+          "containedInPlace": {"@type": "State", "name": "North Carolina"}
+        }
+      },
+      {
+        "@type": "ListItem", "position": 6,
+        "item": {
+          "@type": "City",
+          "name": "Valle Crucis, NC",
+          "description": "A pastoral valley community at 2,700 feet, home to the original Mast General Store. Known for coveted creek-front and farm properties with exceptional value retention.",
+          "geo": {"@type": "GeoCoordinates", "latitude": 36.2154, "longitude": -81.7762},
+          "containedInPlace": {"@type": "State", "name": "North Carolina"}
+        }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 
@@ -127,7 +198,7 @@
 <!-- HEADER -->
 <header class="site-header" role="banner">
   <div class="header-inner">
-    <a href="index.html" class="site-logo" aria-label="Andrew Plyler — Home">
+    <a href="/" class="site-logo" aria-label="Andrew Plyler — Home">
       <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <path d="M20 4L4 28h10l6-10 6 10h10L20 4z" fill="currentColor" opacity="0.15"/>
         <path d="M20 8L8 26h7l5-8.5 5 8.5h7L20 8z" stroke="currentColor" stroke-width="1.5" fill="none"/>
@@ -140,13 +211,13 @@
       </span>
     </a>
     <nav class="main-nav" aria-label="Primary">
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="areas.html" aria-current="page">Areas</a>
-      <a href="services.html">Services</a>
-      <a href="faq.html">FAQ</a>
-      <a href="blog.html">Blog</a>
-      <a href="contact.html">Contact</a>
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <a href="/areas" aria-current="page">Areas</a>
+      <a href="/services">Services</a>
+      <a href="/faq">FAQ</a>
+      <a href="/blog">Blog</a>
+      <a href="/contact">Contact</a>
       <a href="tel:+17706391233" class="nav-cta">Book a Call</a>
     </nav>
     <button class="theme-toggle" aria-label="Toggle dark mode" type="button">
@@ -266,7 +337,7 @@
 <section class="cta-banner">
   <h2>Not Sure Which Town Is Right for You?</h2>
   <p>My roots go back to day one in these mountains. Let me help you figure out which corner of the High Country fits your lifestyle and goals.</p>
-  <a href="contact.html" class="btn btn-accent">Let's Talk</a>
+  <a href="/contact" class="btn btn-accent">Let's Talk</a>
 </section>
 
 </main>
@@ -275,7 +346,7 @@
 <footer class="site-footer" role="contentinfo">
   <div class="footer-grid">
     <div class="footer-brand">
-      <a href="index.html" class="site-logo" aria-label="Andrew Plyler — Home" style="text-decoration:none;">
+      <a href="/" class="site-logo" aria-label="Andrew Plyler — Home" style="text-decoration:none;">
         <svg viewBox="0 0 40 40" width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <path d="M20 4L4 28h10l6-10 6 10h10L20 4z" fill="currentColor" opacity="0.15"/>
           <path d="M20 8L8 26h7l5-8.5 5 8.5h7L20 8z" stroke="currentColor" stroke-width="1.5" fill="none"/>
@@ -298,12 +369,12 @@
     <div>
       <h4 class="footer-heading">Quick Links</h4>
       <ul class="footer-links" role="list">
-        <li><a href="about.html">About Andrew</a></li>
-        <li><a href="areas.html">Areas Served</a></li>
-        <li><a href="services.html">Services</a></li>
-        <li><a href="faq.html">FAQ</a>
-      <a href="blog.html">Blog</a></li>
-        <li><a href="contact.html">Contact</a></li>
+        <li><a href="/about">About Andrew</a></li>
+        <li><a href="/areas">Areas Served</a></li>
+        <li><a href="/services">Services</a></li>
+        <li><a href="/faq">FAQ</a>
+      <a href="/blog">Blog</a></li>
+        <li><a href="/contact">Contact</a></li>
       </ul>
     </div>
     <div>

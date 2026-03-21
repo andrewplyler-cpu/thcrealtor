@@ -632,6 +632,18 @@ def collect_all_meta():
     return all_posts
 
 # ── Main ───────────────────────────────────────────────────────────────────────
+def update_sitemap(slug, pub_date_iso):
+    """Add the new blog post to sitemap.xml."""
+    SITEMAP = Path("sitemap.xml")
+    if not SITEMAP.exists():
+        return
+    content = SITEMAP.read_text()
+    new_url = f"""  <url><loc>https://plyler.realtor/blog/{slug}/</loc><lastmod>{pub_date_iso}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>"""
+    if slug not in content:
+        content = content.replace('</urlset>', f'{new_url}\n</urlset>')
+        SITEMAP.write_text(content)
+        print(f"  \u2713 Sitemap \u2192 added {slug}")
+
 def main():
     print("\U0001f3d4  Generating High Country blog post...")
     post     = generate_post()
@@ -660,6 +672,7 @@ def main():
     }, indent=2), encoding="utf-8")
 
     # Rebuild both index files
+    update_sitemap(slug, today.isoformat())
     all_meta = collect_all_meta()
     index_html = build_index_html(all_meta)
 
