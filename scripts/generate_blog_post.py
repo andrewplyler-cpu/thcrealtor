@@ -179,14 +179,15 @@ def shared_head(title, description, canonical, keywords="", og_type="article", p
 
 def shared_header(active_page="blog"):
     pages = [
-        ("index.html","Home"), ("about.html","About"), ("areas.html","Areas"),
-        ("services.html","Services"), ("blog.html","Blog"), ("contact.html","Contact"),
+        ("","Home"), ("about","About"), ("areas","Areas"),
+        ("services","Services"), ("faq","FAQ"), ("blog","Blog"), ("contact","Contact"),
     ]
     links = ""
     for href, label in pages:
-        page_id = href.replace(".html","")
+        page_id = href.split("/")[-1] or "index"
         aria    = ' aria-current="page"' if page_id == active_page else ""
-        links  += f'      <a href="/{href}"{aria}>{label}</a>\n'
+        href_val = "/" if href == "" else f"/{href}"
+        links  += f'      <a href="{href_val}"{aria}>{label}</a>\n'
 
     return f"""<a class="skip-link" href="#main">Skip to content</a>
 
