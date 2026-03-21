@@ -1,201 +1,106 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Blog | The High Country Realtor</title>
-  <meta name="description" content="Local insights on Boone NC real estate, mountain living, App State housing, events, and more from Andrew Plyler, REALTOR®.">
-  <meta name="author" content="Andrew Plyler, REALTOR®">
-  <meta name="robots" content="index, follow">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Blog | The High Country Realtor">
-  <meta property="og:description" content="Local insights on Boone NC real estate, mountain living, App State housing, events, and more from Andrew Plyler, REALTOR®.">
-  <meta property="og:url" content="https://thcrealtor.netlify.app/blog.html">
-  <meta property="og:site_name" content="The High Country Realtor">
-  <link rel="canonical" href="https://thcrealtor.netlify.app/blog.html">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/base.css">
-  <link rel="stylesheet" href="/style.css">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Blog",
-    "name": "The High Country Realtor Blog",
-    "url": "https://thcrealtor.netlify.app/blog.html",
-    "description": "Real estate insights, mountain living tips, and High Country NC market updates from Andrew Plyler, REALTOR®",
-    "author": {
-      "@type": "Person",
-      "name": "Andrew Plyler, REALTOR®",
-      "url": "https://plyler.realtor"
-    }
-  }
-  </script>
-  <style>
-  /* Post hero — uses .page-hero pattern from style.css */
-  .post-hero {
-    padding: clamp(4rem, 10vw, 6rem) var(--space-4) clamp(2rem, 5vw, 3rem);
-    background: var(--color-surface-offset);
-    border-bottom: 1px solid var(--color-divider);
-  }
-  .post-hero .container-narrow { max-width: 800px; }
-  .post-hero h1 {
-    font-family: var(--font-display);
-    font-size: var(--text-2xl);
-    font-weight: 500;
-    letter-spacing: -0.02em;
-    line-height: 1.2;
-    margin-bottom: var(--space-5);
-    color: var(--color-text);
-  }
-  .post-meta {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: var(--space-3);
-    font-size: var(--text-sm);
-    color: var(--color-text-muted);
-  }
-  .post-meta-dot { opacity: 0.4; }
-
-  /* Post body */
-  .post-layout {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: clamp(var(--space-12), 6vw, var(--space-20)) var(--space-4);
-  }
-  .post-body { font-size: var(--text-base); line-height: 1.8; color: var(--color-text); }
-  .post-body h2 {
-    font-family: var(--font-display);
-    font-size: var(--text-lg);
-    font-weight: 600;
-    color: var(--color-text);
-    margin: clamp(var(--space-8), 4vw, var(--space-12)) 0 var(--space-4);
-    line-height: 1.3;
-  }
-  .post-body p   { margin-bottom: var(--space-6); max-width: 72ch; }
-  .post-body ul, .post-body ol { margin: 0 0 var(--space-6) var(--space-8); }
-  .post-body li  { margin-bottom: var(--space-2); font-size: var(--text-base); }
-  .post-body strong { font-weight: 600; color: var(--color-text); }
-  .post-body em     { font-style: italic; color: var(--color-accent); }
-
-  /* Author card */
-  .author-card {
-    display: flex;
-    gap: var(--space-6);
-    align-items: flex-start;
-    background: var(--color-surface);
-    border: 1px solid oklch(from var(--color-text) l c h / 0.08);
-    border-radius: var(--radius-lg);
-    padding: var(--space-8);
-    margin-top: clamp(var(--space-12), 6vw, var(--space-16));
-  }
-  @media (max-width: 600px) { .author-card { flex-direction: column; } }
-  .author-avatar {
-    width: 72px; height: 72px;
-    border-radius: var(--radius-full);
-    background: var(--color-primary);
-    flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-    font-family: var(--font-display);
-    font-size: var(--text-xl);
-    color: var(--color-text-inverse);
-    font-weight: 600;
-  }
-  .author-info h3 {
-    font-family: var(--font-display);
-    font-size: var(--text-lg);
-    font-weight: 600;
-    color: var(--color-text);
-    margin-bottom: var(--space-1);
-  }
-  .author-info p {
-    font-size: var(--text-sm);
-    color: var(--color-text-muted);
-    line-height: 1.6;
-    margin-bottom: var(--space-5);
-    max-width: 52ch;
-  }
-  .author-cta { display: flex; gap: var(--space-3); flex-wrap: wrap; }
-
-  .back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2);
-    margin-top: var(--space-10);
-    font-size: var(--text-sm);
-    font-weight: 600;
-    color: var(--color-primary);
-    text-decoration: none;
-  }
-  .back-link:hover { color: var(--color-primary-hover); }
-
-  /* Blog index page */
-  .blog-index-hero {
-    padding: clamp(var(--space-16), 10vw, var(--space-24)) var(--space-4) clamp(var(--space-8), 5vw, var(--space-12));
-    background: var(--color-surface-offset);
-    border-bottom: 1px solid var(--color-divider);
-  }
-</style>
+  <meta name="description" content="Mountain market insights, real estate tips, and High Country living from Andrew Plyler — a Boone native and NC High Country REALTOR®." />
+  <link rel="stylesheet" href="/base.css" />
+  <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
+<a href="#main" class="skip-link">Skip to content</a>
 
-<a class="skip-link" href="#main">Skip to content</a>
-
-<header class="site-header" role="banner">
+<header class="site-header">
   <div class="header-inner">
-    <a href="/index.html" class="site-logo" aria-label="Andrew Plyler — Home">
-      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path d="M20 4L4 28h10l6-10 6 10h10L20 4z" fill="currentColor" opacity="0.15"/>
-        <path d="M20 8L8 26h7l5-8.5 5 8.5h7L20 8z" stroke="currentColor" stroke-width="1.5" fill="none"/>
-        <path d="M14 26l3 6h6l3-6" stroke="currentColor" stroke-width="1.5" fill="none"/>
-        <circle cx="20" cy="18" r="1.5" fill="currentColor" opacity="0.4"/>
+    <a href="/" class="site-logo">
+      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="40" height="40">
+        <path d="M20 6 L34 30 H6 Z" fill="var(--color-primary)" opacity="0.18"/>
+        <path d="M20 6 L34 30 H6 Z" stroke="var(--color-primary)" stroke-width="1.5" fill="none"/>
+        <path d="M13 30 L20 18 L27 30" stroke="var(--color-accent)" stroke-width="1.5" fill="none"/>
       </svg>
-      <span class="logo-text">
+      <div class="logo-text">
         <span class="logo-name">Andrew Plyler</span>
         <span class="logo-tag">The High Country Realtor</span>
-      </span>
+      </div>
     </a>
-    <nav class="main-nav" aria-label="Primary">
-      <a href="/index.html">Home</a>
-      <a href="/about.html">About</a>
-      <a href="/areas.html">Areas</a>
-      <a href="/services.html">Services</a>
-      <a href="/blog.html" aria-current="page">Blog</a>
-      <a href="/contact.html">Contact</a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <a href="/areas">Areas</a>
+      <a href="/services">Services</a>
+      <a href="/faq">FAQ</a>
+      <a href="/blog" aria-current="page">Blog</a>
+      <a href="/contact">Contact</a>
       <a href="tel:+17706391233" class="nav-cta">Book a Call</a>
     </nav>
-    <button class="theme-toggle" aria-label="Toggle dark mode" type="button">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
-    </button>
-    <button class="mobile-menu-btn" aria-label="Open menu" aria-expanded="false" type="button">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    <button class="mobile-menu-btn" aria-label="Toggle navigation" aria-expanded="false">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
     </button>
   </div>
 </header>
 
 <main id="main">
 
-  <div class="blog-index-hero">
-    <div class="container">
-      <p class="section-label">From the Blog</p>
-      <h1 class="section-title">Mountain market insights &amp; local knowledge.</h1>
-      <p class="section-desc">Real estate tips, seasonal guides, and High Country living from a Boone native.</p>
-    </div>
-  </div>
+  <section class="page-hero">
+    <p class="section-label">From the Blog</p>
+    <h1>Mountain market insights &amp; local knowledge.</h1>
+    <p>Real estate tips, seasonal guides, and High Country living from a Boone native.</p>
+  </section>
 
   <section class="section">
     <div class="container">
       <div class="grid-3">
-      <a href="/blog/2026-03-20-moving-to-boone-nc-high-country-relocation-guide/" class="blog-card fade-in">
-        <div class="blog-card-body">
-          <span class="blog-card-date">March 20, 2026</span>
-          <h2 class="blog-card-title">Moving to Boone NC: Complete High Country Relocation Guide</h2>
-          <p class="blog-card-excerpt">Considering a move to the beautiful Blue Ridge Mountains of North Carolina? This comprehensive guide covers everything you need to know about relocating to Boone and the High Country region.</p>
-          <span class="blog-card-link">Read more &rarr;</span>
-        </div>
-      </a>
+
+        <a href="/blog/2026-03-20-moving-to-boone-nc-high-country-relocation-guide/" class="blog-card fade-in">
+          <div class="blog-card-img">
+            <img src="https://assets.agentfire3.com/uploads/sites/1337/2024/04/Boone-NC-King-Street.jpg" alt="Downtown Boone in the NC High Country" loading="lazy" />
+          </div>
+          <div class="blog-card-body">
+            <p class="blog-card-date">March 20, 2026</p>
+            <h2 class="blog-card-title">Moving to Boone NC: Complete High Country Relocation Guide</h2>
+            <p class="blog-card-excerpt">Considering a move to the beautiful Blue Ridge Mountains? This comprehensive guide covers everything you need to know about relocating to Boone and the High Country region.</p>
+            <span class="blog-card-link">Read more →</span>
+          </div>
+        </a>
+
+        <a href="/blog/2026-03-01-is-2026-good-year-buy-mountain-home/" class="blog-card fade-in">
+          <div class="blog-card-img">
+            <img src="https://assets.agentfire3.com/uploads/sites/1337/2024/04/Boone-NC-King-Street.jpg" alt="Downtown Boone King Street spring 2026" loading="lazy" />
+          </div>
+          <div class="blog-card-body">
+            <p class="blog-card-date">March 1, 2026</p>
+            <h2 class="blog-card-title">Is 2026 a Good Year to Buy a Mountain Home?</h2>
+            <p class="blog-card-excerpt">Interest rates, inventory levels, and what I&#8217;m seeing on the ground in Watauga, Avery, and Ashe counties this spring.</p>
+            <span class="blog-card-link">Read more →</span>
+          </div>
+        </a>
+
+        <a href="/blog/2026-02-15-str-regulations-watauga-county/" class="blog-card fade-in">
+          <div class="blog-card-img">
+            <img src="https://townofbannerelk.org/wp-content/uploads/2024/11/BannerElkPano1-1536x802.jpg" alt="Banner Elk mountain town in Avery County" loading="lazy" />
+          </div>
+          <div class="blog-card-body">
+            <p class="blog-card-date">February 15, 2026</p>
+            <h2 class="blog-card-title">Short-Term Rental Regulations in Watauga County: What Investors Need to Know</h2>
+            <p class="blog-card-excerpt">A practical breakdown of STR zoning, permitting, and tax obligations for Airbnb investors in the Boone area.</p>
+            <span class="blog-card-link">Read more →</span>
+          </div>
+        </a>
+
+        <a href="/blog/2026-01-20-complete-guide-buying-land-nc-high-country/" class="blog-card fade-in">
+          <div class="blog-card-img">
+            <img src="https://b2290346.smushcdn.com/2290346/wp-content/uploads/2025/09/IMG_6222-scaled.jpeg?lossy=2&strip=1&webp=1" alt="Blowing Rock village Main Street" loading="lazy" />
+          </div>
+          <div class="blog-card-body">
+            <p class="blog-card-date">January 20, 2026</p>
+            <h2 class="blog-card-title">The Complete Guide to Buying Land in the NC High Country</h2>
+            <p class="blog-card-excerpt">Topo, access, well and septic feasibility, zoning — everything you need to know before buying mountain acreage in Watauga, Avery, or Ashe County.</p>
+            <span class="blog-card-link">Read more →</span>
+          </div>
+        </a>
 
       </div>
     </div>
@@ -203,106 +108,74 @@
 
   <section class="cta-banner">
     <h2>Ready to Find Your Mountain Home?</h2>
-    <p>Whether you&rsquo;re buying, selling, or just exploring &mdash; let&rsquo;s talk. No pressure, just honest mountain real estate advice.</p>
-    <a href="/contact.html" class="btn btn-accent">Let&rsquo;s Get Started</a>
+    <p>Whether you&#8217;re buying, selling, or just exploring — let&#8217;s talk. No pressure, just honest mountain real estate advice.</p>
+    <a href="/contact" class="btn btn-accent">Let&#8217;s Get Started</a>
   </section>
 
 </main>
 
-<footer class="site-footer" role="contentinfo">
+<footer class="site-footer">
   <div class="footer-grid">
     <div class="footer-brand">
-      <a href="/index.html" class="site-logo" aria-label="Andrew Plyler — Home" style="text-decoration:none;">
-        <svg viewBox="0 0 40 40" width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M20 4L4 28h10l6-10 6 10h10L20 4z" fill="currentColor" opacity="0.15"/>
-          <path d="M20 8L8 26h7l5-8.5 5 8.5h7L20 8z" stroke="currentColor" stroke-width="1.5" fill="none"/>
-          <path d="M14 26l3 6h6l3-6" stroke="currentColor" stroke-width="1.5" fill="none"/>
+      <a href="/" class="site-logo">
+        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="40" height="40">
+          <path d="M20 6 L34 30 H6 Z" fill="var(--color-primary)" opacity="0.18"/>
+          <path d="M20 6 L34 30 H6 Z" stroke="var(--color-primary)" stroke-width="1.5" fill="none"/>
+          <path d="M13 30 L20 18 L27 30" stroke="var(--color-accent)" stroke-width="1.5" fill="none"/>
         </svg>
-        <span class="logo-text">
+        <div class="logo-text">
           <span class="logo-name">Andrew Plyler</span>
           <span class="logo-tag">The High Country Realtor</span>
-        </span>
+        </div>
       </a>
       <p>Born in Boone and rooted in the NC High Country. Helping buyers and sellers navigate mountain real estate with local knowledge and honest advice.</p>
-      <div class="footer-social">
-        <a href="https://www.instagram.com/thcrealtor" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg></a>
-        <a href="https://www.facebook.com/THCRealtor" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
-        <a href="https://x.com/THCRealtor" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
-        <a href="https://www.linkedin.com/in/andrewplyler" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
-      </div>
     </div>
     <div>
-      <h4 class="footer-heading">Quick Links</h4>
-      <ul class="footer-links" role="list">
-        <li><a href="/about.html">About Andrew</a></li>
-        <li><a href="/areas.html">Areas Served</a></li>
-        <li><a href="/services.html">Services</a></li>
-        <li><a href="/blog.html">Blog</a></li>
-        <li><a href="/contact.html">Contact</a></li>
+      <p class="footer-heading">Quick Links</p>
+      <ul class="footer-links">
+        <li><a href="/about">About Andrew</a></li>
+        <li><a href="/areas">Areas Served</a></li>
+        <li><a href="/services">Services</a></li>
+        <li><a href="/blog">Blog</a></li>
+        <li><a href="/contact">Contact</a></li>
       </ul>
     </div>
     <div>
-      <h4 class="footer-heading">Communities</h4>
-      <ul class="footer-links" role="list">
-        <li><a href="/areas.html">Boone</a></li>
-        <li><a href="/areas.html">Blowing Rock</a></li>
-        <li><a href="/areas.html">Banner Elk</a></li>
-        <li><a href="/areas.html">Valle Crucis</a></li>
-        <li><a href="/areas.html">Beech Mountain</a></li>
-        <li><a href="/areas.html">West Jefferson</a></li>
+      <p class="footer-heading">Communities</p>
+      <ul class="footer-links">
+        <li><a href="/areas">Boone</a></li>
+        <li><a href="/areas">Blowing Rock</a></li>
+        <li><a href="/areas">Banner Elk</a></li>
+        <li><a href="/areas">Valle Crucis</a></li>
+        <li><a href="/areas">Beech Mountain</a></li>
+        <li><a href="/areas">West Jefferson</a></li>
       </ul>
     </div>
     <div>
-      <h4 class="footer-heading">Contact</h4>
-      <ul class="footer-links" role="list">
+      <p class="footer-heading">Contact</p>
+      <ul class="footer-links">
         <li><a href="tel:+17706391233">(770) 639-1233</a></li>
         <li><a href="tel:+18282638711">(828) 263-8711</a></li>
         <li><a href="mailto:aplyler@brri.net">aplyler@brri.net</a></li>
-        <li>1129-1 Main St.<br>Blowing Rock, NC 28605</li>
+        <li>1129-1 Main St., Blowing Rock, NC 28605</li>
       </ul>
     </div>
   </div>
   <div class="footer-bottom">
-    <p>&copy; 2026 Andrew Plyler, REALTOR&reg;/Broker. Blue Ridge Realty &amp; Investments. All rights reserved. Equal Housing Opportunity.</p>
+    <p>© 2026 Andrew Plyler, REALTOR®/Broker. Blue Ridge Realty &amp; Investments. All rights reserved. Equal Housing Opportunity.</p>
   </div>
 </footer>
 
+<script src="/scripts/main.js"></script>
 <script>
-// Dark/light mode toggle
-(function() {
-  const toggle = document.querySelector('.theme-toggle');
-  const html   = document.documentElement;
-  const saved  = localStorage.getItem('theme');
-  if (saved) html.setAttribute('data-theme', saved);
-  if (toggle) {
-    toggle.addEventListener('click', function() {
-      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      html.setAttribute('data-theme', next);
-      localStorage.setItem('theme', next);
-    });
-  }
-})();
-
-// Mobile menu
-(function() {
-  const btn = document.querySelector('.mobile-menu-btn');
-  const nav = document.querySelector('.main-nav');
-  if (btn && nav) {
-    btn.addEventListener('click', function() {
-      const open = nav.classList.toggle('open');
-      btn.setAttribute('aria-expanded', open);
-    });
-  }
-})();
-
-// Scroll-aware header
-(function() {
   const header = document.querySelector('.site-header');
-  if (!header) return;
-  window.addEventListener('scroll', function() {
-    header.classList.toggle('scrolled', window.scrollY > 20);
-  }, { passive: true });
-})();
+  if (header) window.addEventListener('scroll', () => header.classList.toggle('scrolled', window.scrollY > 10), { passive: true });
+  const mobileBtn = document.querySelector('.mobile-menu-btn');
+  const mainNav = document.querySelector('.main-nav');
+  if (mobileBtn && mainNav) mobileBtn.addEventListener('click', () => {
+    const open = mainNav.classList.toggle('open');
+    mobileBtn.setAttribute('aria-expanded', open);
+  });
 </script>
 </body>
 </html>
