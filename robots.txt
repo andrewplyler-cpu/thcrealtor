@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://thcrealtor.netlify.app/sitemap.xml
+Sitemap: https://plyler.realtor/sitemap.xml

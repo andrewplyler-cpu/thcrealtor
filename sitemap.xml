@@ -3,43 +3,43 @@
 
   <!-- Core Pages -->
   <url>
-    <loc>https://thcrealtor.netlify.app/</loc>
+    <loc>https://plyler.realtor/</loc>
     <lastmod>2026-03-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://thcrealtor.netlify.app/about</loc>
+    <loc>https://plyler.realtor/about</loc>
     <lastmod>2026-03-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://thcrealtor.netlify.app/services</loc>
+    <loc>https://plyler.realtor/services</loc>
     <lastmod>2026-03-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://thcrealtor.netlify.app/areas</loc>
+    <loc>https://plyler.realtor/areas</loc>
     <lastmod>2026-03-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://thcrealtor.netlify.app/faq</loc>
+    <loc>https://plyler.realtor/faq</loc>
     <lastmod>2026-03-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://thcrealtor.netlify.app/student-housing</loc>
+    <loc>https://plyler.realtor/student-housing</loc>
     <lastmod>2026-03-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://thcrealtor.netlify.app/contact</loc>
+    <loc>https://plyler.realtor/contact</loc>
     <lastmod>2026-03-20</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.8</priority>
@@ -47,7 +47,7 @@
 
   <!-- Blog Index -->
   <url>
-    <loc>https://thcrealtor.netlify.app/blog</loc>
+    <loc>https://plyler.realtor/blog</loc>
     <lastmod>2026-03-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -55,25 +55,25 @@
 
   <!-- Blog Posts -->
   <url>
-    <loc>https://thcrealtor.netlify.app/blog/2026-03-20-moving-to-boone-nc-high-country-relocation-guide</loc>
+    <loc>https://plyler.realtor/blog/2026-03-20-moving-to-boone-nc-high-country-relocation-guide</loc>
     <lastmod>2026-03-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://thcrealtor.netlify.app/blog/2026-03-01-is-2026-good-year-buy-mountain-home</loc>
+    <loc>https://plyler.realtor/blog/2026-03-01-is-2026-good-year-buy-mountain-home</loc>
     <lastmod>2026-03-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://thcrealtor.netlify.app/blog/2026-02-15-str-regulations-watauga-county</loc>
+    <loc>https://plyler.realtor/blog/2026-02-15-str-regulations-watauga-county</loc>
     <lastmod>2026-02-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://thcrealtor.netlify.app/blog/2026-01-20-complete-guide-buying-land-nc-high-country</loc>
+    <loc>https://plyler.realtor/blog/2026-01-20-complete-guide-buying-land-nc-high-country</loc>
     <lastmod>2026-01-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

@@ -11,7 +11,7 @@ from pathlib import Path
 
 # ── Configuration ──────────────────────────────────────────────────────────────
 SITE_NAME        = "The High Country Realtor"
-SITE_URL         = "https://thcrealtor.netlify.app"
+SITE_URL         = "https://plyler.realtor"
 AUTHOR_NAME      = "Andrew Plyler, REALTOR\u00ae"
 AUTHOR_TITLE     = "Broker \u00b7 Blue Ridge Realty & Investments \u00b7 Boone, NC"
 AUTHOR_PHONE     = "(770) 639-1233"
