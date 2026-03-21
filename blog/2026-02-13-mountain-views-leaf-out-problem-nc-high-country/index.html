@@ -46,6 +46,112 @@
     "keywords": "mountain views NC High Country, seasonal views Boone NC, buying mountain home views, Blue Ridge real estate views, Watauga County mountain views"
   }
   </script>
+<style>
+  /* Post hero — uses .page-hero pattern from style.css */
+  .post-hero {
+    padding: clamp(4rem, 10vw, 6rem) var(--space-4) clamp(2rem, 5vw, 3rem);
+    background: var(--color-surface-offset);
+    border-bottom: 1px solid var(--color-divider);
+  }
+  .post-hero .container-narrow { max-width: 800px; }
+  .post-hero h1 {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: var(--space-5);
+    color: var(--color-text);
+  }
+  .post-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+  .post-meta-dot { opacity: 0.4; }
+
+  /* Post body */
+  .post-layout {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: clamp(var(--space-12), 6vw, var(--space-20)) var(--space-4);
+  }
+  .post-body { font-size: var(--text-base); line-height: 1.8; color: var(--color-text); }
+  .post-body h2 {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: var(--color-text);
+    margin: clamp(var(--space-8), 4vw, var(--space-12)) 0 var(--space-4);
+    line-height: 1.3;
+  }
+  .post-body p   { margin-bottom: var(--space-6); max-width: 72ch; }
+  .post-body ul, .post-body ol { margin: 0 0 var(--space-6) var(--space-8); }
+  .post-body li  { margin-bottom: var(--space-2); font-size: var(--text-base); }
+  .post-body strong { font-weight: 600; color: var(--color-text); }
+  .post-body em     { font-style: italic; color: var(--color-accent); }
+
+  /* Author card */
+  .author-card {
+    display: flex;
+    gap: var(--space-6);
+    align-items: flex-start;
+    background: var(--color-surface);
+    border: 1px solid oklch(from var(--color-text) l c h / 0.08);
+    border-radius: var(--radius-lg);
+    padding: var(--space-8);
+    margin-top: clamp(var(--space-12), 6vw, var(--space-16));
+  }
+  @media (max-width: 600px) { .author-card { flex-direction: column; } }
+  .author-avatar {
+    width: 72px; height: 72px;
+    border-radius: var(--radius-full);
+    background: var(--color-primary);
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    color: var(--color-text-inverse);
+    font-weight: 600;
+  }
+  .author-info h3 {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: var(--space-1);
+  }
+  .author-info p {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    margin-bottom: var(--space-5);
+    max-width: 52ch;
+  }
+  .author-cta { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: var(--space-10);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+  .back-link:hover { color: var(--color-primary-hover); }
+
+  /* Blog index page */
+  .blog-index-hero {
+    padding: clamp(var(--space-16), 10vw, var(--space-24)) var(--space-4) clamp(var(--space-8), 5vw, var(--space-12));
+    background: var(--color-surface-offset);
+    border-bottom: 1px solid var(--color-divider);
+  }
+</style>
 </head>
 <body>
 
@@ -86,15 +192,17 @@
 
 <main id="main">
 
-  <section class="page-hero">
-    <p class="section-label">Mountain Property Tips</p>
+  <div class="post-hero">
+  <div class="container-narrow">
+  <p class="section-label">Mountain Property Tips</p>
     <h1>The Leaf-Out Problem: Why Mountain Views Disappear in Summer</h1>
     <p class="post-meta">
       Andrew Plyler, REALTOR®&nbsp;&nbsp;·&nbsp;&nbsp;<time datetime="2026-02-13">February 13, 2026</time>
     </p>
-  </section>
+    </div>
+</div>
 
-  <div class="image-band" style="aspect-ratio:21/8; overflow:hidden;">
+<div class="image-band" style="aspect-ratio:21/8; overflow:hidden;">
     <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1400&q=80&fit=crop" alt="Blue Ridge Mountains panoramic view from a high ridge in North Carolina" loading="eager" style="width:100%;height:100%;object-fit:cover;">
   </div>
 
