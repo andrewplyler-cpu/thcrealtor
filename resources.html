@@ -469,6 +469,7 @@
   };
   document.getElementById('gpOverlay').addEventListener('click',function(e){if(e.target===this)gpClose();});
   document.addEventListener('keydown',function(e){if(e.key==='Escape')gpClose();});
+  setTimeout(gpOpen, 5000);
 })();
 </script>
 <!-- ── END GUIDE POPUP ── -->
