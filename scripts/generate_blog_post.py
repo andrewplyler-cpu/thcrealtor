@@ -59,6 +59,46 @@ MANUAL_POSTS = [
         "image":   "https://b2290346.smushcdn.com/2290346/wp-content/uploads/2025/09/IMG_6222-scaled.jpeg?lossy=2&strip=1&webp=1",
         "image_alt": "Blowing Rock NC mountain village",
     },
+    {
+        "title":   "Well & Septic Due Diligence for NC Mountain Properties: The Complete Checklist",
+        "slug":    "2026-02-09-well-septic-due-diligence-mountain-property-nc",
+        "date":    "February 9, 2026",
+        "excerpt": "Most mountain homes in the High Country run on well water and septic — not city utilities. Here's exactly what to test, what to ask, and what to walk away from.",
+        "image":   "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1400&q=80&fit=crop",
+        "image_alt": "Rural mountain property with well and wooded lot in the NC High Country",
+    },
+    {
+        "title":   "The Leaf-Out Problem: Why Mountain Views Disappear in Summer",
+        "slug":    "2026-02-13-mountain-views-leaf-out-problem-nc-high-country",
+        "date":    "February 13, 2026",
+        "excerpt": "That listing with stunning mountain views photographed in January may look very different come July. Here's what every High Country buyer needs to know about seasonal views.",
+        "image":   "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1400&q=80&fit=crop",
+        "image_alt": "Blue Ridge Mountains panoramic view from a high ridge in North Carolina",
+    },
+    {
+        "title":   "Ashe County vs. Watauga County: A Land Buyer's Side-by-Side Comparison",
+        "slug":    "2026-02-18-ashe-county-vs-watauga-county-land-comparison",
+        "date":    "February 18, 2026",
+        "excerpt": "Both counties sit in the NC High Country, but land prices, zoning, and character are very different. Here's what buyers need to know before they start looking.",
+        "image":   "https://www.ashecountyrealestate.com/uploads/blog/images/legacy/2016-08-16-murals.jpg",
+        "image_alt": "West Jefferson NC downtown murals — Ashe County's artsy mountain community",
+    },
+    {
+        "title":   "Beech Mountain STR Investment: What the Ski Season Math Actually Looks Like",
+        "slug":    "2026-02-23-beech-mountain-str-investment-ski-season-math",
+        "date":    "February 23, 2026",
+        "excerpt": "At 5,506 feet, Beech Mountain is the highest town east of the Mississippi — and one of the High Country's most interesting short-term rental investment markets. Here's an honest look at the numbers.",
+        "image":   "https://www.visitboone.com/wp-content/uploads/listing-uploads/gallery/2023/02/beech-mountain-resort.jpg",
+        "image_alt": "Beech Mountain Resort ski slopes in winter — the highest ski area in eastern North America",
+    },
+    {
+        "title":   "High Country Weekend: What's Happening in Boone & the Mountains — March 7–9, 2026",
+        "slug":    "2026-03-06-high-country-weekend-events-spring-march-2026",
+        "date":    "March 6, 2026",
+        "excerpt": "Ski season is winding down and spring is arriving in the mountains. Here's your weekly guide to what's happening across the NC High Country this weekend.",
+        "image":   "https://assets.agentfire3.com/uploads/sites/1337/2024/04/Boone-NC-King-Street.jpg",
+        "image_alt": "King Street in downtown Boone NC — the heart of High Country activity",
+    },
 ]
 
 # ── Topic rotation ─────────────────────────────────────────────────────────────
@@ -76,9 +116,12 @@ TOPIC_CATEGORIES = [
 ]
 
 def get_topic():
-    week = date.today().isocalendar()[1]
     dow  = date.today().weekday()
-    return TOPIC_CATEGORIES[(week * 2 + (0 if dow == 0 else 1)) % len(TOPIC_CATEGORIES)]
+    # Friday (4) = always a weekend events/calendar post
+    if dow == 4:
+        return "Weekend events calendar: what\'s happening in Boone and the NC High Country this weekend — festivals, outdoor activities, farmers markets, local events, ski conditions if applicable, and why this weekend is a great time to visit or explore the area as a potential buyer"
+    week = date.today().isocalendar()[1]
+    return TOPIC_CATEGORIES[(week * 3 + (0 if dow == 0 else 1)) % len(TOPIC_CATEGORIES)]
 
 def get_season():
     m = date.today().month
