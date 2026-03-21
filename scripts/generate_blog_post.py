@@ -19,8 +19,47 @@ AUTHOR_PHONE_RAW = "+17706391233"
 AUTHOR_EMAIL     = "aplyler@brri.net"
 AUTHOR_BRAND_URL = "https://plyler.realtor"
 
-BLOG_DIR   = Path("blog")
-BLOG_INDEX = Path("blog.html")
+BLOG_DIR         = Path("blog")
+BLOG_INDEX_ROOT  = Path("blog.html")       # root-level blog listing (blog.html)
+BLOG_INDEX_SUB   = BLOG_DIR / "index.html" # /blog/ URL listing (blog/index.html)
+
+# ── Manually-curated posts (always shown, always first-checked) ────────────────
+# These were added by hand and have no meta.json. We hardcode their metadata here
+# so they always appear in the index. Add new manual posts to this list.
+MANUAL_POSTS = [
+    {
+        "title":   "Moving to Boone NC: Complete High Country Relocation Guide",
+        "slug":    "2026-03-20-moving-to-boone-nc-high-country-relocation-guide",
+        "date":    "March 20, 2026",
+        "excerpt": "Considering a move to the beautiful Blue Ridge Mountains? This comprehensive guide covers everything you need to know about relocating to Boone and the High Country region.",
+        "image":   "https://assets.agentfire3.com/uploads/sites/1337/2024/04/Boone-NC-King-Street.jpg",
+        "image_alt": "Downtown Boone in the NC High Country",
+    },
+    {
+        "title":   "Is 2026 a Good Year to Buy a Mountain Home?",
+        "slug":    "2026-03-01-is-2026-good-year-buy-mountain-home",
+        "date":    "March 1, 2026",
+        "excerpt": "Interest rates, inventory levels, and what I\u2019m seeing on the ground in Watauga, Avery, and Ashe counties this spring.",
+        "image":   "https://assets.agentfire3.com/uploads/sites/1337/2024/04/Boone-NC-King-Street.jpg",
+        "image_alt": "Downtown Boone NC High Country spring 2026",
+    },
+    {
+        "title":   "Short-Term Rental Regulations in Watauga County: What Investors Need to Know",
+        "slug":    "2026-02-15-str-regulations-watauga-county",
+        "date":    "February 15, 2026",
+        "excerpt": "A practical breakdown of STR zoning, permitting, and tax obligations for Airbnb investors in the Boone area.",
+        "image":   "https://townofbannerelk.org/wp-content/uploads/2024/11/BannerElkPano1-1536x802.jpg",
+        "image_alt": "Banner Elk mountain town in Avery County NC",
+    },
+    {
+        "title":   "The Complete Guide to Buying Land in the NC High Country",
+        "slug":    "2026-01-20-complete-guide-buying-land-nc-high-country",
+        "date":    "January 20, 2026",
+        "excerpt": "Topo, access, well and septic feasibility, zoning \u2014 everything you need to know before buying mountain acreage in Watauga, Avery, or Ashe County.",
+        "image":   "https://b2290346.smushcdn.com/2290346/wp-content/uploads/2025/09/IMG_6222-scaled.jpeg?lossy=2&strip=1&webp=1",
+        "image_alt": "Blowing Rock NC mountain village",
+    },
+]
 
 # ── Topic rotation ─────────────────────────────────────────────────────────────
 TOPIC_CATEGORIES = [
@@ -66,8 +105,7 @@ def get_holidays():
             upcoming.append(f"{name} ({delta} days away)")
     return ", ".join(upcoming) if upcoming else "no major holidays in the next 45 days"
 
-# ── Shared HTML fragments (identical to index.html) ───────────────────────────
-
+# ── Shared HTML fragments ──────────────────────────────────────────────────────
 SITE_LOGO_SVG = """<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <path d="M20 4L4 28h10l6-10 6 10h10L20 4z" fill="currentColor" opacity="0.15"/>
         <path d="M20 8L8 26h7l5-8.5 5 8.5h7L20 8z" stroke="currentColor" stroke-width="1.5" fill="none"/>
@@ -227,9 +265,7 @@ SHARED_JS = """
 })();
 """
 
-# ── Post-page-specific CSS (only what isn't already in style.css) ──────────────
 POST_CSS = """
-  /* Post hero — uses .page-hero pattern from style.css */
   .post-hero {
     padding: clamp(4rem, 10vw, 6rem) var(--space-4) clamp(2rem, 5vw, 3rem);
     background: var(--color-surface-offset);
@@ -254,8 +290,6 @@ POST_CSS = """
     color: var(--color-text-muted);
   }
   .post-meta-dot { opacity: 0.4; }
-
-  /* Post body */
   .post-layout {
     max-width: 800px;
     margin: 0 auto;
@@ -275,8 +309,6 @@ POST_CSS = """
   .post-body li  { margin-bottom: var(--space-2); font-size: var(--text-base); }
   .post-body strong { font-weight: 600; color: var(--color-text); }
   .post-body em     { font-style: italic; color: var(--color-accent); }
-
-  /* Author card */
   .author-card {
     display: flex;
     gap: var(--space-6);
@@ -314,7 +346,6 @@ POST_CSS = """
     max-width: 52ch;
   }
   .author-cta { display: flex; gap: var(--space-3); flex-wrap: wrap; }
-
   .back-link {
     display: inline-flex;
     align-items: center;
@@ -326,8 +357,6 @@ POST_CSS = """
     text-decoration: none;
   }
   .back-link:hover { color: var(--color-primary-hover); }
-
-  /* Blog index page */
   .blog-index-hero {
     padding: clamp(var(--space-16), 10vw, var(--space-24)) var(--space-4) clamp(var(--space-8), 5vw, var(--space-12));
     background: var(--color-surface-offset);
@@ -364,6 +393,8 @@ OUTPUT: respond ONLY with a JSON object (no markdown fences):
   "focus_keyword": "primary SEO keyword phrase",
   "secondary_keywords": ["kw1","kw2","kw3"],
   "excerpt": "2-sentence plain-text excerpt for blog index card",
+  "image_url": "a relevant publicly accessible image URL from townofbannerelk.org, visitboone.com, or use: https://assets.agentfire3.com/uploads/sites/1337/2024/04/Boone-NC-King-Street.jpg",
+  "image_alt": "descriptive alt text for the image",
   "body_html": "full post body using only h2/p/ul/li/strong/em tags"
 }}"""
 
@@ -406,6 +437,12 @@ def build_post_html(post, pub_date, slug):
         pub_date    = iso,
     )
 
+    img_html = ""
+    if post.get("image_url"):
+        img_html = f"""  <div class="image-band" style="aspect-ratio:21/8;">
+    <img src="{post['image_url']}" alt="{post.get('image_alt','')}" loading="eager" />
+  </div>"""
+
     return f"""<!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
@@ -434,6 +471,8 @@ def build_post_html(post, pub_date, slug):
       </div>
     </div>
   </div>
+
+{img_html}
 
   <div class="post-layout">
     <article class="post-body" itemscope itemtype="https://schema.org/BlogPosting">
@@ -472,11 +511,17 @@ def build_post_html(post, pub_date, slug):
 </body>
 </html>"""
 
-def build_index_html(posts_meta):
+def build_index_html(all_posts):
+    """Build the blog listing page. all_posts is a list of dicts sorted newest-first."""
     cards = ""
-    for p in sorted(posts_meta, key=lambda x: x["date"], reverse=True):
+    for p in all_posts:
+        img_html = ""
+        if p.get("image"):
+            img_html = f'''        <div class="blog-card-img">
+          <img src="{p['image']}" alt="{p.get('image_alt', p['title'])}" loading="lazy" />
+        </div>\n'''
         cards += f"""      <a href="/blog/{p['slug']}/" class="blog-card fade-in">
-        <div class="blog-card-body">
+{img_html}        <div class="blog-card-body">
           <span class="blog-card-date">{p['date']}</span>
           <h2 class="blog-card-title">{p['title']}</h2>
           <p class="blog-card-excerpt">{p['excerpt']}</p>
@@ -490,7 +535,7 @@ def build_index_html(posts_meta):
     head = shared_head(
         title       = f"Blog | {SITE_NAME}",
         description = f"Local insights on Boone NC real estate, mountain living, App State housing, events, and more from Andrew Plyler, REALTOR\u00ae.",
-        canonical   = f"{SITE_URL}/blog.html",
+        canonical   = f"{SITE_URL}/blog/",
         og_type     = "website",
     )
 
@@ -503,7 +548,7 @@ def build_index_html(posts_meta):
     "@context": "https://schema.org",
     "@type": "Blog",
     "name": "The High Country Realtor Blog",
-    "url": "{SITE_URL}/blog.html",
+    "url": "{SITE_URL}/blog/",
     "description": "Real estate insights, mountain living tips, and High Country NC market updates from Andrew Plyler, REALTOR\u00ae",
     "author": {{
       "@type": "Person",
@@ -550,18 +595,43 @@ def build_index_html(posts_meta):
 </body>
 </html>"""
 
-# ── Utilities ──────────────────────────────────────────────────────────────────
-def collect_existing_meta():
-    meta_list = []
-    if not BLOG_DIR.exists(): return meta_list
-    for d in BLOG_DIR.iterdir():
-        if not d.is_dir(): continue
-        mf = d / "meta.json"
-        if mf.exists():
-            try: meta_list.append(json.loads(mf.read_text()))
-            except: pass
-    return meta_list
+# ── Collect all post metadata ──────────────────────────────────────────────────
+def collect_all_meta():
+    """
+    Merge MANUAL_POSTS (hardcoded) with auto-generated posts (from meta.json files).
+    Manual posts take precedence if a slug matches. Result sorted newest-first.
+    """
+    manual_slugs = {p["slug"] for p in MANUAL_POSTS}
+    auto_posts = []
 
+    if BLOG_DIR.exists():
+        for d in BLOG_DIR.iterdir():
+            if not d.is_dir():
+                continue
+            if d.name in manual_slugs:
+                continue  # manual post owns this slug
+            mf = d / "meta.json"
+            if mf.exists():
+                try:
+                    meta = json.loads(mf.read_text())
+                    # Ensure image fields exist (older posts may not have them)
+                    meta.setdefault("image", "https://assets.agentfire3.com/uploads/sites/1337/2024/04/Boone-NC-King-Street.jpg")
+                    meta.setdefault("image_alt", meta.get("title", "High Country Real Estate"))
+                    auto_posts.append(meta)
+                except Exception:
+                    pass
+
+    all_posts = list(MANUAL_POSTS) + auto_posts
+
+    # Sort newest-first by slug (slug starts with YYYY-MM-DD)
+    def sort_key(p):
+        match = re.match(r'(\d{4}-\d{2}-\d{2})', p.get("slug", ""))
+        return match.group(1) if match else "0000-00-00"
+
+    all_posts.sort(key=sort_key, reverse=True)
+    return all_posts
+
+# ── Main ───────────────────────────────────────────────────────────────────────
 def main():
     print("\U0001f3d4  Generating High Country blog post...")
     post     = generate_post()
@@ -571,18 +641,34 @@ def main():
     slug     = re.sub(r'-+', '-', slug).strip('-')
     slug     = f"{today.isoformat()}-{slug}"
 
+    # Write new post
     post_dir = BLOG_DIR / slug
     post_dir.mkdir(parents=True, exist_ok=True)
-    (post_dir / "index.html").write_text(build_post_html(post, pub_date, slug), encoding="utf-8")
+    (post_dir / "index.html").write_text(
+        build_post_html(post, pub_date, slug), encoding="utf-8"
+    )
     print(f"  \u2713 Post \u2192 blog/{slug}/index.html")
 
-    (post_dir / "meta.json").write_text(json.dumps(
-        {"title":post["title"],"slug":slug,"date":pub_date,"excerpt":post["excerpt"]}, indent=2
-    ), encoding="utf-8")
+    # Save meta.json so future runs pick it up
+    (post_dir / "meta.json").write_text(json.dumps({
+        "title":     post["title"],
+        "slug":      slug,
+        "date":      pub_date,
+        "excerpt":   post["excerpt"],
+        "image":     post.get("image_url", "https://assets.agentfire3.com/uploads/sites/1337/2024/04/Boone-NC-King-Street.jpg"),
+        "image_alt": post.get("image_alt", post["title"]),
+    }, indent=2), encoding="utf-8")
 
-    all_meta = collect_existing_meta()
-    BLOG_INDEX.write_text(build_index_html(all_meta), encoding="utf-8")
+    # Rebuild both index files
+    all_meta = collect_all_meta()
+    index_html = build_index_html(all_meta)
+
+    BLOG_INDEX_ROOT.write_text(index_html, encoding="utf-8")
     print(f"  \u2713 Index \u2192 blog.html ({len(all_meta)} posts total)")
+
+    BLOG_INDEX_SUB.write_text(index_html, encoding="utf-8")
+    print(f"  \u2713 Index \u2192 blog/index.html ({len(all_meta)} posts total)")
+
     print("\u2705 Done!")
 
 if __name__ == "__main__":
