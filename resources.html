@@ -281,13 +281,19 @@
 
 
 
-<!-- ── GUIDE POPUP ── -->
+<!-- ── GUIDE POPUP v2 ── Netlify Forms · Cookie Memory · Turnstile · Footer Banner ── -->
 <style>
+/* ── CLOUDFLARE TURNSTILE SIZING ── */
+.cf-turnstile { margin: 0.85rem 0 0.25rem; }
+
+/* ── OVERLAY ── */
 .gp-overlay{position:fixed;inset:0;background:rgba(30,20,20,.78);backdrop-filter:blur(4px);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .3s ease}
 .gp-overlay.gp-open{opacity:1;pointer-events:all}
 .gp-modal{background:#F5F0E8;width:100%;max-width:760px;max-height:92vh;overflow-y:auto;border-radius:6px;position:relative;transform:translateY(24px) scale(.97);transition:transform .35s cubic-bezier(.22,1,.36,1);box-shadow:0 32px 80px rgba(0,0,0,.45)}
 .gp-overlay.gp-open .gp-modal{transform:translateY(0) scale(1)}
 .gp-modal::-webkit-scrollbar{width:5px}.gp-modal::-webkit-scrollbar-track{background:#F5F0E8}.gp-modal::-webkit-scrollbar-thumb{background:#CCC4BA;border-radius:3px}
+
+/* ── MODAL HEADER ── */
 .gp-head{background:linear-gradient(135deg,#3B2F2F 0%,#2C2020 60%,#4A5240 100%);padding:2.2rem 2rem 1.8rem;position:relative;overflow:hidden}
 .gp-head::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23fff' fill-opacity='.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");pointer-events:none}
 .gp-eyebrow{font-size:.65rem;font-weight:600;letter-spacing:.2em;color:#C0622A;text-transform:uppercase;margin-bottom:.55rem;position:relative;font-family:'Poppins',sans-serif}
@@ -295,15 +301,21 @@
 .gp-subtitle{font-size:.82rem;color:rgba(255,255,255,.62);font-weight:300;line-height:1.5;position:relative;font-family:'Poppins',sans-serif}
 .gp-close{position:absolute;top:1rem;right:1rem;width:32px;height:32px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:50%;color:rgba(255,255,255,.7);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:background .2s,color .2s;z-index:10;line-height:1;font-family:sans-serif}
 .gp-close:hover{background:rgba(255,255,255,.2);color:#fff}
+
+/* ── MODAL BODY ── */
 .gp-body{padding:1.75rem 2rem 2rem;font-family:'Poppins',sans-serif}
 .gp-guides-label{font-size:.65rem;font-weight:600;letter-spacing:.16em;color:#8C7B6B;text-transform:uppercase;margin-bottom:.85rem}
 .gp-guide-err{font-size:.72rem;color:#C0622A;margin-bottom:.5rem;display:none}
 .gp-guide-err.gp-vis{display:block}
+
+/* ── GUIDE CARDS ── */
 .gp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.65rem;margin-bottom:1.6rem}
 @media(max-width:520px){.gp-grid{grid-template-columns:1fr}}
 .gp-card{border:1.5px solid #DDD5C8;border-radius:5px;padding:.9rem 1rem;cursor:pointer;position:relative;transition:border-color .18s,box-shadow .18s,background .18s;background:#fff;overflow:hidden;user-select:none}
 .gp-card:hover{border-color:#8C7B6B;box-shadow:0 2px 12px rgba(0,0,0,.07)}
 .gp-card.gp-sel{border-color:#3B2F2F;background:#FAF6EF;box-shadow:0 2px 14px rgba(59,47,47,.1)}
+.gp-card.gp-done{opacity:.45;cursor:not-allowed;pointer-events:none}
+.gp-card.gp-done::after{content:'Downloaded ✓';position:absolute;bottom:.5rem;right:.7rem;font-size:.6rem;font-weight:600;letter-spacing:.08em;color:#3D7A78;text-transform:uppercase}
 .gp-accent{position:absolute;top:0;left:0;width:3px;height:100%;border-radius:5px 0 0 5px}
 .gp-chk{position:absolute;top:.7rem;right:.7rem;width:18px;height:18px;border-radius:50%;border:1.5px solid #CCC4BA;background:#fff;display:flex;align-items:center;justify-content:center;transition:background .18s,border-color .18s}
 .gp-card.gp-sel .gp-chk{background:#3B2F2F;border-color:#3B2F2F}
@@ -312,6 +324,8 @@
 .gp-cicon{font-size:1.2rem;display:block;margin-bottom:.4rem}
 .gp-cname{font-family:'Lora',serif;font-size:.82rem;font-weight:600;color:#3B2F2F;line-height:1.3;margin-bottom:.25rem;padding-right:1.4rem}
 .gp-cdesc{font-size:.71rem;color:#8C7B6B;line-height:1.45;font-weight:300}
+
+/* ── FORM FIELDS ── */
 .gp-frow{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;margin-bottom:.65rem}
 @media(max-width:480px){.gp-frow{grid-template-columns:1fr}}
 .gp-field{display:flex;flex-direction:column;gap:.3rem}
@@ -322,10 +336,18 @@
 .gp-ferr{font-size:.7rem;color:#C0622A;margin-top:.2rem;display:none}
 .gp-field.gp-herr input,.gp-ffield.gp-herr input{border-color:#C0622A}
 .gp-field.gp-herr .gp-ferr,.gp-ffield.gp-herr .gp-ferr{display:block}
+
+/* honeypot — invisible to humans */
+.gp-hp{position:absolute;left:-9999px;opacity:0;height:0;overflow:hidden}
+
+/* ── SUBMIT ROW ── */
 .gp-subrow{margin-top:1.1rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
 .gp-btn{background:#3B2F2F;color:#fff;border:none;padding:.85rem 2rem;font-family:'Poppins',sans-serif;font-size:.88rem;font-weight:600;letter-spacing:.04em;cursor:pointer;border-radius:4px;transition:background .2s,transform .1s;flex-shrink:0}
 .gp-btn:hover{background:#2C2020;transform:translateY(-1px)}
+.gp-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
 .gp-privacy{font-size:.68rem;color:#8C7B6B;line-height:1.45;font-weight:300}
+
+/* ── SUCCESS STATE ── */
 .gp-success{display:none;text-align:center;padding:2.5rem 2rem 2rem;font-family:'Poppins',sans-serif}
 .gp-success.gp-vis{display:block}
 .gp-sicon{width:56px;height:56px;background:#EDF5F4;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.2rem}
@@ -340,23 +362,42 @@
 .gp-sig{font-size:.75rem;color:#8C7B6B;font-weight:300}
 .gp-sig strong{color:#3B2F2F;font-weight:600}
 .gp-hidden{display:none!important}
-/* Trigger button that can be placed anywhere on the page */
-.gp-trigger{background:#C0622A;color:#fff;border:none;padding:.75rem 1.75rem;font-family:'Poppins',sans-serif;font-size:.85rem;font-weight:600;letter-spacing:.04em;cursor:pointer;border-radius:4px;transition:background .2s,transform .1s;display:inline-block}
-.gp-trigger:hover{background:#a85422;transform:translateY(-1px)}
+
+/* ── FOOTER BANNER ── */
+.gp-footer-banner{background:#3B2F2F;color:rgba(255,255,255,.75);font-family:'Poppins',sans-serif;font-size:.75rem;text-align:center;padding:.65rem 1rem;display:none;align-items:center;justify-content:center;gap:.75rem;flex-wrap:wrap}
+.gp-footer-banner.gp-show{display:flex}
+.gp-footer-banner span{font-weight:300}
+.gp-footer-banner button{background:none;border:1px solid rgba(255,255,255,.35);color:rgba(255,255,255,.9);font-family:'Poppins',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.06em;padding:.35rem .9rem;border-radius:3px;cursor:pointer;transition:background .18s,border-color .18s}
+.gp-footer-banner button:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.6)}
 </style>
 
+<!-- Cloudflare Turnstile script -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+<!-- ── FOOTER BANNER (shown to returning visitors) ── -->
+<div class="gp-footer-banner" id="gpFooterBanner">
+  <span>📋 More High Country guides available — free from Andrew Plyler, REALTOR®</span>
+  <button onclick="gpOpenReturning()">Get More Guides →</button>
+</div>
+
+<!-- ── POPUP MODAL ── -->
 <div class="gp-overlay" id="gpOverlay" role="dialog" aria-modal="true" aria-label="Download Free Guides">
   <div class="gp-modal">
     <button class="gp-close" onclick="gpClose()" aria-label="Close">&times;</button>
+
+    <!-- HEADER -->
     <div class="gp-head" id="gpHead">
       <p class="gp-eyebrow">Free Resource · plyler.realtor</p>
-      <h2 class="gp-title">Four Free Guides.<br/>One Local Expert.</h2>
+      <h2 class="gp-title" id="gpHeadTitle">Four Free Guides.<br/>One Local Expert.</h2>
       <p class="gp-subtitle">40+ years of High Country expertise — delivered instantly. No spam, no pressure.</p>
     </div>
+
+    <!-- FORM BODY -->
     <div class="gp-body" id="gpBody">
       <p class="gp-guides-label">Choose your guide(s)</p>
       <p class="gp-guide-err" id="gpGuideErr">Please select at least one guide to continue.</p>
-      <div class="gp-grid">
+
+      <div class="gp-grid" id="gpGrid">
         <div class="gp-card" data-guide="student" data-name="Boone Student Housing Playbook" data-file="guide_student_housing.pdf" onclick="gpToggle(this)">
           <div class="gp-accent" style="background:#3D7A78"></div>
           <div class="gp-chk"><svg viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2.5 2.5 4-4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
@@ -386,6 +427,19 @@
           <div class="gp-cdesc">Relocating, retiring, or buying a second home — communities, lifestyle, and market conditions.</div>
         </div>
       </div>
+
+      <!-- Netlify Form — hidden inputs carry the submission -->
+      <form name="guide-leads" netlify netlify-honeypot="gp_website" id="gpNetlifyForm" style="display:none">
+        <input type="hidden" name="form-name" value="guide-leads"/>
+        <input type="hidden" name="first_name" id="hFirst"/>
+        <input type="hidden" name="last_name"  id="hLast"/>
+        <input type="hidden" name="email"      id="hEmail"/>
+        <input type="hidden" name="phone"      id="hPhone"/>
+        <input type="hidden" name="guides"     id="hGuides"/>
+        <input type="hidden" name="page_url"   id="hPage"/>
+      </form>
+
+      <!-- Visible fields -->
       <div class="gp-frow">
         <div class="gp-field" id="gpFFirst">
           <label for="gpFirst">First Name</label>
@@ -407,41 +461,153 @@
         <label for="gpPhone">Phone <span style="font-weight:300;letter-spacing:0;text-transform:none;font-size:.65rem;">(optional)</span></label>
         <input type="tel" id="gpPhone" placeholder="(828) 555-0100" autocomplete="tel"/>
       </div>
+
+      <!-- Honeypot (hidden from humans, bots fill it in) -->
+      <div class="gp-hp" aria-hidden="true">
+        <label>Leave this blank <input type="text" name="gp_website" id="gpHoneypot" tabindex="-1" autocomplete="off"/></label>
+      </div>
+
+      <!-- Cloudflare Turnstile widget -->
+      <div class="cf-turnstile" data-sitekey="0x4AAAAAAA4mHMfkDlEsVjEy" data-theme="light"></div>
+      <p style="font-size:.65rem;color:#8C7B6B;margin-top:.25rem;">Spam protection by Cloudflare</p>
+
       <div class="gp-subrow">
         <button class="gp-btn" id="gpSubmit" onclick="gpSubmit()">Send Me the Guide →</button>
         <p class="gp-privacy">I'll only follow up if it makes sense for your situation.<br/>Your info is never shared or sold.</p>
       </div>
-    </div>
+    </div><!-- /gp-body -->
+
+    <!-- SUCCESS STATE -->
     <div class="gp-success" id="gpSuccess">
-      <div class="gp-sicon"><svg width="26" height="26" viewBox="0 0 26 26" fill="none"><circle cx="13" cy="13" r="12" stroke="#3D7A78" stroke-width="1.5"/><path d="M8 13l3.5 3.5 6.5-7" stroke="#3D7A78" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="gp-sicon">
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+          <circle cx="13" cy="13" r="12" stroke="#3D7A78" stroke-width="1.5"/>
+          <path d="M8 13l3.5 3.5 6.5-7" stroke="#3D7A78" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
       <h3 class="gp-stitle">Your guide is ready.</h3>
       <p class="gp-ssub" id="gpSuccessSub">Click below to download.</p>
       <div class="gp-dlinks" id="gpDLinks"></div>
-      <p class="gp-sig"><strong>Andrew Plyler</strong> · REALTOR®/Broker<br/>Blue Ridge Realty &amp; Investments · Boone, NC<br/><a href="tel:7706391233" style="color:#3D7A78;text-decoration:none;">770.639.1233</a> · <a href="mailto:aplyler@brri.net" style="color:#3D7A78;text-decoration:none;">aplyler@brri.net</a></p>
+      <p class="gp-sig">
+        <strong>Andrew Plyler</strong> · REALTOR®/Broker<br/>
+        Blue Ridge Realty &amp; Investments · Boone, NC<br/>
+        <a href="tel:7706391233" style="color:#3D7A78;text-decoration:none;">770.639.1233</a> ·
+        <a href="mailto:aplyler@brri.net" style="color:#3D7A78;text-decoration:none;">aplyler@brri.net</a>
+      </p>
     </div>
   </div>
 </div>
+<!-- ── END GUIDE POPUP ── -->
 
 <script>
 (function(){
+  /* ── CONSTANTS ── */
+  var COOKIE_KEY = 'gp_downloaded';
+  var AUTO_DELAY = 5000;
+  var ALL_GUIDES = ['student','investment','land','relocation'];
+
   var _gpSel = new Set();
   var _gpInfo = {
-    student:    {name:'Boone Student Housing Playbook',       file:'guide_student_housing.pdf', icon:'🎓',color:'#3D7A78'},
-    investment: {name:'High Country Investment Property Guide',file:'guide_investment.pdf',     icon:'📈',color:'#C0622A'},
-    land:       {name:'Buying Land in the High Country',      file:'guide_land.pdf',            icon:'🌲',color:'#4A5240'},
-    relocation: {name:'Welcome to the High Country',          file:'guide_relocation.pdf',      icon:'🏔️',color:'#C0622A'}
+    student:    {name:'Boone Student Housing Playbook',        file:'guide_student_housing.pdf', icon:'🎓', color:'#3D7A78'},
+    investment: {name:'High Country Investment Property Guide', file:'guide_investment.pdf',      icon:'📈', color:'#C0622A'},
+    land:       {name:'Buying Land in the High Country',       file:'guide_land.pdf',             icon:'🌲', color:'#4A5240'},
+    relocation: {name:'Welcome to the High Country',           file:'guide_relocation.pdf',       icon:'🏔️', color:'#C0622A'}
   };
-  window.gpOpen  = function(){ document.getElementById('gpOverlay').classList.add('gp-open'); document.body.style.overflow='hidden'; };
-  window.gpClose = function(){ document.getElementById('gpOverlay').classList.remove('gp-open'); document.body.style.overflow=''; };
+
+  /* ── COOKIE HELPERS ── */
+  function getCookie(name){
+    var m=document.cookie.match('(?:^|; )'+name+'=([^;]*)');
+    return m?decodeURIComponent(m[1]):null;
+  }
+  function setCookie(name,val,days){
+    var exp=new Date();exp.setTime(exp.getTime()+days*864e5);
+    document.cookie=name+'='+encodeURIComponent(val)+';expires='+exp.toUTCString()+';path=/;SameSite=Lax';
+  }
+  function getDownloaded(){
+    var v=getCookie(COOKIE_KEY);
+    return v?v.split(',').filter(Boolean):[];
+  }
+  function addDownloaded(guides){
+    var existing=getDownloaded();
+    guides.forEach(function(g){if(existing.indexOf(g)===-1)existing.push(g);});
+    setCookie(COOKIE_KEY,existing.join(','),365);
+  }
+
+  /* ── MARK ALREADY-DOWNLOADED CARDS ── */
+  function markDownloaded(){
+    var done=getDownloaded();
+    done.forEach(function(g){
+      var card=document.querySelector('.gp-card[data-guide="'+g+'"]');
+      if(card){card.classList.add('gp-done');card.classList.remove('gp-sel');}
+    });
+  }
+
+  /* ── CHECK IF ALL GUIDES DOWNLOADED ── */
+  function allDone(){
+    var done=getDownloaded();
+    return ALL_GUIDES.every(function(g){return done.indexOf(g)!==-1;});
+  }
+  function remainingGuides(){
+    var done=getDownloaded();
+    return ALL_GUIDES.filter(function(g){return done.indexOf(g)===-1;});
+  }
+
+  /* ── OPEN / CLOSE ── */
+  window.gpOpen = function(){
+    markDownloaded();
+    document.getElementById('gpOverlay').classList.add('gp-open');
+    document.body.style.overflow='hidden';
+  };
+  window.gpClose = function(){
+    document.getElementById('gpOverlay').classList.remove('gp-open');
+    document.body.style.overflow='';
+  };
+  window.gpOpenReturning = function(){
+    // Reset to form view in case success was shown
+    document.getElementById('gpHead').classList.remove('gp-hidden');
+    document.getElementById('gpBody').classList.remove('gp-hidden');
+    document.getElementById('gpSuccess').classList.remove('gp-vis');
+    document.getElementById('gpHeadTitle').innerHTML='Get More Free Guides.';
+    markDownloaded();
+    gpOpen();
+  };
+
+  /* ── AUTO-TRIGGER LOGIC ── */
+  window.addEventListener('load', function(){
+    var done = getDownloaded();
+    if(done.length === 0){
+      // First-time visitor — show after delay
+      setTimeout(gpOpen, AUTO_DELAY);
+    } else if(!allDone()){
+      // Has some guides but not all — show footer banner
+      document.getElementById('gpFooterBanner').classList.add('gp-show');
+    }
+    // If all guides downloaded — show nothing automatically
+    markDownloaded();
+  });
+
+  /* ── CLOSE ON OVERLAY CLICK / ESC ── */
+  document.getElementById('gpOverlay').addEventListener('click',function(e){
+    if(e.target===this)gpClose();
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape')gpClose();
+  });
+
+  /* ── TOGGLE GUIDE CARD ── */
   window.gpToggle = function(card){
-    var g = card.dataset.guide;
+    if(card.classList.contains('gp-done'))return;
+    var g=card.dataset.guide;
     if(_gpSel.has(g)){_gpSel.delete(g);card.classList.remove('gp-sel');}
     else{_gpSel.add(g);card.classList.add('gp-sel');}
     document.getElementById('gpGuideErr').classList.remove('gp-vis');
     var n=_gpSel.size;
-    document.getElementById('gpSubmit').textContent = n===0?'Send Me the Guide →':n===1?'Send Me My Guide →':'Send Me My '+n+' Guides →';
+    document.getElementById('gpSubmit').textContent=
+      n===0?'Send Me the Guide →':n===1?'Send Me My Guide →':'Send Me My '+n+' Guides →';
   };
-  window.gpSubmit = function(){
+
+  /* ── VALIDATE ── */
+  function validate(){
     var ok=true;
     if(_gpSel.size===0){document.getElementById('gpGuideErr').classList.add('gp-vis');ok=false;}
     var f=document.getElementById('gpFirst'),ff=document.getElementById('gpFFirst');
@@ -449,30 +615,84 @@
     var l=document.getElementById('gpLast'),lf=document.getElementById('gpFLast');
     if(!l.value.trim()){lf.classList.add('gp-herr');ok=false;}else lf.classList.remove('gp-herr');
     var e=document.getElementById('gpEmail'),ef=document.getElementById('gpFEmail');
-    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.value.trim())){ef.classList.add('gp-herr');ok=false;}else ef.classList.remove('gp-herr');
-    if(!ok)return;
-    var lead={firstName:f.value.trim(),lastName:l.value.trim(),email:e.value.trim(),phone:document.getElementById('gpPhone').value.trim(),guides:[..._gpSel]};
-    console.log('Guide lead:',lead);
-    // TODO: POST to your CRM/email platform here
-    // fetch('/api/leads',{method:'POST',body:JSON.stringify(lead),headers:{'Content-Type':'application/json'}});
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.value.trim())){ef.classList.add('gp-herr');ok=false;}
+    else ef.classList.remove('gp-herr');
+    // Honeypot check
+    if(document.getElementById('gpHoneypot').value){ok=false;}
+    return ok;
+  }
+
+  /* ── SUBMIT ── */
+  window.gpSubmit = function(){
+    if(!validate())return;
+
+    var btn=document.getElementById('gpSubmit');
+    btn.disabled=true;
+    btn.textContent='Sending…';
+
+    var firstName=document.getElementById('gpFirst').value.trim();
+    var lastName=document.getElementById('gpLast').value.trim();
+    var email=document.getElementById('gpEmail').value.trim();
+    var phone=document.getElementById('gpPhone').value.trim();
+    var guides=[..._gpSel];
+
+    // Get Turnstile token
+    var turnstileToken='';
+    var tsInput=document.querySelector('[name="cf-turnstile-response"]');
+    if(tsInput)turnstileToken=tsInput.value;
+
+    // Submit to Netlify Forms via fetch
+    var body=new URLSearchParams({
+      'form-name':'guide-leads',
+      'first_name':firstName,
+      'last_name':lastName,
+      'email':email,
+      'phone':phone,
+      'guides':guides.join(', '),
+      'page_url':window.location.href,
+      'cf-turnstile-response':turnstileToken
+    });
+
+    fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body.toString()})
+      .then(function(){
+        addDownloaded(guides);
+        gpShowSuccess(firstName, guides);
+        // Update footer banner
+        if(!allDone()){
+          document.getElementById('gpFooterBanner').classList.add('gp-show');
+        } else {
+          document.getElementById('gpFooterBanner').classList.remove('gp-show');
+        }
+      })
+      .catch(function(){
+        // Still show success + downloads even if form submission fails
+        addDownloaded(guides);
+        gpShowSuccess(firstName, guides);
+      });
+  };
+
+  /* ── SHOW SUCCESS STATE ── */
+  function gpShowSuccess(firstName, guides){
     document.getElementById('gpHead').classList.add('gp-hidden');
     document.getElementById('gpBody').classList.add('gp-hidden');
-    document.getElementById('gpSuccessSub').textContent='Thanks, '+lead.firstName+'! Your '+(_gpSel.size===1?'guide is':'guides are')+' ready to download below.';
-    var dl=document.getElementById('gpDLinks');dl.innerHTML='';
-    _gpSel.forEach(function(g){
+    document.getElementById('gpSuccessSub').textContent=
+      'Thanks, '+firstName+'! Your '+(guides.length===1?'guide is':'guides are')+
+      ' ready below. I\'ll be in touch only if it makes sense for your situation.';
+    var dl=document.getElementById('gpDLinks');
+    dl.innerHTML='';
+    guides.forEach(function(g){
       var i=_gpInfo[g],a=document.createElement('a');
       a.href=i.file;a.download=i.file;a.className='gp-dl';
-      a.innerHTML='<span class="gp-dli" style="background:'+i.color+'20">'+i.icon+'</span><span class="gp-dll">'+i.name+'</span><span class="gp-dla">↓ PDF</span>';
+      a.innerHTML='<span class="gp-dli" style="background:'+i.color+'20">'+i.icon+'</span>'+
+        '<span class="gp-dll">'+i.name+'</span><span class="gp-dla">↓ PDF</span>';
       dl.appendChild(a);
     });
     document.getElementById('gpSuccess').classList.add('gp-vis');
-  };
-  document.getElementById('gpOverlay').addEventListener('click',function(e){if(e.target===this)gpClose();});
-  document.addEventListener('keydown',function(e){if(e.key==='Escape')gpClose();});
-  setTimeout(gpOpen, 5000);
+  }
 })();
 </script>
 <!-- ── END GUIDE POPUP ── -->
+
 
 </body>
 </html>
