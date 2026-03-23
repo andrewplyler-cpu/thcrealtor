@@ -570,6 +570,14 @@ function filterPosts(tag) {{
   var n=document.getElementById('no-results');if(n)n.style.display=v===0?'block':'none';
 }}
   </script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VJT8L02CWS"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){{dataLayer.push(arguments);}}
+    gtag('js', new Date());
+    gtag('config', 'G-VJT8L02CWS');
+  </script>
 </head>
 <body>
 
