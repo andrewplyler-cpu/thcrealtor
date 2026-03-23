@@ -198,7 +198,8 @@ def shared_head(title, description, canonical, keywords="", og_type="article", p
 def shared_header(active_page="blog"):
     pages = [
         ("","Home"), ("about","About"), ("areas","Areas"),
-        ("services","Services"), ("faq","FAQ"), ("blog","Blog"), ("contact","Contact"),
+        ("services","Services"), ("faq","FAQ"), ("resources","Resources"),
+        ("blog","Blog"), ("contact","Contact"),
     ]
     links = ""
     for href, label in pages:
