@@ -26,11 +26,13 @@ BLOG_INDEX_SUB   = BLOG_DIR / "index.html" # /blog/ URL listing (blog/index.html
 # ── Manually-curated posts (always shown, always first-checked) ────────────────
 # These were added by hand and have no meta.json. We hardcode their metadata here
 # so they always appear in the index. Add new manual posts to this list.
+# ── Tag options: land | investment | market | relocation | local | selling
 MANUAL_POSTS = [
     {
         "title":   "Moving to Boone NC: Complete High Country Relocation Guide",
         "slug":    "2026-03-20-moving-to-boone-nc-high-country-relocation-guide",
         "date":    "March 20, 2026",
+        "tag":     "relocation",
         "excerpt": "Considering a move to the beautiful Blue Ridge Mountains? This comprehensive guide covers everything you need to know about relocating to Boone and the High Country region.",
         "image":   "https://assets.agentfire3.com/uploads/sites/1337/2024/04/Boone-NC-King-Street.jpg",
         "image_alt": "Downtown Boone in the NC High Country",
@@ -39,14 +41,16 @@ MANUAL_POSTS = [
         "title":   "Is 2026 a Good Year to Buy a Mountain Home?",
         "slug":    "2026-03-01-is-2026-good-year-buy-mountain-home",
         "date":    "March 1, 2026",
+        "tag":     "market",
         "excerpt": "Interest rates, inventory levels, and what I\u2019m seeing on the ground in Watauga, Avery, and Ashe counties this spring.",
-        "image":   "https://assets.agentfire3.com/uploads/sites/1337/2024/04/Boone-NC-King-Street.jpg",
-        "image_alt": "Downtown Boone NC High Country spring 2026",
+        "image":   "/assets/blue_ridge_layers.jpg",
+        "image_alt": "Layered Blue Ridge mountain ridgelines at dusk — NC High Country",
     },
     {
         "title":   "Short-Term Rental Regulations in Watauga County: What Investors Need to Know",
         "slug":    "2026-02-15-str-regulations-watauga-county",
         "date":    "February 15, 2026",
+        "tag":     "investment",
         "excerpt": "A practical breakdown of STR zoning, permitting, and tax obligations for Airbnb investors in the Boone area.",
         "image":   "https://townofbannerelk.org/wp-content/uploads/2024/11/BannerElkPano1-1536x802.jpg",
         "image_alt": "Banner Elk mountain town in Avery County NC",
@@ -55,30 +59,34 @@ MANUAL_POSTS = [
         "title":   "The Complete Guide to Buying Land in the NC High Country",
         "slug":    "2026-01-20-complete-guide-buying-land-nc-high-country",
         "date":    "January 20, 2026",
+        "tag":     "land",
         "excerpt": "Topo, access, well and septic feasibility, zoning \u2014 everything you need to know before buying mountain acreage in Watauga, Avery, or Ashe County.",
-        "image":   "https://b2290346.smushcdn.com/2290346/wp-content/uploads/2025/09/IMG_6222-scaled.jpeg?lossy=2&strip=1&webp=1",
-        "image_alt": "Blowing Rock NC mountain village",
+        "image":   "/assets/sunset_road.jpg",
+        "image_alt": "Sunset over a mountain road in the NC High Country",
     },
     {
         "title":   "Well & Septic Due Diligence for NC Mountain Properties: The Complete Checklist",
         "slug":    "2026-02-09-well-septic-due-diligence-mountain-property-nc",
         "date":    "February 9, 2026",
+        "tag":     "land",
         "excerpt": "Most mountain homes in the High Country run on well water and septic — not city utilities. Here's exactly what to test, what to ask, and what to walk away from.",
-        "image":   "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1400&q=80&fit=crop",
-        "image_alt": "Rural mountain property with well and wooded lot in the NC High Country",
+        "image":   "/assets/rapids_bw.jpg",
+        "image_alt": "Mountain creek rapids — water and septic are critical due diligence items for NC mountain properties",
     },
     {
         "title":   "The Leaf-Out Problem: Why Mountain Views Disappear in Summer",
         "slug":    "2026-02-13-mountain-views-leaf-out-problem-nc-high-country",
         "date":    "February 13, 2026",
+        "tag":     "local",
         "excerpt": "That listing with stunning mountain views photographed in January may look very different come July. Here's what every High Country buyer needs to know about seasonal views.",
-        "image":   "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1400&q=80&fit=crop",
-        "image_alt": "Blue Ridge Mountains panoramic view from a high ridge in North Carolina",
+        "image":   "/assets/aerial_valley.png",
+        "image_alt": "Aerial view of NC High Country valleys showing dense summer foliage",
     },
     {
         "title":   "Ashe County vs. Watauga County: A Land Buyer's Side-by-Side Comparison",
         "slug":    "2026-02-18-ashe-county-vs-watauga-county-land-comparison",
         "date":    "February 18, 2026",
+        "tag":     "land",
         "excerpt": "Both counties sit in the NC High Country, but land prices, zoning, and character are very different. Here's what buyers need to know before they start looking.",
         "image":   "https://www.ashecountyrealestate.com/uploads/blog/images/legacy/2016-08-16-murals.jpg",
         "image_alt": "West Jefferson NC downtown murals — Ashe County's artsy mountain community",
@@ -87,6 +95,7 @@ MANUAL_POSTS = [
         "title":   "Beech Mountain STR Investment: What the Ski Season Math Actually Looks Like",
         "slug":    "2026-02-23-beech-mountain-str-investment-ski-season-math",
         "date":    "February 23, 2026",
+        "tag":     "investment",
         "excerpt": "At 5,506 feet, Beech Mountain is the highest town east of the Mississippi — and one of the High Country's most interesting short-term rental investment markets. Here's an honest look at the numbers.",
         "image":   "https://www.visitboone.com/wp-content/uploads/listing-uploads/gallery/2023/02/beech-mountain-resort.jpg",
         "image_alt": "Beech Mountain Resort ski slopes in winter — the highest ski area in eastern North America",
@@ -95,6 +104,7 @@ MANUAL_POSTS = [
         "title":   "High Country Weekend: What's Happening in Boone & the Mountains — March 7–9, 2026",
         "slug":    "2026-03-06-high-country-weekend-events-spring-march-2026",
         "date":    "March 6, 2026",
+        "tag":     "local",
         "excerpt": "Ski season is winding down and spring is arriving in the mountains. Here's your weekly guide to what's happening across the NC High Country this weekend.",
         "image":   "https://assets.agentfire3.com/uploads/sites/1337/2024/04/Boone-NC-King-Street.jpg",
         "image_alt": "King Street in downtown Boone NC — the heart of High Country activity",
@@ -260,9 +270,8 @@ def shared_footer():
       <h4 class="footer-heading">Contact</h4>
       <ul class="footer-links" role="list">
         <li><a href="tel:+17706391233">(770) 639-1233</a></li>
-        <li><a href="tel:+18282638711">(828) 263-8711</a></li>
         <li><a href="mailto:{AUTHOR_EMAIL}">{AUTHOR_EMAIL}</a></li>
-        <li>1129-1 Main St.<br>Blowing Rock, NC 28605</li>
+        <li>895 Blowing Rock Rd.<br>Boone, NC 28607</li>
       </ul>
     </div>
   </div>
@@ -408,6 +417,29 @@ POST_CSS = """
   }
 """
 
+
+# ── Tag display metadata ───────────────────────────────────────────────────────
+TAG_META = {
+    "land":       {"label": "Land",            "color": "#8B4A1A", "bg": "#F5EDE8", "css": "tag-land"},
+    "investment": {"label": "Investment & STR", "color": "#3D7A78", "bg": "#E8F5F4", "css": "tag-investment"},
+    "market":     {"label": "Market",           "color": "#C0622A", "bg": "#FFF0E8", "css": "tag-market"},
+    "relocation": {"label": "Relocation",       "color": "#4A5240", "bg": "#E8F0E8", "css": "tag-relocation"},
+    "local":      {"label": "Local Life",       "color": "#6B5A4A", "bg": "#F0EBE8", "css": "tag-local"},
+    "selling":    {"label": "Selling",          "color": "#1A3B5C", "bg": "#E8EFF5", "css": "tag-selling"},
+}
+
+def tag_badge_html(tag, inline=False):
+    """Return a styled tag badge. inline=True for post pages, False for cards."""
+    t = TAG_META.get(tag, TAG_META["market"])
+    if inline:
+        return (
+            f'<span style="display:inline-block;font-size:0.68rem;font-weight:700;'
+            f'letter-spacing:0.12em;text-transform:uppercase;padding:0.22rem 0.65rem;'
+            f'border-radius:3px;background:{t["bg"]};color:{t["color"]};'
+            f'margin-bottom:0.6rem;">{t["label"]}</span>'
+        )
+    return f'<span class="blog-card-tag {t["css"]}">{t["label"]}</span>'
+
 # ── AI content generation ──────────────────────────────────────────────────────
 def generate_post():
     today_str = date.today().strftime("%B %d, %Y")
@@ -439,8 +471,18 @@ OUTPUT: respond ONLY with a JSON object (no markdown fences):
   "excerpt": "2-sentence plain-text excerpt for blog index card",
   "image_url": "a relevant publicly accessible image URL from townofbannerelk.org, visitboone.com, or use: https://assets.agentfire3.com/uploads/sites/1337/2024/04/Boone-NC-King-Street.jpg",
   "image_alt": "descriptive alt text for the image",
+  "tag": "one of: land | investment | market | relocation | local | selling",
   "body_html": "full post body using only h2/p/ul/li/strong/em tags"
-}}"""
+}}
+
+TAGGING RULES:
+- land: buying land, perc tests, well/septic, mountain due diligence, lots/acreage
+- investment: STR, Airbnb, VRBO, rental income, cap rate, investor analysis
+- market: price trends, inventory, interest rates, market conditions
+- relocation: moving to Boone, second homes, retirement, lifestyle
+- local: events, weekend guides, seasonal living, local knowledge
+- selling: listing strategy, pricing, seller tips, how to sell mountain property
+"""
 
     client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
     msg    = client.messages.create(
@@ -494,7 +536,26 @@ def build_post_html(post, pub_date, slug):
   <script type="application/ld+json">
 {schema}
   </script>
-  <style>{POST_CSS}</style>
+  <style>{POST_CSS}
+.blog-card-tag {{ display:inline-block;font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;padding:0.2rem 0.6rem;border-radius:3px;margin-bottom:0.4rem; }}
+.tag-relocation {{ background:#E8F0E8;color:#4A5240; }}
+.tag-market     {{ background:#FFF0E8;color:#C0622A; }}
+.tag-investment {{ background:#E8F5F4;color:#3D7A78; }}
+.tag-land       {{ background:#F5EDE8;color:#8B4A1A; }}
+.tag-local      {{ background:#F0EBE8;color:#6B5A4A; }}
+.tag-selling    {{ background:#E8EFF5;color:#1A3B5C; }}
+.tag-filter-btn {{ background:white;border:1px solid #D5CCC0;color:#5A4A3A;padding:0.35rem 0.9rem;border-radius:99px;font-size:0.8rem;font-weight:600;cursor:pointer;transition:all 0.18s;font-family:inherit; }}
+.tag-filter-btn:hover,.tag-filter-btn.active {{ background:#3B2F2F;color:white;border-color:#3B2F2F; }}
+.blog-card.hidden {{ display:none !important; }}
+  </style>
+  <script>
+function filterPosts(tag) {{
+  document.querySelectorAll('.tag-filter-btn').forEach(function(b){{b.classList.toggle('active',b.dataset.filter===tag);}});
+  var v=0;
+  document.querySelectorAll('.blog-card[data-tag]').forEach(function(c){{var m=tag==='all'||c.dataset.tag===tag;c.classList.toggle('hidden',!m);if(m)v++;}});
+  var n=document.getElementById('no-results');if(n)n.style.display=v===0?'block':'none';
+}}
+  </script>
 </head>
 <body>
 
@@ -505,6 +566,7 @@ def build_post_html(post, pub_date, slug):
   <div class="post-hero">
     <div class="container-narrow">
       <p class="section-label">High Country Real Estate</p>
+      {tag_badge_html(post.get('tag', 'market'), inline=True)}
       <h1>{post['title']}</h1>
       <div class="post-meta">
         <span>{AUTHOR_NAME}</span>
@@ -564,14 +626,19 @@ def build_index_html(all_posts):
             img_html = f'''        <div class="blog-card-img">
           <img src="{p['image']}" alt="{p.get('image_alt', p['title'])}" loading="lazy" />
         </div>\n'''
-        cards += f"""      <a href="/blog/{p['slug']}/" class="blog-card fade-in">
-{img_html}        <div class="blog-card-body">
-          <span class="blog-card-date">{p['date']}</span>
-          <h2 class="blog-card-title">{p['title']}</h2>
-          <p class="blog-card-excerpt">{p['excerpt']}</p>
-          <span class="blog-card-link">Read more &rarr;</span>
-        </div>
-      </a>\n"""
+        tag   = p.get("tag", "market")
+        badge = tag_badge_html(tag)
+        cards += (
+            f'      <a href="/blog/{p["slug"]}/" class="blog-card fade-in" data-tag="{tag}">\n'
+            f'{img_html}'
+            f'        <div class="blog-card-body">\n'
+            f'          {badge}<br/><span class="blog-card-date">{p["date"]}</span>\n'
+            f'          <h2 class="blog-card-title">{p["title"]}</h2>\n'
+            f'          <p class="blog-card-excerpt">{p["excerpt"]}</p>\n'
+            f'          <span class="blog-card-link">Read more &rarr;</span>\n'
+            f'        </div>\n'
+            f'      </a>\n'
+        )
 
     if not cards.strip():
         cards = '<p style="text-align:center;color:var(--color-text-muted);padding:var(--space-16) 0;font-style:italic;grid-column:1/-1;">Posts coming soon. Check back Monday!</p>'
@@ -661,6 +728,7 @@ def collect_all_meta():
                     # Ensure image fields exist (older posts may not have them)
                     meta.setdefault("image", "https://assets.agentfire3.com/uploads/sites/1337/2024/04/Boone-NC-King-Street.jpg")
                     meta.setdefault("image_alt", meta.get("title", "High Country Real Estate"))
+                    meta.setdefault("tag", "market")  # fallback tag for older posts
                     auto_posts.append(meta)
                 except Exception:
                     pass
@@ -710,6 +778,7 @@ def main():
         "title":     post["title"],
         "slug":      slug,
         "date":      pub_date,
+        "tag":       post.get("tag", "market"),
         "excerpt":   post["excerpt"],
         "image":     post.get("image_url", "https://assets.agentfire3.com/uploads/sites/1337/2024/04/Boone-NC-King-Street.jpg"),
         "image_alt": post.get("image_alt", post["title"]),
