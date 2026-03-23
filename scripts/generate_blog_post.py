@@ -211,7 +211,7 @@ def shared_header(active_page="blog"):
       </span>
     </a>
     <nav class="main-nav" aria-label="Primary">
-{links}      <a href="tel:{AUTHOR_PHONE_RAW}" class="nav-cta">Book a Call</a>
+{links}      <a href="tel:{AUTHOR_PHONE_RAW}" class="nav-cta">Give me a holler!</a>
     </nav>
     <button class="theme-toggle" aria-label="Toggle dark mode" type="button">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
@@ -595,7 +595,7 @@ function filterPosts(tag) {{
         <p>{AUTHOR_TITLE}<br>Born &amp; raised in Boone &middot; App State alum &middot; 40+ years High Country expertise</p>
         <div class="author-cta">
           <a href="/contact.html" class="btn btn-primary">Get in Touch</a>
-          <a href="tel:{AUTHOR_PHONE_RAW}" class="btn btn-outline">{AUTHOR_PHONE}</a>
+          <a href="tel:{AUTHOR_PHONE_RAW}" class="btn btn-outline">Give me a holler!</a>
         </div>
       </div>
     </div>
