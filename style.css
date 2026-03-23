@@ -418,6 +418,19 @@ a:hover {
   margin: 0 auto var(--space-8);
   line-height: 1.5;
 }
+.hero-seller-cta {
+  margin-top: var(--space-4);
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.80);
+  text-align: center;
+}
+
+.hero-seller-cta a {
+  color: var(--trout-orange, #C0622A);
+  font-weight: 600;
+  text-decoration: underline;
+}
+
 .hero-actions {
   display: flex;
   gap: var(--space-4);
