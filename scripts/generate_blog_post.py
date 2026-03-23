@@ -112,26 +112,57 @@ MANUAL_POSTS = [
 ]
 
 # ── Topic rotation ─────────────────────────────────────────────────────────────
-TOPIC_CATEGORIES = [
-    "High Country real estate market update (Boone, Blowing Rock, Banner Elk, West Jefferson)",
-    "Appalachian State University student housing and investment opportunities near App State",
-    "Buying land or mountain property in the High Country of NC",
-    "Seasonal living in the Blue Ridge Mountains \u2013 current season, weather, what\u2019s happening now",
-    "Upcoming events or festivals in Boone/High Country NC and their real estate appeal",
-    "Relocation guide: moving to Boone NC or the High Country",
-    "Second home and vacation property investment in the High Country",
-    "Why families, retirees, and remote workers are choosing the High Country",
-    "New construction, mountain cabins, and unique property types in Watauga/Ashe/Avery counties",
-    "Holiday season in the High Country and its effect on the real estate market",
+# Evergreen topics — always relevant, rotated by week
+EVERGREEN_TOPICS = [
+    "High Country real estate market update — prices, inventory, and what buyers and sellers should know right now in Boone, Blowing Rock, Banner Elk, and West Jefferson",
+    "Appalachian State University student housing: the buy-and-rent strategy for families of App State students",
+    "Buying land or mountain property in the High Country of NC — what to check before you make an offer",
+    "Relocation guide: why people are moving to Boone NC and the High Country — remote workers, retirees, and families",
+    "Second home and vacation property investment in the High Country — what makes a mountain property a strong investment",
+    "Why the High Country appeals to families, retirees, and remote workers — lifestyle, community, and real estate value",
+    "New construction vs. existing homes in the NC High Country — what buyers need to know",
+    "Selling a mountain home in the High Country — pricing strategy, timing, and what makes properties stand out",
+    "Short-term rental investment in the High Country — honest analysis of STR potential in Watauga, Avery, and Ashe counties",
+    "Buying a home near App State: what out-of-state families need to know about Boone NC real estate",
 ]
 
+# Calendar-aware topics by month — only appears in the relevant window
+CALENDAR_TOPICS = {
+    # (month_start, month_end): topic
+    (1, 2):  "Winter real estate in the High Country — why January and February are underrated months to buy a mountain home",
+    (3, 3):  "Spring real estate season is arriving in the High Country — what buyers and sellers should do right now in March",
+    (4, 5):  "Spring is peak season in the High Country — what buyers need to know about competing in a busy spring market",
+    (6, 7):  "Summer in the Blue Ridge Mountains — why summer visitors become High Country buyers, and what they should know",
+    (8, 8):  "Back-to-school season and App State move-in — student housing market update and what parents should know",
+    (9, 9):  "Fall is coming to the High Country — why autumn is one of the best times to buy or sell mountain real estate",
+    (10, 10): "Leaf season in the High Country — foliage, fall buyers, and what the real estate market looks like in October",
+    (11, 11): "Thanksgiving and the holiday season approach — why serious buyers are still active and what sellers should know",
+    (12, 12): "Year-end real estate in the High Country — December buyers are serious and motivated, here's what that means",
+}
+
 def get_topic():
-    dow  = date.today().weekday()
-    # Friday (4) = always a weekend events/calendar post
+    today = date.today()
+    dow   = today.weekday()
+    month = today.month
+    week  = today.isocalendar()[1]
+
+    # Friday = always a weekend events/local life post
     if dow == 4:
-        return "Weekend events calendar: what\'s happening in Boone and the NC High Country this weekend — festivals, outdoor activities, farmers markets, local events, ski conditions if applicable, and why this weekend is a great time to visit or explore the area as a potential buyer"
-    week = date.today().isocalendar()[1]
-    return TOPIC_CATEGORIES[(week * 3 + (0 if dow == 0 else 1)) % len(TOPIC_CATEGORIES)]
+        return (
+            f"Weekend events and things to do in Boone and the NC High Country — "
+            f"what's happening this weekend in {today.strftime('%B %Y')}, "
+            f"including outdoor activities, local events, dining, and why this is a great time to explore the area as a potential buyer or visitor"
+        )
+
+    # Check for a calendar-relevant topic this month
+    for (m_start, m_end), topic in CALENDAR_TOPICS.items():
+        if m_start <= month <= m_end:
+            # Alternate: use calendar topic on odd weeks, evergreen on even weeks
+            if week % 2 == 1:
+                return topic
+
+    # Fall back to evergreen rotation
+    return EVERGREEN_TOPICS[week % len(EVERGREEN_TOPICS)]
 
 def get_season():
     m = date.today().month
