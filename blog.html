@@ -196,21 +196,96 @@
     </div>
   </div>
 
+<!-- TAG FILTER BAR -->
+<div style="background:#F5F0E8;border-bottom:1px solid #E0D8CC;padding:1rem 0;position:sticky;top:64px;z-index:100;">
+  <div class="container">
+    <div id="tagFilters" style="display:flex;flex-wrap:wrap;gap:0.5rem;align-items:center;">
+      <span style="font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#8C7B6B;margin-right:0.25rem;">Filter:</span>
+      <button class="tag-filter-btn active" data-filter="all" onclick="filterPosts('all')">All Posts</button>
+      <button class="tag-filter-btn" data-filter="land" onclick="filterPosts('land')">🌲 Land</button>
+      <button class="tag-filter-btn" data-filter="investment" onclick="filterPosts('investment')">📈 Investment &amp; STR</button>
+      <button class="tag-filter-btn" data-filter="market" onclick="filterPosts('market')">📊 Market</button>
+      <button class="tag-filter-btn" data-filter="relocation" onclick="filterPosts('relocation')">🏔️ Relocation</button>
+      <button class="tag-filter-btn" data-filter="local" onclick="filterPosts('local')">📍 Local Life</button>
+    </div>
+  </div>
+</div>
+
+<style>
+.tag-filter-btn {
+  background: white;
+  border: 1px solid #D5CCC0;
+  color: #5A4A3A;
+  padding: 0.35rem 0.9rem;
+  border-radius: 99px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s;
+  font-family: inherit;
+}
+.tag-filter-btn:hover {
+  background: #3B2F2F;
+  color: white;
+  border-color: #3B2F2F;
+}
+.tag-filter-btn.active {
+  background: #3B2F2F;
+  color: white;
+  border-color: #3B2F2F;
+}
+.blog-card.hidden {
+  display: none !important;
+}
+#no-results {
+  display: none;
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #8C7B6B;
+  font-size: 1rem;
+  grid-column: 1 / -1;
+}
+</style>
+
+<script>
+function filterPosts(tag) {
+  // Update active button
+  document.querySelectorAll('.tag-filter-btn').forEach(function(btn) {
+    btn.classList.toggle('active', btn.dataset.filter === tag);
+  });
+
+  // Show/hide cards
+  var cards = document.querySelectorAll('.blog-card[data-tag]');
+  var visible = 0;
+  cards.forEach(function(card) {
+    var match = tag === 'all' || card.dataset.tag === tag;
+    card.classList.toggle('hidden', !match);
+    if (match) visible++;
+  });
+
+  // Show no-results message if needed
+  var noResults = document.getElementById('no-results');
+  if (noResults) noResults.style.display = visible === 0 ? 'block' : 'none';
+}
+</script>
+
+
   <section class="section">
     <div class="container">
-      <div class="grid-3">
-      <a href="/blog/2026-03-20-moving-to-boone-nc-high-country-relocation-guide/" class="blog-card fade-in">
+      <div class="grid-3" id="blogGrid">
+      <p id="no-results">No posts found in this category yet.</p>
+      <a href="/blog/2026-03-20-moving-to-boone-nc-high-country-relocation-guide/" class="blog-card fade-in" data-tag="relocation">
         <div class="blog-card-img">
           <img src="https://assets.agentfire3.com/uploads/sites/1337/2024/04/Boone-NC-King-Street.jpg" alt="Downtown Boone in the NC High Country" loading="lazy" />
         </div>
         <div class="blog-card-body">
-          <span class="blog-card-tag tag-relocation">Relocation</span><br/><span class="blog-card-tag tag-relocation">Relocation</span><br/><span class="blog-card-date">March 20, 2026</span>
+          <span class="blog-card-tag tag-relocation">Relocation</span><br/><span class="blog-card-date">March 20, 2026</span>
           <h2 class="blog-card-title">Moving to Boone NC: Complete High Country Relocation Guide</h2>
           <p class="blog-card-excerpt">Considering a move to the beautiful Blue Ridge Mountains? This comprehensive guide covers everything you need to know about relocating to Boone and the High Country region.</p>
           <span class="blog-card-link">Read more &rarr;</span>
         </div>
       </a>
-      <a href="/blog/2026-03-06-high-country-weekend-events-spring-march-2026/" class="blog-card fade-in">
+      <a href="/blog/2026-03-06-high-country-weekend-events-spring-march-2026/" class="blog-card fade-in" data-tag="local">
         <div class="blog-card-img">
           <img src="/assets/storm_blowing_rock.jpg" alt="Storm rolling over the NC High Country mountains near Blowing Rock" loading="lazy" />
         </div>
@@ -221,7 +296,7 @@
           <span class="blog-card-link">Read more &rarr;</span>
         </div>
       </a>
-      <a href="/blog/2026-03-01-is-2026-good-year-buy-mountain-home/" class="blog-card fade-in">
+      <a href="/blog/2026-03-01-is-2026-good-year-buy-mountain-home/" class="blog-card fade-in" data-tag="market">
         <div class="blog-card-img">
           <img src="/assets/blue_ridge_layers.jpg" alt="Layered Blue Ridge mountain ridgelines at dusk — NC High Country" loading="lazy" />
         </div>
@@ -232,7 +307,7 @@
           <span class="blog-card-link">Read more &rarr;</span>
         </div>
       </a>
-      <a href="/blog/2026-02-23-beech-mountain-str-investment-ski-season-math/" class="blog-card fade-in">
+      <a href="/blog/2026-02-23-beech-mountain-str-investment-ski-season-math/" class="blog-card fade-in" data-tag="investment">
         <div class="blog-card-img">
           <img src="https://www.visitboone.com/wp-content/uploads/listing-uploads/gallery/2023/02/beech-mountain-resort.jpg" alt="Beech Mountain Resort ski slopes in winter — the highest ski area in eastern North America" loading="lazy" />
         </div>
@@ -243,7 +318,7 @@
           <span class="blog-card-link">Read more &rarr;</span>
         </div>
       </a>
-      <a href="/blog/2026-02-18-ashe-county-vs-watauga-county-land-comparison/" class="blog-card fade-in">
+      <a href="/blog/2026-02-18-ashe-county-vs-watauga-county-land-comparison/" class="blog-card fade-in" data-tag="land">
         <div class="blog-card-img">
           <img src="https://www.ashecountyrealestate.com/uploads/blog/images/legacy/2016-08-16-murals.jpg" alt="West Jefferson NC downtown murals — Ashe County's artsy mountain community" loading="lazy" />
         </div>
@@ -254,7 +329,7 @@
           <span class="blog-card-link">Read more &rarr;</span>
         </div>
       </a>
-      <a href="/blog/2026-02-15-str-regulations-watauga-county/" class="blog-card fade-in">
+      <a href="/blog/2026-02-15-str-regulations-watauga-county/" class="blog-card fade-in" data-tag="investment">
         <div class="blog-card-img">
           <img src="https://townofbannerelk.org/wp-content/uploads/2024/11/BannerElkPano1-1536x802.jpg" alt="Banner Elk mountain town in Avery County NC" loading="lazy" />
         </div>
@@ -265,7 +340,7 @@
           <span class="blog-card-link">Read more &rarr;</span>
         </div>
       </a>
-      <a href="/blog/2026-02-13-mountain-views-leaf-out-problem-nc-high-country/" class="blog-card fade-in">
+      <a href="/blog/2026-02-13-mountain-views-leaf-out-problem-nc-high-country/" class="blog-card fade-in" data-tag="local">
         <div class="blog-card-img">
           <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1400&q=80&fit=crop" alt="Blue Ridge Mountains panoramic view from a high ridge in North Carolina" loading="lazy" />
         </div>
@@ -276,7 +351,7 @@
           <span class="blog-card-link">Read more &rarr;</span>
         </div>
       </a>
-      <a href="/blog/2026-02-09-well-septic-due-diligence-mountain-property-nc/" class="blog-card fade-in">
+      <a href="/blog/2026-02-09-well-septic-due-diligence-mountain-property-nc/" class="blog-card fade-in" data-tag="land">
         <div class="blog-card-img">
           <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1400&q=80&fit=crop" alt="Rural mountain property with well and wooded lot in the NC High Country" loading="lazy" />
         </div>
@@ -287,7 +362,7 @@
           <span class="blog-card-link">Read more &rarr;</span>
         </div>
       </a>
-      <a href="/blog/2026-01-20-complete-guide-buying-land-nc-high-country/" class="blog-card fade-in">
+      <a href="/blog/2026-01-20-complete-guide-buying-land-nc-high-country/" class="blog-card fade-in" data-tag="land">
         <div class="blog-card-img">
           <img src="https://b2290346.smushcdn.com/2290346/wp-content/uploads/2025/09/IMG_6222-scaled.jpeg?lossy=2&strip=1&webp=1" alt="Blowing Rock NC mountain village" loading="lazy" />
         </div>
