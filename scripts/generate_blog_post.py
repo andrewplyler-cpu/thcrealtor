@@ -473,6 +473,7 @@ REQUIREMENTS:
 - End with a soft CTA to contact Andrew Plyler
 - Do NOT fabricate MLS statistics \u2014 use descriptive language for market conditions
 - Do NOT use the word "nestled"
+- ALWAYS use the Oxford comma in all lists
 
 OUTPUT: respond ONLY with a JSON object (no markdown fences):
 {{
