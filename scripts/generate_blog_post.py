@@ -457,7 +457,7 @@ def tag_badge_html(tag, inline=False):
 def generate_post():
     today_str = date.today().strftime("%B %d, %Y")
     prompt = f"""You are writing a blog post for Andrew Plyler, REALTOR\u00ae at Blue Ridge Realty & Investments in Boone, NC.
-Andrew was born in Boone, his family has had roots in Valle Crucis since 1978, and he came back after App State to plant his roots for good. He is a REALTOR®/Broker, specializing in High Country real estate.
+Andrew was born in Boone, grew up in Fayetteville, and graduated from App State in 2002. His family has had a home in Valle Crucis since 1978. In 2020, turning 40 and facing a cancelled camp season due to Covid, he decided to plant his roots in the High Country for good and switch careers to real estate. He is a REALTOR®/Broker, specializing in High Country real estate.
 
 TODAY: {today_str} | SEASON: {get_season()} | UPCOMING: {get_holidays()}
 TOPIC: {get_topic()}
