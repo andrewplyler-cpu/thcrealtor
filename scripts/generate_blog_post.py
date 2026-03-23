@@ -188,11 +188,19 @@ def shared_head(title, description, canonical, keywords="", og_type="article", p
   <link rel="stylesheet" href="/style.css">
   <script>
   // Apply theme before paint to avoid flash
-  (function() {
+  (function() {{
     var saved = localStorage.getItem('theme');
     var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     document.documentElement.setAttribute('data-theme', theme);
-  })();
+  }})();
+  </script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VJT8L02CWS"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){{dataLayer.push(arguments);}}
+    gtag('js', new Date());
+    gtag('config', 'G-VJT8L02CWS');
   </script>"""
 
 def shared_header(active_page="blog"):
@@ -574,7 +582,7 @@ function filterPosts(tag) {{
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-VJT8L02CWS"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){{dataLayer.push(arguments);}}
+    function gtag(){{{{dataLayer.push(arguments);}}}}
     gtag('js', new Date());
     gtag('config', 'G-VJT8L02CWS');
   </script>
