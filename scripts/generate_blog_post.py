@@ -185,7 +185,15 @@ def shared_head(title, description, canonical, keywords="", og_type="article", p
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/base.css">
-  <link rel="stylesheet" href="/style.css">"""
+  <link rel="stylesheet" href="/style.css">
+  <script>
+  // Apply theme before paint to avoid flash
+  (function() {
+    var saved = localStorage.getItem('theme');
+    var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+  })();
+  </script>"""
 
 def shared_header(active_page="blog"):
     pages = [
@@ -281,12 +289,10 @@ def shared_footer():
 </footer>"""
 
 SHARED_JS = """
-// Dark/light mode toggle
+// Dark/light mode toggle — respects OS preference, manual override saved to localStorage
 (function() {
   const toggle = document.querySelector('.theme-toggle');
   const html   = document.documentElement;
-  const saved  = localStorage.getItem('theme');
-  if (saved) html.setAttribute('data-theme', saved);
   if (toggle) {
     toggle.addEventListener('click', function() {
       const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
@@ -294,6 +300,12 @@ SHARED_JS = """
       localStorage.setItem('theme', next);
     });
   }
+  // Keep in sync if user changes OS preference while page is open
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+    if (!localStorage.getItem('theme')) {
+      html.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+    }
+  });
 })();
 
 // Mobile menu
