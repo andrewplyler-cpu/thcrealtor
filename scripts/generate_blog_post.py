@@ -220,7 +220,7 @@ def shared_header(active_page="blog"):
 
 <header class="site-header" role="banner">
   <div class="header-inner">
-    <a href="/index.html" class="site-logo" aria-label="Andrew Plyler \u2014 Home">
+    <a href="/" class="site-logo" aria-label="Andrew Plyler \u2014 Home">
       {SITE_LOGO_SVG}
       <span class="logo-text">
         <span class="logo-name">Andrew Plyler</span>
@@ -243,7 +243,7 @@ def shared_footer():
     return f"""<footer class="site-footer" role="contentinfo">
   <div class="footer-grid">
     <div class="footer-brand">
-      <a href="/index.html" class="site-logo" aria-label="Andrew Plyler \u2014 Home" style="text-decoration:none;">
+      <a href="/" class="site-logo" aria-label="Andrew Plyler \u2014 Home" style="text-decoration:none;">
         <svg viewBox="0 0 40 40" width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <path d="M20 4L4 28h10l6-10 6 10h10L20 4z" fill="currentColor" opacity="0.15"/>
           <path d="M20 8L8 26h7l5-8.5 5 8.5h7L20 8z" stroke="currentColor" stroke-width="1.5" fill="none"/>
@@ -254,7 +254,7 @@ def shared_footer():
           <span class="logo-tag">The High Country Realtor</span>
         </span>
       </a>
-      <p>Born in Boone and rooted in the NC High Country. Helping buyers and sellers navigate mountain real estate with local knowledge and honest advice.</p>
+      <p>Born in Boone, raised in Fayetteville, and rooted in the High Country for good. Helping buyers and sellers navigate mountain real estate with local knowledge and honest advice.</p>
       <div class="footer-social">
         <a href="https://www.instagram.com/thcrealtor" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg></a>
         <a href="https://www.facebook.com/THCRealtor" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
@@ -265,22 +265,25 @@ def shared_footer():
     <div>
       <h4 class="footer-heading">Quick Links</h4>
       <ul class="footer-links" role="list">
-        <li><a href="/about.html">About Andrew</a></li>
-        <li><a href="/areas.html">Areas Served</a></li>
-        <li><a href="/services.html">Services</a></li>
-        <li><a href="/blog.html">Blog</a></li>
-        <li><a href="/contact.html">Contact</a></li>
+        <li><a href="/about">About Andrew</a></li>
+        <li><a href="/areas">Areas Served</a></li>
+        <li><a href="/services">Services</a></li>
+        <li><a href="/student-housing">College Housing</a></li>
+        <li><a href="/resources">Resources</a></li>
+        <li><a href="/faq">FAQ</a></li>
+        <li><a href="/blog">Blog</a></li>
+        <li><a href="/contact">Contact</a></li>
       </ul>
     </div>
     <div>
       <h4 class="footer-heading">Communities</h4>
       <ul class="footer-links" role="list">
-        <li><a href="/areas.html">Boone</a></li>
-        <li><a href="/areas.html">Blowing Rock</a></li>
-        <li><a href="/areas.html">Banner Elk</a></li>
-        <li><a href="/areas.html">Valle Crucis</a></li>
-        <li><a href="/areas.html">Beech Mountain</a></li>
-        <li><a href="/areas.html">West Jefferson</a></li>
+        <li><a href="/areas">Boone</a></li>
+        <li><a href="/areas">Blowing Rock</a></li>
+        <li><a href="/areas">Banner Elk</a></li>
+        <li><a href="/areas">Valle Crucis</a></li>
+        <li><a href="/areas">Beech Mountain</a></li>
+        <li><a href="/areas">West Jefferson</a></li>
       </ul>
     </div>
     <div>
@@ -508,7 +511,7 @@ TAGGING RULES:
 
     client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
     msg    = client.messages.create(
-        model="claude-sonnet-4-20250514", max_tokens=2000,
+        model="claude-sonnet-4-6", max_tokens=2000,
         messages=[{"role":"user","content":prompt}]
     )
     raw = msg.content[0].text.strip()
@@ -582,7 +585,7 @@ function filterPosts(tag) {{
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-VJT8L02CWS"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){{{{dataLayer.push(arguments);}}}}
+    function gtag(){{dataLayer.push(arguments);}}
     gtag('js', new Date());
     gtag('config', 'G-VJT8L02CWS');
   </script>
@@ -624,19 +627,19 @@ function filterPosts(tag) {{
         <h3>{AUTHOR_NAME}</h3>
         <p>{AUTHOR_TITLE}<br>Born in Boone &middot; App State alum &middot; Roots planted firmly in the High Country</p>
         <div class="author-cta">
-          <a href="/contact.html" class="btn btn-primary">Get in Touch</a>
+          <a href="/contact" class="btn btn-primary">Get in Touch</a>
           <a href="tel:{AUTHOR_PHONE_RAW}" class="btn btn-outline">Give me a holler!</a>
         </div>
       </div>
     </div>
 
-    <a href="/blog.html" class="back-link">&larr; Back to all posts</a>
+    <a href="/blog" class="back-link">&larr; Back to all posts</a>
   </div>
 
   <section class="cta-banner">
     <h2>Ready to Find Your Mountain Home?</h2>
     <p>Whether you&rsquo;re buying, selling, or just exploring &mdash; let&rsquo;s talk. No pressure, just honest mountain real estate advice.</p>
-    <a href="/contact.html" class="btn btn-accent">Let&rsquo;s Get Started</a>
+    <a href="/contact" class="btn btn-accent">Let&rsquo;s Get Started</a>
   </section>
 
 </main>
@@ -725,7 +728,7 @@ def build_index_html(all_posts):
   <section class="cta-banner">
     <h2>Ready to Find Your Mountain Home?</h2>
     <p>Whether you&rsquo;re buying, selling, or just exploring &mdash; let&rsquo;s talk. No pressure, just honest mountain real estate advice.</p>
-    <a href="/contact.html" class="btn btn-accent">Let&rsquo;s Get Started</a>
+    <a href="/contact" class="btn btn-accent">Let&rsquo;s Get Started</a>
   </section>
 
 </main>
