@@ -605,7 +605,7 @@ function filterPosts(tag) {{
       <div class="author-avatar">AP</div>
       <div class="author-info">
         <h3>{AUTHOR_NAME}</h3>
-        <p>{AUTHOR_TITLE}<br>Born &amp; raised in Boone &middot; App State alum &middot; 40+ years High Country expertise</p>
+        <p>{AUTHOR_TITLE}<br>Born in Boone &middot; App State alum &middot; Roots planted firmly in the High Country</p>
         <div class="author-cta">
           <a href="/contact.html" class="btn btn-primary">Get in Touch</a>
           <a href="tel:{AUTHOR_PHONE_RAW}" class="btn btn-outline">Give me a holler!</a>
