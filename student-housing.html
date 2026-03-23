@@ -723,7 +723,7 @@ document.querySelectorAll('.faq-question').forEach(btn => {
 (function(){
   /* ── CONSTANTS ── */
   var COOKIE_KEY = 'gp_downloaded';
-  var AUTO_DELAY = 5000;
+  var AUTO_DELAY = 8000;
   var ALL_GUIDES = ['student','investment','land','relocation'];
 
   var _gpSel = new Set();
@@ -793,7 +793,8 @@ document.querySelectorAll('.faq-question').forEach(btn => {
   };
 
   /* ── AUTO-TRIGGER LOGIC ── */
-  window.addEventListener('load', function(){
+  window.addEventListener('scroll', function _gpS() {
+    window.removeEventListener('scroll', _gpS);
     var done = getDownloaded();
     if(done.length === 0){
       // First-time visitor — show after delay

@@ -591,7 +591,7 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         </button>
         <div class="faq-answer">
-          <p>It depends entirely on what you're optimizing for. If you want the most services, a college-town energy, and the broadest range of price points, Boone is the answer. If you want a refined, upscale mountain village with strong property values and a walkable Main Street, Blowing Rock. If you want ski-resort proximity and the strongest short-term rental income potential, Banner Elk or Beech Mountain. If you want privacy, pastoral land, and the best dollar-per-acre value, Valle Crucis or Ashe County. Most buyers narrow it down quickly once we talk through their priorities &mdash; I've helped hundreds of people make exactly this decision, and I'm happy to think through it with you.</p>
+          <p>It depends entirely on what you're optimizing for. If you want the most services, a college-town energy, and the broadest range of price points, Boone is the answer. If you want a refined, upscale mountain village with strong property values and a walkable Main Street, Blowing Rock. If you want ski-resort proximity and the strongest short-term rental income potential, Banner Elk or Beech Mountain. If you want privacy, pastoral land, and the best dollar-per-acre value, Valle Crucis or Ashe County. Most buyers narrow it down quickly once we talk through their priorities &mdash; I've helped many people make exactly this decision, and I'm happy to think through it with you.</p>
         </div>
       </div>
       <div class="faq-item">
@@ -1578,7 +1578,7 @@
 (function(){
   /* ── CONSTANTS ── */
   var COOKIE_KEY = 'gp_downloaded';
-  var AUTO_DELAY = 5000;
+  var AUTO_DELAY = 8000;
   var ALL_GUIDES = ['student','investment','land','relocation'];
 
   var _gpSel = new Set();
@@ -1648,7 +1648,8 @@
   };
 
   /* ── AUTO-TRIGGER LOGIC ── */
-  window.addEventListener('load', function(){
+  window.addEventListener('scroll', function _gpS() {
+    window.removeEventListener('scroll', _gpS);
     var done = getDownloaded();
     if(done.length === 0){
       // First-time visitor — show after delay
