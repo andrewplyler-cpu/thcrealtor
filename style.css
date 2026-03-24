@@ -422,7 +422,7 @@ a:hover {
   font-family: var(--font-display);
   font-size: 1.35rem;
   font-style: italic;
-  color: var(--color-accent);
+  color: #C0622A;
   margin: var(--space-2) 0 var(--space-6);
   letter-spacing: 0.01em;
 }
@@ -430,7 +430,7 @@ a:hover {
 .hero-seller-cta {
   margin-top: var(--space-4);
   font-size: 0.95rem;
-  color: #C0622A;
+  color: var(--color-accent);
   text-align: center;
   max-width: 48ch;
   margin-left: auto;
