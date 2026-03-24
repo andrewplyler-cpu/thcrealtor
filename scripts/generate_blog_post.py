@@ -111,6 +111,67 @@ MANUAL_POSTS = [
     },
 ]
 
+
+# ── Tag-based image pool — assets/blog/ (Wikimedia Commons, open license) ─────
+IMAGE_POOL = {
+    "market": [
+        ("/assets/blog/boone-nc-king-street-winter.jpg", "King Street in Boone NC in winter — downtown High Country real estate market"),
+        ("/assets/blog/blue-ridge-parkway-sunset.jpg", "Beautiful sunset along the Blue Ridge Parkway in North Carolina"),
+        ("/assets/blog/blue-ridge-mountains-afterglow.jpg", "Admiring the Blue Ridge Mountains in the afterglow at dusk"),
+        ("/assets/blog/blue-ridge-autumn-overlook.jpg", "Autumn colors at Graveyard Fields overlook on the Blue Ridge Parkway NC"),
+        ("/assets/blog/appalachian-state-sanford-mall-winter.jpg", "Sanford Mall at Appalachian State University in Boone NC in winter"),
+        ("/assets/blog/fog-over-appalachian-mountains.jpg", "Low-lying fog over the Appalachian Mountains — NC High Country morning"),
+    ],
+    "land": [
+        ("/assets/blog/new-river-south-fork-todd-nc.jpg", "The South Fork of the New River in Todd NC — Ashe County waterfront land"),
+        ("/assets/blog/new-river-double-shoals.jpg", "Double Shoals on the New River in Ashe County NC"),
+        ("/assets/blog/linville-gorge-nc.jpg", "Linville Gorge in the NC High Country — dramatic mountain scenery"),
+        ("/assets/blog/farmland-north-carolina.jpg", "Farmland in the NC mountains — rural High Country landscape"),
+        ("/assets/blog/nc-mountain-peak-summit.jpg", "Mountain peak summit view in the NC High Country"),
+        ("/assets/blog/foggy-appalachian-trail-overlook.jpg", "Foggy mountain view from an overlook in the NC High Country"),
+        ("/assets/blog/new-river-autumn-ashe-county.jpg", "New River during autumn in New River State Park — Ashe County NC"),
+    ],
+    "investment": [
+        ("/assets/blog/bass-lake-blowing-rock-fall.jpg", "Bass Lake in Blowing Rock NC with autumn foliage — investment area"),
+        ("/assets/blog/moses-cone-manor-blowing-rock.jpg", "Moses Cone Manor across Bass Lake — Blowing Rock NC investment property"),
+        ("/assets/blog/grandfather-mountain-bridge.jpg", "The Mile High Swinging Bridge at Grandfather Mountain NC"),
+        ("/assets/blog/appalachian-state-university-aerial.jpg", "Aerial view of Appalachian State University campus — Boone NC"),
+        ("https://www.visitboone.com/wp-content/uploads/listing-uploads/gallery/2023/02/beech-mountain-resort.jpg", "Beech Mountain Resort — short-term rental investment in NC High Country"),
+        ("/assets/blog/blue-ridge-parkway-sunset.jpg", "Sunset along the Blue Ridge Parkway — NC mountain investment property"),
+    ],
+    "relocation": [
+        ("/assets/blog/blue-ridge-parkway-smart-view.jpg", "Smart View overlook near the Blue Ridge Parkway — why people move to NC High Country"),
+        ("/assets/blog/blue-ridge-mountains-north-carolina.jpg", "Blue Ridge Mountains in North Carolina — sweeping views for new residents"),
+        ("/assets/blog/family-blue-ridge-mountains-nc.jpg", "Family taking in the Blue Ridge Mountain scenery in North Carolina"),
+        ("/assets/blog/rhododendron-blue-ridge-parkway.jpg", "Rosebay rhododendron blooming along the Blue Ridge Parkway in NC"),
+        ("/assets/blog/moses-cone-estate-bass-lake.jpg", "Moses Cone Estate from Bass Lake — Blowing Rock NC lifestyle"),
+        ("/assets/blog/new-river-autumn-ashe-county.jpg", "New River during autumn in Ashe County NC — High Country living"),
+        ("/assets/blog/wisteria-spring-blooms-nc.jpg", "Wisteria in bloom — spring in the NC mountains"),
+    ],
+    "local": [
+        ("/assets/blog/blue-ridge-parkway-fall.jpg", "Fall foliage along the Blue Ridge Parkway in North Carolina"),
+        ("/assets/blog/appalachian-fall-foliage-sugar-maples.jpg", "Colorful sugar maples in the Appalachian Mountains during fall foliage season"),
+        ("/assets/blog/tweetsie-railroad-boone-nc.jpg", "Tweetsie Railroad amusement park between Boone and Blowing Rock NC"),
+        ("/assets/blog/black-bear-north-carolina.jpg", "Black bear in North Carolina — wildlife in the High Country"),
+        ("/assets/blog/rhododendron-bloom-deep-gap-nc.jpg", "Rhododendron blooming along the Blue Ridge Parkway in Deep Gap NC"),
+        ("/assets/blog/mount-jefferson-state-park-nc.jpg", "Mount Jefferson State Natural Area in Ashe County NC"),
+        ("/assets/blog/high-country-autumn-leaf-color.jpg", "Autumn leaf coloration and mountain views in the High Country"),
+        ("/assets/blog/blue-ridge-autumn-graveyard-fields.jpg", "Autumn foliage at Graveyard Fields overlook, Blue Ridge Parkway NC"),
+    ],
+    "selling": [
+        ("/assets/blog/western-nc-mountain-sunset.jpg", "Sunset view from a mountain road in western North Carolina"),
+        ("/assets/blog/blue-ridge-parkway-sunset.jpg", "Beautiful sunset along the Blue Ridge Parkway — NC mountain property"),
+        ("/assets/blog/blue-ridge-fall-foliage-overlook.jpg", "Blue Ridge Parkway fall foliage overlook — NC mountain home"),
+        ("/assets/blog/appalachian-afterglow-blue-ridge.jpg", "Appalachian afterglow at sunset — the appeal of NC mountain real estate"),
+        ("/assets/blog/blue-ridge-mountains-north-carolina.jpg", "Blue Ridge Mountains in North Carolina — selling mountain real estate"),
+        ("/assets/blog/blue-ridge-parkway-autumn.jpg", "Autumn colors along the Blue Ridge Parkway — NC mountain homes for sale"),
+    ],
+}
+
+def get_image_for_tag(tag, slug=""):
+    pool = IMAGE_POOL.get(tag, IMAGE_POOL["market"])
+    return pool[hash(slug) % len(pool)]
+
 # ── Topic rotation ─────────────────────────────────────────────────────────────
 # Evergreen topics — always relevant, rotated by week
 EVERGREEN_TOPICS = [
@@ -525,7 +586,7 @@ OUTPUT: respond ONLY with a JSON object (no markdown fences):
   "focus_keyword": "primary SEO keyword phrase",
   "secondary_keywords": ["kw1","kw2","kw3"],
   "excerpt": "2-sentence plain-text excerpt for blog index card",
-  "image_url": "a relevant publicly accessible image URL from townofbannerelk.org, visitboone.com, or use: https://assets.agentfire3.com/uploads/sites/1337/2024/04/Boone-NC-King-Street.jpg",
+  "image_url": "leave blank — image is assigned automatically from assets/blog/ library based on tag",
   "image_alt": "descriptive alt text for the image",
   "tag": "one of: land | investment | market | relocation | local | selling",
   "body_html": "full post body using only h2/p/ul/li/strong/em tags"
@@ -844,8 +905,8 @@ def main():
         "date":      pub_date,
         "tag":       post.get("tag", "market"),
         "excerpt":   post["excerpt"],
-        "image":     post.get("image_url", "https://assets.agentfire3.com/uploads/sites/1337/2024/04/Boone-NC-King-Street.jpg"),
-        "image_alt": post.get("image_alt", post["title"]),
+        "image":     post.get("image_url") or get_image_for_tag(post.get("tag","market"), slug)[0],
+        "image_alt": post.get("image_alt") or get_image_for_tag(post.get("tag","market"), slug)[1],
     }, indent=2), encoding="utf-8")
 
     # Rebuild both index files
