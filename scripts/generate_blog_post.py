@@ -664,6 +664,9 @@ def build_post_html(post, pub_date, slug):
 .tag-filter-btn {{ background:white;border:1px solid #D5CCC0;color:#5A4A3A;padding:0.35rem 0.9rem;border-radius:99px;font-size:0.8rem;font-weight:600;cursor:pointer;transition:all 0.18s;font-family:inherit; }}
 .tag-filter-btn:hover,.tag-filter-btn.active {{ background:#3B2F2F;color:white;border-color:#3B2F2F; }}
 .blog-card.hidden {{ display:none !important; }}
+.blog-filter-bar {{ display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:2rem; }}
+.filter-btn {{ background:white;border:1px solid #D5CCC0;color:#5A4A3A;padding:0.35rem 0.9rem;border-radius:99px;font-size:0.8rem;font-weight:600;cursor:pointer;transition:all 0.18s;font-family:inherit; }}
+.filter-btn:hover,.filter-btn.active {{ background:#3B2F2F;color:white;border-color:#3B2F2F; }}
   </style>
   <script>
 function filterPosts(tag) {{
@@ -811,11 +814,36 @@ def build_index_html(all_posts):
 
   <section class="section">
     <div class="container">
-      <div class="grid-3">
+      <div class="blog-filter-bar">
+        <button class="filter-btn active" data-filter="all">All Posts</button>
+        <button class="filter-btn" data-filter="market">Market</button>
+        <button class="filter-btn" data-filter="land">Land</button>
+        <button class="filter-btn" data-filter="investment">Investment &amp; STR</button>
+        <button class="filter-btn" data-filter="relocation">Relocation</button>
+        <button class="filter-btn" data-filter="local">Local Life</button>
+        <button class="filter-btn" data-filter="selling">Selling</button>
+      </div>
+      <div class="grid-3" id="blogGrid">
 {cards}
       </div>
     </div>
   </section>
+  <script>
+  (function(){{
+    var btns=document.querySelectorAll(".filter-btn");
+    var cards=document.querySelectorAll("#blogGrid .blog-card");
+    btns.forEach(function(btn){{
+      btn.addEventListener("click",function(){{
+        btns.forEach(function(b){{b.classList.remove("active");}});
+        btn.classList.add("active");
+        var f=btn.getAttribute("data-filter");
+        cards.forEach(function(card){{
+          card.style.display=(f==="all"||card.getAttribute("data-tag")===f)?"":"none";
+        }});
+      }});
+    }});
+  }})();
+  </script>
 
   <section class="cta-banner">
     <h2>Ready to Find Your Mountain Home?</h2>
@@ -883,8 +911,20 @@ def update_sitemap(slug, pub_date_iso):
 
 def main():
     print("\U0001f3d4  Generating High Country blog post...")
+
+    today        = date.today()
+    today_prefix = today.isoformat()
+    existing     = [d for d in BLOG_DIR.iterdir() if d.is_dir() and d.name.startswith(today_prefix)]
+    if existing:
+        print(f"  \u26a0\ufe0f  Post for {today_prefix} already exists ({existing[0].name}) — skipping.")
+        all_meta   = collect_all_meta()
+        index_html = build_index_html(all_meta)
+        BLOG_INDEX_ROOT.write_text(index_html, encoding="utf-8")
+        BLOG_INDEX_SUB.write_text(index_html, encoding="utf-8")
+        print(f"  \u2713 Index rebuilt ({len(all_meta)} posts)")
+        return
+
     post     = generate_post()
-    today    = date.today()
     pub_date = today.strftime("%B %d, %Y")
     slug     = re.sub(r'[^a-z0-9-]', '-', post["slug"].lower())
     slug     = re.sub(r'-+', '-', slug).strip('-')
