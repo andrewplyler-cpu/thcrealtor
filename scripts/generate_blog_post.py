@@ -201,6 +201,35 @@ CALENDAR_TOPICS = {
     (12, 12): "Year-end real estate in the High Country — December buyers are serious and motivated, here's what that means",
 }
 
+def get_recent_tags_and_topics(days=10):
+    """Read the last N days of meta.json files and return recent titles/tags to avoid repeating."""
+    recent = []
+    if not BLOG_DIR.exists():
+        return recent
+    cutoff = date.today().toordinal() - days
+    for d in BLOG_DIR.iterdir():
+        if not d.is_dir():
+            continue
+        mf = d / "meta.json"
+        if not mf.exists():
+            continue
+        # Parse date from slug prefix YYYY-MM-DD
+        import re as _re
+        m = _re.match(r'(\d{4}-\d{2}-\d{2})', d.name)
+        if not m:
+            continue
+        try:
+            post_date = date.fromisoformat(m.group(1))
+        except ValueError:
+            continue
+        if post_date.toordinal() >= cutoff:
+            try:
+                meta = json.loads(mf.read_text())
+                recent.append(meta.get("title", "").lower())
+            except Exception:
+                pass
+    return recent
+
 def get_topic():
     today = date.today()
     dow   = today.weekday()
@@ -215,15 +244,25 @@ def get_topic():
             f"including outdoor activities, local events, dining, and why this is a great time to explore the area as a potential buyer or visitor"
         )
 
+    # Check recent posts to avoid repeating the same calendar topic within the same week
+    recent_titles = get_recent_tags_and_topics(days=8)
+
     # Check for a calendar-relevant topic this month
     for (m_start, m_end), topic in CALENDAR_TOPICS.items():
         if m_start <= month <= m_end:
-            # Alternate: use calendar topic on odd weeks, evergreen on even weeks
-            if week % 2 == 1:
+            # Extract the first 4 meaningful words of the calendar topic as a fingerprint
+            topic_words = [w.lower() for w in topic.split()[:6] if len(w) > 3]
+            recently_used = any(
+                any(word in title for word in topic_words)
+                for title in recent_titles
+            )
+            if week % 2 == 1 and not recently_used:
                 return topic
+            # Fall through to evergreen if calendar topic was used recently
 
-    # Fall back to evergreen rotation
-    return EVERGREEN_TOPICS[week % len(EVERGREEN_TOPICS)]
+    # Fall back to evergreen rotation — offset by day-of-week so Mon/Wed/Fri get different topics
+    dow_offset = {0: 0, 2: 1, 4: 2}.get(dow, 0)
+    return EVERGREEN_TOPICS[(week + dow_offset) % len(EVERGREEN_TOPICS)]
 
 def get_season():
     m = date.today().month
