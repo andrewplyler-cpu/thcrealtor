@@ -640,10 +640,11 @@ def build_post_html(post, pub_date, slug):
         pub_date    = iso,
     )
 
-    img_html = ""
-    if post.get("image_url"):
-        img_html = f"""  <div class="image-band" style="aspect-ratio:21/8;">
-    <img src="{post['image_url']}" alt="{post.get('image_alt','')}" loading="eager" />
+    # Always resolve an image — use image_url if AI provided one, otherwise pull from pool
+    resolved_image     = post.get("image_url") or get_image_for_tag(post.get("tag", "market"), slug)[0]
+    resolved_image_alt = post.get("image_alt") or get_image_for_tag(post.get("tag", "market"), slug)[1]
+    img_html = f"""  <div class="image-band" style="aspect-ratio:21/8;">
+    <img src="{resolved_image}" alt="{resolved_image_alt}" loading="eager" />
   </div>"""
 
     return f"""<!DOCTYPE html>
