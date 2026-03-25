@@ -146,10 +146,6 @@
     border-bottom: 1px solid var(--color-divider);
   }
 </style>
-<style>
-.filter-btn { background:white;border:1px solid #D5CCC0;color:#5A4A3A;padding:0.35rem 0.9rem;border-radius:99px;font-size:0.8rem;font-weight:600;cursor:pointer;transition:all 0.18s;font-family:inherit; }
-.filter-btn:hover,.filter-btn.active { background:#3B2F2F;color:white;border-color:#3B2F2F; }
-</style>
 </head>
 <body>
 
@@ -201,17 +197,27 @@
 
   <section class="section">
     <div class="container">
-            <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:2rem;">
-        <button onclick="filterPosts('all')" class="filter-btn active" data-filter="all">All Posts</button>
-        <button onclick="filterPosts('market')" class="filter-btn" data-filter="market">Market</button>
-        <button onclick="filterPosts('land')" class="filter-btn" data-filter="land">Land</button>
-        <button onclick="filterPosts('investment')" class="filter-btn" data-filter="investment">Investment &amp; STR</button>
-        <button onclick="filterPosts('relocation')" class="filter-btn" data-filter="relocation">Relocation</button>
-        <button onclick="filterPosts('local')" class="filter-btn" data-filter="local">Local Life</button>
-        <button onclick="filterPosts('selling')" class="filter-btn" data-filter="selling">Selling</button>
+      <div class="blog-filter-bar">
+        <button class="filter-btn active" data-filter="all">All Posts</button>
+        <button class="filter-btn" data-filter="market">Market</button>
+        <button class="filter-btn" data-filter="land">Land</button>
+        <button class="filter-btn" data-filter="investment">Investment &amp; STR</button>
+        <button class="filter-btn" data-filter="relocation">Relocation</button>
+        <button class="filter-btn" data-filter="local">Local Life</button>
+        <button class="filter-btn" data-filter="selling">Selling</button>
       </div>
-<div class="grid-3">
-      
+      <div class="grid-3" id="blogGrid">
+      <a href="/blog/2026-03-25-spring-real-estate-season-high-country-boone-nc/" class="blog-card fade-in" data-tag="market">
+        <div class="blog-card-img">
+          <img src="/assets/blog/blue-ridge-mountains-afterglow.jpg" alt="Blue Ridge mountain view in spring near Boone NC with blooming trees and green hillsides" loading="lazy" />
+        </div>
+        <div class="blog-card-body">
+          <span class="blog-card-tag tag-market">Market</span><br/><span class="blog-card-date">March 25, 2026</span>
+          <h2 class="blog-card-title">Spring Real Estate Season Arrives in the High Country</h2>
+          <p class="blog-card-excerpt">Spring has arrived in the High Country, and the Boone NC real estate market is waking up fast. Whether you're buying or selling mountain property, here's what you need to know right now.</p>
+          <span class="blog-card-link">Read more &rarr;</span>
+        </div>
+      </a>
       <a href="/blog/2026-03-23-spring-real-estate-season-high-country-boone-nc-2026/" class="blog-card fade-in" data-tag="market">
         <div class="blog-card-img">
           <img src="https://assets.agentfire3.com/uploads/sites/1337/2024/04/Boone-NC-King-Street.jpg" alt="King Street in downtown Boone NC on a bright spring day with storefronts and pedestrians" loading="lazy" />
@@ -223,7 +229,6 @@
           <span class="blog-card-link">Read more &rarr;</span>
         </div>
       </a>
-      
       <a href="/blog/2026-03-20-moving-to-boone-nc-high-country-relocation-guide/" class="blog-card fade-in" data-tag="relocation">
         <div class="blog-card-img">
           <img src="https://assets.agentfire3.com/uploads/sites/1337/2024/04/Boone-NC-King-Street.jpg" alt="Downtown Boone in the NC High Country" loading="lazy" />
@@ -327,6 +332,22 @@
       </div>
     </div>
   </section>
+  <script>
+  (function(){
+    var btns=document.querySelectorAll(".filter-btn");
+    var cards=document.querySelectorAll("#blogGrid .blog-card");
+    btns.forEach(function(btn){
+      btn.addEventListener("click",function(){
+        btns.forEach(function(b){b.classList.remove("active");});
+        btn.classList.add("active");
+        var f=btn.getAttribute("data-filter");
+        cards.forEach(function(card){
+          card.style.display=(f==="all"||card.getAttribute("data-tag")===f)?"":"none";
+        });
+      });
+    });
+  })();
+  </script>
 
   <section class="cta-banner">
     <h2>Ready to Find Your Mountain Home?</h2>
@@ -436,12 +457,6 @@
     header.classList.toggle('scrolled', window.scrollY > 20);
   }, { passive: true });
 })();
-</script>
-<script>
-function filterPosts(tag) {
-  document.querySelectorAll('.filter-btn').forEach(function(b){ b.classList.toggle('active', b.getAttribute('data-filter')===tag); });
-  document.querySelectorAll('.blog-card').forEach(function(c){ c.style.display=(tag==='all'||c.getAttribute('data-tag')===tag)?'':'none'; });
-}
 </script>
 </body>
 </html>
