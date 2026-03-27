@@ -201,6 +201,35 @@ CALENDAR_TOPICS = {
     (12, 12): "Year-end real estate in the High Country — December buyers are serious and motivated, here's what that means",
 }
 
+def get_recent_tags_and_topics(days=10):
+    """Read the last N days of meta.json files and return recent titles/tags to avoid repeating."""
+    recent = []
+    if not BLOG_DIR.exists():
+        return recent
+    cutoff = date.today().toordinal() - days
+    for d in BLOG_DIR.iterdir():
+        if not d.is_dir():
+            continue
+        mf = d / "meta.json"
+        if not mf.exists():
+            continue
+        # Parse date from slug prefix YYYY-MM-DD
+        import re as _re
+        m = _re.match(r'(\d{4}-\d{2}-\d{2})', d.name)
+        if not m:
+            continue
+        try:
+            post_date = date.fromisoformat(m.group(1))
+        except ValueError:
+            continue
+        if post_date.toordinal() >= cutoff:
+            try:
+                meta = json.loads(mf.read_text())
+                recent.append(meta.get("title", "").lower())
+            except Exception:
+                pass
+    return recent
+
 def get_topic():
     today = date.today()
     dow   = today.weekday()
@@ -215,15 +244,25 @@ def get_topic():
             f"including outdoor activities, local events, dining, and why this is a great time to explore the area as a potential buyer or visitor"
         )
 
+    # Check recent posts to avoid repeating the same calendar topic within the same week
+    recent_titles = get_recent_tags_and_topics(days=8)
+
     # Check for a calendar-relevant topic this month
     for (m_start, m_end), topic in CALENDAR_TOPICS.items():
         if m_start <= month <= m_end:
-            # Alternate: use calendar topic on odd weeks, evergreen on even weeks
-            if week % 2 == 1:
+            # Extract the first 4 meaningful words of the calendar topic as a fingerprint
+            topic_words = [w.lower() for w in topic.split()[:6] if len(w) > 3]
+            recently_used = any(
+                any(word in title for word in topic_words)
+                for title in recent_titles
+            )
+            if week % 2 == 1 and not recently_used:
                 return topic
+            # Fall through to evergreen if calendar topic was used recently
 
-    # Fall back to evergreen rotation
-    return EVERGREEN_TOPICS[week % len(EVERGREEN_TOPICS)]
+    # Fall back to evergreen rotation — offset by day-of-week so Mon/Wed/Fri get different topics
+    dow_offset = {0: 0, 2: 1, 4: 2}.get(dow, 0)
+    return EVERGREEN_TOPICS[(week + dow_offset) % len(EVERGREEN_TOPICS)]
 
 def get_season():
     m = date.today().month
@@ -640,10 +679,11 @@ def build_post_html(post, pub_date, slug):
         pub_date    = iso,
     )
 
-    img_html = ""
-    if post.get("image_url"):
-        img_html = f"""  <div class="image-band" style="aspect-ratio:21/8;">
-    <img src="{post['image_url']}" alt="{post.get('image_alt','')}" loading="eager" />
+    # Always resolve an image — use image_url if AI provided one, otherwise pull from pool
+    resolved_image     = post.get("image_url") or get_image_for_tag(post.get("tag", "market"), slug)[0]
+    resolved_image_alt = post.get("image_alt") or get_image_for_tag(post.get("tag", "market"), slug)[1]
+    img_html = f"""  <div class="image-band" style="aspect-ratio:21/8;">
+    <img src="{resolved_image}" alt="{resolved_image_alt}" loading="eager" />
   </div>"""
 
     return f"""<!DOCTYPE html>
@@ -664,6 +704,9 @@ def build_post_html(post, pub_date, slug):
 .tag-filter-btn {{ background:white;border:1px solid #D5CCC0;color:#5A4A3A;padding:0.35rem 0.9rem;border-radius:99px;font-size:0.8rem;font-weight:600;cursor:pointer;transition:all 0.18s;font-family:inherit; }}
 .tag-filter-btn:hover,.tag-filter-btn.active {{ background:#3B2F2F;color:white;border-color:#3B2F2F; }}
 .blog-card.hidden {{ display:none !important; }}
+.blog-filter-bar {{ display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:2rem; }}
+.filter-btn {{ background:white;border:1px solid #D5CCC0;color:#5A4A3A;padding:0.35rem 0.9rem;border-radius:99px;font-size:0.8rem;font-weight:600;cursor:pointer;transition:all 0.18s;font-family:inherit; }}
+.filter-btn:hover,.filter-btn.active {{ background:#3B2F2F;color:white;border-color:#3B2F2F; }}
   </style>
   <script>
 function filterPosts(tag) {{
@@ -811,11 +854,36 @@ def build_index_html(all_posts):
 
   <section class="section">
     <div class="container">
-      <div class="grid-3">
+      <div class="blog-filter-bar">
+        <button class="filter-btn active" data-filter="all">All Posts</button>
+        <button class="filter-btn" data-filter="market">Market</button>
+        <button class="filter-btn" data-filter="land">Land</button>
+        <button class="filter-btn" data-filter="investment">Investment &amp; STR</button>
+        <button class="filter-btn" data-filter="relocation">Relocation</button>
+        <button class="filter-btn" data-filter="local">Local Life</button>
+        <button class="filter-btn" data-filter="selling">Selling</button>
+      </div>
+      <div class="grid-3" id="blogGrid">
 {cards}
       </div>
     </div>
   </section>
+  <script>
+  (function(){{
+    var btns=document.querySelectorAll(".filter-btn");
+    var cards=document.querySelectorAll("#blogGrid .blog-card");
+    btns.forEach(function(btn){{
+      btn.addEventListener("click",function(){{
+        btns.forEach(function(b){{b.classList.remove("active");}});
+        btn.classList.add("active");
+        var f=btn.getAttribute("data-filter");
+        cards.forEach(function(card){{
+          card.style.display=(f==="all"||card.getAttribute("data-tag")===f)?"":"none";
+        }});
+      }});
+    }});
+  }})();
+  </script>
 
   <section class="cta-banner">
     <h2>Ready to Find Your Mountain Home?</h2>
@@ -883,8 +951,20 @@ def update_sitemap(slug, pub_date_iso):
 
 def main():
     print("\U0001f3d4  Generating High Country blog post...")
+
+    today        = date.today()
+    today_prefix = today.isoformat()
+    existing     = [d for d in BLOG_DIR.iterdir() if d.is_dir() and d.name.startswith(today_prefix)]
+    if existing:
+        print(f"  \u26a0\ufe0f  Post for {today_prefix} already exists ({existing[0].name}) — skipping.")
+        all_meta   = collect_all_meta()
+        index_html = build_index_html(all_meta)
+        BLOG_INDEX_ROOT.write_text(index_html, encoding="utf-8")
+        BLOG_INDEX_SUB.write_text(index_html, encoding="utf-8")
+        print(f"  \u2713 Index rebuilt ({len(all_meta)} posts)")
+        return
+
     post     = generate_post()
-    today    = date.today()
     pub_date = today.strftime("%B %d, %Y")
     slug     = re.sub(r'[^a-z0-9-]', '-', post["slug"].lower())
     slug     = re.sub(r'-+', '-', slug).strip('-')

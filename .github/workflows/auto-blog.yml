@@ -2,9 +2,9 @@ name: Auto Blog
 
 on:
   schedule:
-    - cron: "46 12 * * 1"   # Monday    8 AM ET (13:00 UTC)
-    - cron: "46 12 * * 3"   # Wednesday 8 AM ET (13:00 UTC)
-    - cron: "46 12 * * 5"   # Friday    8 AM ET (13:00 UTC) — weekend events post
+    - cron: "46 12 * * 1"   # Monday    7:46 AM ET (12:46 UTC)
+    - cron: "46 12 * * 3"   # Wednesday 7:46 AM ET (12:46 UTC)
+    - cron: "46 12 * * 5"   # Friday    7:46 AM ET (12:46 UTC) — weekend events post
   workflow_dispatch: {}
 
 permissions:
