@@ -1,9 +1,7 @@
-
 :root{--bg0:#0f120f;--text0:#f6f7f2;--card:#fcfcf8;--muted:#aeb3a5;--shadow: 0 10px 30px rgba(0,0,0,0.12)}
 html{background:var(--bg0)}
 body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--text0)}
 a{color:inherit}
-
 .hero{display:flex;gap:24px;padding:44px 18px 30px;border-radius:24px;background:var(--bg0)}
 .hero h1{margin:0;font-size:40px;line-height:0.9;font-weight:800}
 .hero .sub{margin:0;margin-top:6px;opacity:.92;max-width:34ch}
@@ -13,9 +11,12 @@ a{color:inherit}
 .card .meta{font-size:12px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin:0 0 8px 0}
 .card .title{margin:0;font-size:18px;line-height:1.1;font-weight:700}
 .card .desc{margin:10px 0 0 0;color:#41463a;font-size:14px}
-
 .post{padding:18px}
 .post h1{margin:18px 0 6px 0;font-size:28px;line-height:1.05}
 .post .meta{margin:0;color:var(--muted)}
 .post p{line-height:1.55;max-width:70ch}
 .post footer{margin-top:30px;opacity:.75;font-size:12px}
+.blog-filter-bar{display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:2rem;padding:0.25rem 0}
+.filter-btn{display:inline-flex;align-items:center;padding:0.35rem 1rem;border:1px solid oklch(0.5 0.05 140 / 0.35);border-radius:9999px;background:transparent;color:var(--color-text-muted,#aeb3a5);font-size:0.8rem;font-family:inherit;letter-spacing:0.04em;cursor:pointer;transition:all 0.15s ease;white-space:nowrap}
+.filter-btn:hover{border-color:oklch(0.45 0.08 140 / 0.6);color:var(--color-text,#f6f7f2)}
+.filter-btn.active{background:oklch(0.35 0.07 140);border-color:oklch(0.35 0.07 140);color:#f6f7f2}
