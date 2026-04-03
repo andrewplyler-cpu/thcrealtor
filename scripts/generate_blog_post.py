@@ -652,8 +652,12 @@ TAGGING RULES:
     try:
         return json.loads(raw)
     except json.JSONDecodeError:
-        _m = re.search("[{].*[}]", raw, re.DOTALL)
-        return json.loads(_m.group(0) if _m else raw)
+        try:
+            from json_repair import repair_json
+            return json.loads(repair_json(raw))
+        except Exception:
+            _m = re.search("[{].*[}]", raw, re.DOTALL)
+            return json.loads(_m.group(0) if _m else raw)
 
 # ── HTML builders ──────────────────────────────────────────────────────────────
 def build_post_html(post, pub_date, slug):
