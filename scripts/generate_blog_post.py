@@ -628,7 +628,7 @@ OUTPUT: respond ONLY with a JSON object (no markdown fences):
   "image_url": "leave blank — image is assigned automatically from assets/blog/ library based on tag",
   "image_alt": "descriptive alt text for the image",
   "tag": "one of: land | investment | market | relocation | local | selling",
-  "body_html": "full post body using only h2/p/ul/li/strong/em tags"
+  "body_html": "full post body using only h2/p/ul/li/strong/em tags — NO attributes on any tags, plain tags only (e.g. <h2> not <h2 class=something>)"
 }}
 
 TAGGING RULES:
@@ -649,7 +649,11 @@ TAGGING RULES:
     raw = re.sub(r'```json\s*','',raw)
     raw = re.sub(r'```\s*','',raw)
     raw = re.sub(r'\s*```$','',raw)
-    return json.loads(raw)
+    try:
+        return json.loads(raw)
+    except json.JSONDecodeError:
+        _m = re.search("[{].*[}]", raw, re.DOTALL)
+        return json.loads(_m.group(0) if _m else raw)
 
 # ── HTML builders ──────────────────────────────────────────────────────────────
 def build_post_html(post, pub_date, slug):
