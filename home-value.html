@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<script>
+  // Apply theme before paint to avoid flash
+  (function() {
+    var saved = localStorage.getItem('theme');
+    var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+  })();
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>High Country Home Value Estimator — Boone, Blowing Rock, Banner Elk | Andrew Plyler</title>
+<meta name="description" content="Get an approximate planning range for what your NC High Country home could be worth. Free estimator tool for Boone, Blowing Rock, Banner Elk, Beech Mountain, Valle Crucis, Watauga, Avery, and Ashe County. Not an appraisal or CMA.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://plyler.realtor/home-value">
+
+<!-- Open Graph -->
+<meta property="og:title" content="High Country Home Value Estimator — Andrew Plyler, The High Country Realtor">
+<meta property="og:description" content="Free planning-range estimator for High Country NC homes. Boone, Blowing Rock, Banner Elk, Beech Mountain, Valle Crucis, Watauga, Avery, and Ashe.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://plyler.realtor/home-value">
+<meta property="og:image" content="https://plyler.realtor/assets/andrew-plyler-mountain.jpg">
+<meta property="og:locale" content="en_US">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="High Country Home Value Estimator — Andrew Plyler">
+<meta name="twitter:description" content="Free planning-range estimator for NC High Country homes. Approximate, not an appraisal.">
+<meta name="twitter:image" content="https://plyler.realtor/assets/andrew-plyler-mountain.jpg">
+<meta name="twitter:site" content="@thcrealtor">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/base.css">
+<link rel="stylesheet" href="/style.css">
+
+<!-- JSON-LD: BreadcrumbList -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://plyler.realtor/"},
+    {"@type": "ListItem", "position": 2, "name": "Home Value Estimator", "item": "https://plyler.realtor/home-value"}
+  ]
+}
+</script>
+
+<!-- JSON-LD: WebPage -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "High Country Home Value Estimator",
+  "url": "https://plyler.realtor/home-value",
+  "description": "Free planning-range home value estimator for the NC High Country — Boone, Blowing Rock, Banner Elk, Beech Mountain, Valle Crucis, Watauga, Avery, and Ashe.",
+  "author": {"@type": "Person", "name": "Andrew Plyler", "url": "https://plyler.realtor"}
+}
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VJT8L02CWS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-VJT8L02CWS');
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header" role="banner">
+  <div class="header-inner">
+    <a href="/" class="site-logo" aria-label="Andrew Plyler — Home">
+      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M20 4L4 28h10l6-10 6 10h10L20 4z" fill="currentColor" opacity="0.15"/>
+        <path d="M20 8L8 26h7l5-8.5 5 8.5h7L20 8z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+        <path d="M14 26l3 6h6l3-6" stroke="currentColor" stroke-width="1.5" fill="none"/>
+        <circle cx="20" cy="18" r="1.5" fill="currentColor" opacity="0.4"/>
+      </svg>
+      <span class="logo-text">
+        <span class="logo-name">Andrew Plyler</span>
+        <span class="logo-tag">The High Country Realtor</span>
+      </span>
+    </a>
+    <nav class="main-nav" aria-label="Primary">
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <a href="/areas">Areas</a>
+      <a href="/services">Services</a>
+      <a href="/home-value" aria-current="page">Home Value</a>
+      <a href="/faq">FAQ</a>
+      <a href="/resources">Resources</a>
+      <a href="/blog">Blog</a>
+      <a href="/contact">Contact</a>
+      <a href="tel:+17706391233" class="nav-cta">Give me a holler!</a>
+    </nav>
+    <button class="theme-toggle" aria-label="Toggle dark mode" type="button">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+    </button>
+    <button class="mobile-menu-btn" aria-label="Open menu" aria-expanded="false" type="button">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="page-hero">
+    <p class="section-label">Free Tool · Planning Range Only</p>
+    <h1>High Country Home Value Estimator</h1>
+    <p>A quick way to get an approximate value range for a home in Boone, Blowing Rock, Banner Elk, Beech Mountain, Valle Crucis, or anywhere across Watauga, Avery, and Ashe counties. Useful for planning &mdash; not a substitute for an appraisal or a full CMA.</p>
+  </section>
+
+  <section class="section">
+    <div class="container-narrow">
+
+      <p style="font-size:var(--text-sm); color:var(--color-text-muted); margin-bottom:var(--space-8); padding:var(--space-4) var(--space-5); background:var(--color-surface-offset); border-radius:var(--radius-md); border-left:3px solid var(--color-accent);">
+        <strong>What this is:</strong> a fast, automated estimator that returns an approximate planning range based on the inputs you provide. It is <em>not</em> a licensed appraisal, a comparative market analysis (CMA), or a guarantee of sale price. Mountain properties &mdash; with their views, slope, road access, well/septic, elevation, and STR potential &mdash; vary widely from one ridge to the next, and no automated tool can fully account for that. For a real number tied to your specific property, <a href="/contact">reach out for a free, no-pressure CMA</a>.
+      </p>
+
+      <div class="card" style="text-align:center; padding:var(--space-10) var(--space-6); margin-bottom:var(--space-12);">
+        <p class="section-label" style="margin-bottom:var(--space-4);">Try the Estimator</p>
+        <h2 style="font-family:var(--font-display); font-size:var(--text-2xl); margin-bottom:var(--space-4); line-height:1.25;">Get a planning range in about a minute.</h2>
+        <p style="color:var(--color-text-muted); max-width:54ch; margin:0 auto var(--space-8); line-height:1.7;">Enter a few details about the property &mdash; town or county, approximate square footage, beds and baths, lot size, and a couple of mountain-specific factors like elevation and view. The tool returns a low-to-high planning range you can use as a starting point.</p>
+        <div style="display:flex; flex-wrap:wrap; gap:var(--space-3); justify-content:center; margin-bottom:var(--space-6);">
+          <a href="https://www.perplexity.ai/computer/a/high-country-home-value-estima-c2QkhRCCQ0CEaHHmg3l9bA"
+             class="btn btn-primary"
+             target="_blank"
+             rel="noopener noreferrer"
+             aria-label="Open the High Country Home Value Estimator in a new tab">
+            Launch the Estimator &rarr;
+          </a>
+          <a href="/contact" class="btn btn-outline">Request a Full CMA</a>
+        </div>
+        <p style="font-size:var(--text-xs); color:var(--color-text-muted); max-width:60ch; margin:0 auto;">Opens in a new tab. The estimator is hosted as a small web app and runs in your browser.</p>
+      </div>
+
+      <h2 class="section-title" style="font-size:var(--text-xl); margin-bottom:var(--space-2);">How to read the number</h2>
+      <p style="color:var(--color-text-muted); margin-bottom:var(--space-6); line-height:1.7;">The estimator returns a <strong>range</strong>, not a single price. Treat the low end as a conservative starting point and the high end as what a well-prepared, well-marketed listing might reach in favorable conditions. Where your property actually lands inside that range &mdash; or above or below it &mdash; depends on factors no automated tool can see from the outside.</p>
+
+      <div class="grid-2" style="margin-bottom:var(--space-12);">
+        <div class="card">
+          <h3 style="font-family:var(--font-display); font-size:var(--text-base); font-weight:600; margin-bottom:var(--space-3);">What can push you toward the high end</h3>
+          <ul style="display:flex; flex-direction:column; gap:var(--space-2); font-size:var(--text-sm); color:var(--color-text-muted); line-height:1.6;">
+            <li>Long-range or layered Blue Ridge views</li>
+            <li>Year-round paved access and gentle driveway grade</li>
+            <li>Recent updates &mdash; roof, HVAC, kitchen, baths</li>
+            <li>Permitted, performing short-term rental history</li>
+            <li>Strong well flow and a clean, modern septic system</li>
+            <li>Walkable to a town center (Boone, Blowing Rock, Banner Elk, West Jefferson)</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3 style="font-family:var(--font-display); font-size:var(--text-base); font-weight:600; margin-bottom:var(--space-3);">What can pull you toward the low end</h3>
+          <ul style="display:flex; flex-direction:column; gap:var(--space-2); font-size:var(--text-sm); color:var(--color-text-muted); line-height:1.6;">
+            <li>Steep, gravel, or seasonal-only access</li>
+            <li>Deferred maintenance &mdash; roof, decks, drainage</li>
+            <li>Shared road with no recorded maintenance agreement</li>
+            <li>Zoning restrictions on STR or accessory dwellings</li>
+            <li>Older well/septic with limited records</li>
+            <li>Heavy tree cover blocking the views the lot could otherwise have</li>
+          </ul>
+        </div>
+      </div>
+
+      <h2 class="section-title" style="font-size:var(--text-xl); margin-bottom:var(--space-2);">What the tool can&rsquo;t see</h2>
+      <p style="color:var(--color-text-muted); margin-bottom:var(--space-6); line-height:1.7;">A few of the things that move High Country prices the most just don&rsquo;t show up in public records. A view that opens up after the leaves fall. A neighbor&rsquo;s shared driveway agreement that&rsquo;s been honored on a handshake for thirty years. Whether the road into the development is plowed by the county or by the HOA. Whether the town allows the use you have in mind. These are the things a local agent walks through with you in person &mdash; and they&rsquo;re the difference between a planning range and a real listing price.</p>
+
+      <div class="card" style="margin-bottom:var(--space-12);">
+        <h3 style="font-family:var(--font-display); font-size:var(--text-base); font-weight:600; margin-bottom:var(--space-3);">Want a real number for your property?</h3>
+        <p style="font-size:var(--text-sm); color:var(--color-text-muted); margin-bottom:var(--space-5); line-height:1.7;">A comparative market analysis (CMA) pulls actual recent sales in your specific neighborhood, weights them against your home&rsquo;s condition and features, and accounts for current market velocity. I prepare CMAs for free with no obligation &mdash; whether you&rsquo;re ready to list this month or just thinking ahead a year or two. I&rsquo;ll come walk the property, look at the views, check the access, and give you a straight answer.</p>
+        <a href="/contact" class="btn btn-primary">Request a Free CMA</a>
+      </div>
+
+      <h2 class="section-title" style="font-size:var(--text-xl); margin-bottom:var(--space-2);">Common questions</h2>
+
+      <details style="border:1px solid var(--color-border); border-radius:var(--radius-md); padding:var(--space-4) var(--space-5); margin-bottom:var(--space-3);">
+        <summary style="font-weight:600; cursor:pointer;">Is this an appraisal?</summary>
+        <p style="font-size:var(--text-sm); color:var(--color-text-muted); margin-top:var(--space-3); line-height:1.7;">No. An appraisal is a regulated valuation prepared by a licensed appraiser, typically for a lender. This estimator is a planning tool only. If you need an appraisal &mdash; for a refinance, an estate, or a divorce settlement &mdash; I can refer you to local appraisers who know the High Country.</p>
+      </details>
+
+      <details style="border:1px solid var(--color-border); border-radius:var(--radius-md); padding:var(--space-4) var(--space-5); margin-bottom:var(--space-3);">
+        <summary style="font-weight:600; cursor:pointer;">Is this a CMA?</summary>
+        <p style="font-size:var(--text-sm); color:var(--color-text-muted); margin-top:var(--space-3); line-height:1.7;">No. A comparative market analysis is something I prepare by hand, pulling actual MLS sales near your property, adjusting for differences, and considering current market conditions. CMAs are free, take a day or two, and are a much better basis for pricing a listing than any automated estimator.</p>
+      </details>
+
+      <details style="border:1px solid var(--color-border); border-radius:var(--radius-md); padding:var(--space-4) var(--space-5); margin-bottom:var(--space-3);">
+        <summary style="font-weight:600; cursor:pointer;">Why is the range so wide?</summary>
+        <p style="font-size:var(--text-sm); color:var(--color-text-muted); margin-top:var(--space-3); line-height:1.7;">High Country properties span an enormous range of conditions in a small geographic area. Two cabins on adjacent lots can differ by hundreds of thousands of dollars based on view, slope, access, and finishes. A wide range reflects honest uncertainty &mdash; a narrow range from an automated tool would be false precision.</p>
+      </details>
+
+      <details style="border:1px solid var(--color-border); border-radius:var(--radius-md); padding:var(--space-4) var(--space-5); margin-bottom:var(--space-3);">
+        <summary style="font-weight:600; cursor:pointer;">Does the estimator cover land or raw lots?</summary>
+        <p style="font-size:var(--text-sm); color:var(--color-text-muted); margin-top:var(--space-3); line-height:1.7;">The tool is built for existing homes. Land valuation in the mountains is its own discipline &mdash; perc tests, road access, slope, water, and zoning all matter more than they do for a finished home. For land, <a href="/contact">get in touch</a> and I&rsquo;ll walk you through what the lot is realistically worth.</p>
+      </details>
+
+      <details style="border:1px solid var(--color-border); border-radius:var(--radius-md); padding:var(--space-4) var(--space-5); margin-bottom:var(--space-3);">
+        <summary style="font-weight:600; cursor:pointer;">What if my home is in Ashe County or somewhere outside the main towns?</summary>
+        <p style="font-size:var(--text-sm); color:var(--color-text-muted); margin-top:var(--space-3); line-height:1.7;">The estimator covers Watauga, Avery, and Ashe counties &mdash; including West Jefferson, Lansing, Foscoe, Seven Devils, Linville, Sugar Mountain, and the unincorporated areas in between. If you&rsquo;re on the edge of the region or in a small pocket with very few comparable sales, the range will be wider. A CMA is the better path in that case.</p>
+      </details>
+
+    </div>
+  </section>
+
+  <!-- CTA BANNER -->
+  <section class="cta-banner">
+    <h2>Curious what your home is really worth?</h2>
+    <p>The estimator is a fast first look. For a real number on your specific property &mdash; with comps, condition adjustments, and current market velocity &mdash; I&rsquo;ll prepare a free CMA. No pressure, no obligation.</p>
+    <a href="/contact" class="btn btn-accent">Request a Free CMA</a>
+  </section>
+
+</main>
+
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="/" class="site-logo" aria-label="Andrew Plyler — Home" style="text-decoration:none;">
+        <svg viewBox="0 0 40 40" width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M20 4L4 28h10l6-10 6 10h10L20 4z" fill="currentColor" opacity="0.15"/>
+          <path d="M20 8L8 26h7l5-8.5 5 8.5h7L20 8z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+          <path d="M14 26l3 6h6l3-6" stroke="currentColor" stroke-width="1.5" fill="none"/>
+        </svg>
+        <span class="logo-text">
+          <span class="logo-name">Andrew Plyler</span>
+          <span class="logo-tag">The High Country Realtor</span>
+        </span>
+      </a>
+      <p>Born in Boone and back for good. Helping buyers and sellers navigate mountain real estate with local knowledge and honest advice.</p>
+      <div class="footer-social">
+        <a href="https://www.instagram.com/thcrealtor" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg></a>
+        <a href="https://www.facebook.com/THCRealtor" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+        <a href="https://x.com/THCRealtor" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+        <a href="https://www.linkedin.com/in/andrewplyler" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+        <a href="https://www.tiktok.com/@THCRealtor" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V8.98a8.18 8.18 0 004.76 1.52V7.05a4.84 4.84 0 01-1-.36z"/></svg></a>
+      </div>
+    </div>
+    <div>
+      <h4 class="footer-heading">Quick Links</h4>
+      <ul class="footer-links" role="list">
+        <li><a href="/about">About Andrew</a></li>
+        <li><a href="/areas">Areas Served</a></li>
+        <li><a href="/services">Services</a></li>
+        <li><a href="/home-value">Home Value Estimator</a></li>
+        <li><a href="/student-housing">College Housing</a></li>
+        <li><a href="/resources">Zoning &amp; Ordinances</a></li>
+        <li><a href="/faq">FAQ</a></li>
+        <li><a href="/blog">Blog</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="footer-heading">Communities</h4>
+      <ul class="footer-links" role="list">
+        <li><a href="/areas">Boone</a></li>
+        <li><a href="/areas">Blowing Rock</a></li>
+        <li><a href="/areas">Banner Elk</a></li>
+        <li><a href="/areas">Valle Crucis</a></li>
+        <li><a href="/areas">Beech Mountain</a></li>
+        <li><a href="/areas">West Jefferson</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="footer-heading">Contact</h4>
+      <ul class="footer-links" role="list">
+        <li><a href="tel:+17706391233">(770) 639-1233</a></li>
+        <li><a href="mailto:aplyler@brri.net">aplyler@brri.net</a></li>
+        <li>895 Blowing Rock Rd.<br>Boone, NC 28607</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>
+      <p>&copy; 2026 Andrew Plyler, REALTOR&reg;/Broker. Blue Ridge Realty &amp; Investments. All rights reserved. Equal Housing Opportunity.</p>
+    </div>
+    <div style="display:flex; align-items:center; gap:var(--space-5); flex-shrink:0;">
+      <img src="/assets/logo-eho.png" alt="Equal Housing Opportunity" height="32"
+           style="height:32px; width:auto; opacity:0.65; filter:brightness(0) invert(1);" />
+      <img src="/assets/logo-realtor.png" alt="REALTOR®" height="32"
+           style="height:32px; width:auto; opacity:0.65; filter:brightness(0) invert(1);" />
+    </div>
+  </div>
+</footer>
+
+<script>
+// Dark/light mode toggle
+(function() {
+  const toggle = document.querySelector('.theme-toggle');
+  const html = document.documentElement;
+
+  toggle.addEventListener('click', function() {
+    const current = html.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+  });
+
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+    if (!localStorage.getItem('theme')) {
+      html.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+    }
+  });
+})();
+
+// Mobile menu toggle
+(function() {
+  const btn = document.querySelector('.mobile-menu-btn');
+  const nav = document.querySelector('.main-nav');
+  if (!btn || !nav) return;
+  btn.addEventListener('click', function() {
+    const open = nav.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+})();
+</script>
+
+</body>
+</html>
